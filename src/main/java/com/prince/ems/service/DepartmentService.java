@@ -1,9 +1,12 @@
 package com.prince.ems.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.prince.ems.dto.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.DepartmentRequestDTO;
+import com.prince.ems.dto.DepartmentResponseDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.mapper.DepartmentMapper;
@@ -36,6 +39,11 @@ public class DepartmentService {
 		
 		return DepartmentMapper.createResponse(department);
 
+	}
+	
+	public List<DepartmentResponseDTO> getAllDepartment() {
+			List<Department> dto = repo.findAll();  
+			return DepartmentMapper.getAlLResponse(dto);
 	}
 
 }
