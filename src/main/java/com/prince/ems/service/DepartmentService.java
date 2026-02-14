@@ -9,6 +9,7 @@ import com.prince.ems.dto.DepartmentRequestDTO;
 import com.prince.ems.dto.DepartmentResponseDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.exception.DuplicateResponseException;
+import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.DepartmentMapper;
 import com.prince.ems.repository.DepartmentRepository;
 
@@ -44,6 +45,15 @@ public class DepartmentService {
 	public List<DepartmentResponseDTO> getAllDepartment() {
 			List<Department> dto = repo.findAll();  
 			return DepartmentMapper.getAlLResponse(dto);
+	}
+	
+	@Transactional
+	public DepartmentResponseDTO getDepartmentById(Long id) {
+		Department department = repo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(id + " not found"));
+			
+		return DepartmentMapper.toResponse(department);
+			
 	}
 
 }

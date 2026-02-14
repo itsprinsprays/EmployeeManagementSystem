@@ -2,6 +2,7 @@ package com.prince.ems.controller;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +43,11 @@ public class DepartmentController {
 	public ResponseEntity<List<DepartmentResponseDTO>> getALlDepartment() {
 			List<DepartmentResponseDTO> response = serv.getAllDepartment();
 			return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/{Id}")
+	public ResponseEntity<DepartmentResponseDTO> getDepartmentById(@PathVariable Long Id) {
+		DepartmentResponseDTO response = serv.getDepartmentById(Id);
+		return ResponseEntity.ok(response);
 	}
 }
