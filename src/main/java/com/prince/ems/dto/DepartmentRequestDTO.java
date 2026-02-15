@@ -13,8 +13,6 @@ public class DepartmentRequestDTO {
 	@NotBlank(message = "Description must not be Empty")
 	private String description;
 	
-	@NotNull(message = "Active or Inactive Only")
-	private Status status;
 	
 	public DepartmentRequestDTO() { }
 	
@@ -27,9 +25,6 @@ public class DepartmentRequestDTO {
 	    return description;
 	}
 
-	public Status getStatus() {
-	    return status;
-	}
 
 	// Setters
 	public void setName(String name) {
@@ -40,9 +35,7 @@ public class DepartmentRequestDTO {
 	    this.description = description;
 	}
 
-	public void setStatus(Status status) {
-	    this.status = status;
-	}
+
 	
 	
 

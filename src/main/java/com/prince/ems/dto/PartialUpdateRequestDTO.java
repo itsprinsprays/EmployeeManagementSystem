@@ -8,7 +8,6 @@ public class PartialUpdateRequestDTO {
 	private String name;
 	
 	private String description;
-	private Status status;
 	
 	public PartialUpdateRequestDTO() { }
 	
@@ -21,9 +20,6 @@ public class PartialUpdateRequestDTO {
 	    return description;
 	}
 
-	public Status getStatus() {
-	    return status;
-	}
 
 	// Setters
 	public void setName(String name) {
@@ -33,10 +29,5 @@ public class PartialUpdateRequestDTO {
 	public void setDescription(String description) {
 	    this.description = description;
 	}
-
-	public void setStatus(Status status) {
-	    this.status = status;
-	}
-	
 
 }

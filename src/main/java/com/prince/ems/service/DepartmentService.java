@@ -9,6 +9,7 @@ import com.prince.ems.dto.DepartmentRequestDTO;
 import com.prince.ems.dto.DepartmentResponseDTO;
 import com.prince.ems.dto.PartialUpdateRequestDTO;
 import com.prince.ems.entity.Department;
+import com.prince.ems.entity.Status;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.DepartmentMapper;
@@ -29,13 +30,12 @@ public class DepartmentService {
 	@Transactional
 	public CreateDepartmentResponseDTO createDepartment(DepartmentRequestDTO dto) {
 		if(repo.existsByName(dto.getName()))
-			throw new DuplicateResponseException(dto.getName() + " is already existing");
+			throw new DuplicateResponseException(dto.getName() + " Department is already existing");
 		
 		
 		Department department = new Department();
 		department.setName(dto.getName());
 		department.setDescription(dto.getDescription());
-		department.setStatus(dto.getStatus());
 		
 		repo.save(department);
 		
@@ -51,26 +51,35 @@ public class DepartmentService {
 	@Transactional
 	public DepartmentResponseDTO getDepartmentById(Long id) {
 		Department department = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(id + " not found"));
+				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 			
-		return DepartmentMapper.toResponse(department);
+		return DepartmentMapper.toResponse(department, "COMPANY DEPARTMENT");
 			
 	}
 	
 	@Transactional
 	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {
 		Department department = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(id + " not found"));
+				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 		
 		if(dto.getName() != null) department.setName(dto.getName());
 		if(dto.getDescription() != null) department.setDescription(dto.getDescription());
-		if(dto.getStatus() != null) department.setStatus(dto.getStatus());
 		
 		repo.save(department);
-		return DepartmentMapper.toResponse(department);
+		return DepartmentMapper.toResponse(department, "UPDATED");
 	}
 	
-	
-	
+	@Transactional
+	public DepartmentResponseDTO statusActivation(Long id, Status status) {      //Soft delete status and activate status
+		Department department = repo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
+		
+		department.setStatus(status);
+		
+		repo.save(department);
+		
+		return DepartmentMapper.toResponse(department, "UPDATED");
+ 
+		}
 
 }

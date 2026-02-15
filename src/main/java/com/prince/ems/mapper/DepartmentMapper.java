@@ -14,7 +14,7 @@ import com.prince.ems.entity.Department;
 @Component
 public class DepartmentMapper {
 	
-	public static DepartmentResponseDTO toResponse(Department department) {
+	public static DepartmentResponseDTO toResponse(Department department, String statusMessage) {
 		DepartmentResponseDTO dto = new DepartmentResponseDTO();
 		
 		dto.setID(department.getID());
@@ -23,7 +23,7 @@ public class DepartmentMapper {
 		dto.setStatus(department.getStatus());
 		dto.setCreatedAt(department.getCreatedAt());
 		dto.setUpdatedAt(dto.getUpdatedAt());
-		dto.setStatusMessage("Department " + department.getName() + " is created");
+		dto.setStatusMessage("statusMessage");
 		return dto;
 	}
 	
@@ -41,9 +41,11 @@ public class DepartmentMapper {
 	
 	public static List<DepartmentResponseDTO> getAlLResponse(List<Department> department) {
 		return department.stream()
-						.map(e -> DepartmentMapper.toResponse(e))
+						.map(e -> DepartmentMapper.toResponse(e, "COMPANY DEPARTMENT"))
 						.toList();
 	}
+	
+	
 	
 
 }
