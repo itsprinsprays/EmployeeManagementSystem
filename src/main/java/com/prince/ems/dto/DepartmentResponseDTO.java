@@ -6,7 +6,7 @@ import com.prince.ems.entity.Status;
 
 public class DepartmentResponseDTO {
 	
-private Long Id;
+	private Long id;
 	
 	private String name;
 	
@@ -22,15 +22,15 @@ private Long Id;
 	
 	public DepartmentResponseDTO() { }
 	
-	public Long getID() { return Id; }
+	public Long getID() { return id; }
 	public String getName() { return name; }
 	public String getDescription() { return description; }
 	public Status getStatus() { return status; }
 	public LocalDateTime getCreatedAt() { return createdAt; }
-	public LocalDateTime getUpdatedAt() { return updatedAt; }
+	public LocalDateTime getUpdatedAt() { return LocalDateTime.now(); }
 	public String getStatusMessage() { return statusMessage; }
 	
-	public void setID(Long Id) { this.Id = Id; }
+	public void setID(Long id) { this.id = id; }
 	public void setName(String name) { this.name = name; }
 	public void setDescription(String description) { this.description = description; }
 	public void setStatus(Status status) { this.status = status; }

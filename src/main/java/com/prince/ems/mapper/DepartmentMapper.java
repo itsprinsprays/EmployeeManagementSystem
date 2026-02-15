@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.prince.ems.dto.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.DepartmentResponseDTO;
+import com.prince.ems.dto.PartialUpdateRequestDTO;
 import com.prince.ems.entity.Department;
 
 
@@ -21,7 +22,7 @@ public class DepartmentMapper {
 		dto.setDescription(department.getDescription());
 		dto.setStatus(department.getStatus());
 		dto.setCreatedAt(department.getCreatedAt());
-		dto.setUpdatedAt(department.getUpdatedAt());
+		dto.setUpdatedAt(dto.getUpdatedAt());
 		dto.setStatusMessage("Department " + department.getName() + " is created");
 		return dto;
 	}
@@ -43,5 +44,6 @@ public class DepartmentMapper {
 						.map(e -> DepartmentMapper.toResponse(e))
 						.toList();
 	}
+	
 
 }

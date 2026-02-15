@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.prince.ems.dto.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.DepartmentRequestDTO;
 import com.prince.ems.dto.DepartmentResponseDTO;
+import com.prince.ems.dto.PartialUpdateRequestDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
@@ -55,5 +56,21 @@ public class DepartmentService {
 		return DepartmentMapper.toResponse(department);
 			
 	}
+	
+	@Transactional
+	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {
+		Department department = repo.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(id + " not found"));
+		
+		if(dto.getName() != null) department.setName(dto.getName());
+		if(dto.getDescription() != null) department.setDescription(dto.getDescription());
+		if(dto.getStatus() != null) department.setStatus(dto.getStatus());
+		
+		repo.save(department);
+		return DepartmentMapper.toResponse(department);
+	}
+	
+	
+	
 
 }

@@ -2,6 +2,7 @@ package com.prince.ems.controller;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prince.ems.dto.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.DepartmentRequestDTO;
 import com.prince.ems.dto.DepartmentResponseDTO;
+import com.prince.ems.dto.PartialUpdateRequestDTO;
 import com.prince.ems.service.DepartmentService;
 
 import java.util.List;
@@ -45,9 +47,15 @@ public class DepartmentController {
 			return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/{Id}")
-	public ResponseEntity<DepartmentResponseDTO> getDepartmentById(@PathVariable Long Id) {
-		DepartmentResponseDTO response = serv.getDepartmentById(Id);
+	@GetMapping("/{id}")
+	public ResponseEntity<DepartmentResponseDTO> getDepartmentById(@PathVariable Long id) {
+		DepartmentResponseDTO response = serv.getDepartmentById(id);
+		return ResponseEntity.ok(response);
+	}
+	
+	@PatchMapping("/{id}")
+	public ResponseEntity<DepartmentResponseDTO> partialUpdate(@Valid @RequestBody PartialUpdateRequestDTO dto, @PathVariable Long id) {
+		DepartmentResponseDTO response = serv.partialUpdateDepartmentById(dto, id);
 		return ResponseEntity.ok(response);
 	}
 }
