@@ -2,6 +2,8 @@ package com.prince.ems.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.prince.ems.dto.CreateDepartmentResponseDTO;
@@ -28,7 +30,7 @@ public class DepartmentService {
 	}
 	
 	@Transactional
-	public CreateDepartmentResponseDTO createDepartment(DepartmentRequestDTO dto) {
+	public CreateDepartmentResponseDTO createDepartment(DepartmentRequestDTO dto) {    //Create Department
 		if(repo.existsByName(dto.getName()))
 			throw new DuplicateResponseException(dto.getName() + " Department is already existing");
 		
@@ -42,14 +44,19 @@ public class DepartmentService {
 		return DepartmentMapper.createResponse(department);
 
 	}
-	
-	public List<DepartmentResponseDTO> getAllDepartment() {
+	 
+	public List<DepartmentResponseDTO> getAllDepartment() {                        //Get All Department active or inactive
 			List<Department> dto = repo.findAll();  
-			return DepartmentMapper.getAlLResponse(dto);
+			return DepartmentMapper.getAllResponse(dto);
+	}
+	
+	public Page<DepartmentResponseDTO> getActiveDepartment(Pageable pageable) {       //Get All Active Departments
+			Page<Department> page = repo.findByStatus(Status.ACTIVE, pageable);
+			return DepartmentMapper.activeDepartmentResponse(page, "ACTIVE DEPARTMENTS");
 	}
 	
 	@Transactional
-	public DepartmentResponseDTO getDepartmentById(Long id) {
+	public DepartmentResponseDTO getDepartmentById(Long id) {                       //Get Department using ID
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 			
@@ -58,7 +65,7 @@ public class DepartmentService {
 	}
 	
 	@Transactional
-	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {
+	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {       //Partial Update
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 		

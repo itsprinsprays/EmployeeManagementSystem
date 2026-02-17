@@ -2,6 +2,7 @@ package com.prince.ems.mapper;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.prince.ems.dto.CreateDepartmentResponseDTO;
@@ -39,10 +40,15 @@ public class DepartmentMapper {
 		return dto;
 	}
 	
-	public static List<DepartmentResponseDTO> getAlLResponse(List<Department> department) {
+	public static List<DepartmentResponseDTO> getAllResponse(List<Department> department) {
 		return department.stream()
 						.map(e -> DepartmentMapper.toResponse(e, "COMPANY DEPARTMENT"))
 						.toList();
+	}
+	
+	public static Page<DepartmentResponseDTO> activeDepartmentResponse(Page<Department> department, String statusMessage) {
+			return department.map(dept -> DepartmentMapper.toResponse(dept, statusMessage));
+
 	}
 	
 	
