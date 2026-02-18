@@ -19,7 +19,7 @@ public class Department {
 	
 	@Id	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long departmentId;
 	
 	@Column(nullable = false)
 	private String name;
@@ -29,24 +29,23 @@ public class Department {
 	
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-	private Status status;
+	private Status status = Status.ACTIVE;
 	
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	
-	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 	
 	public Department() { }
 	
-	public Long getID() { return id; }
+	public Long getDepartmentId() { return departmentId; }
 	public String getName() { return name; }
 	public String getDescription() { return description; }
 	public Status getStatus() { return status; }
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	public LocalDateTime getUpdatedAt() { return updatedAt; }
 	
-	public void setID(Long id) { this.id = id; }
+	public void setID(Long id) { this.departmentId = id; }
 	public void setName(String name) { this.name = name; }
 	public void setDescription(String description) { this.description = description; }
 	public void setStatus(Status status) { this.status = status; }

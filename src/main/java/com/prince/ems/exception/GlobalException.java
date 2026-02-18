@@ -20,5 +20,11 @@ public class GlobalException {
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<ErrorResponse> badRequestException(BadRequestException e) {
+		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
 
 }

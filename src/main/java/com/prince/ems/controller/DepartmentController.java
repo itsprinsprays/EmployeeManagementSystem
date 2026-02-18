@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
 
-
-import com.prince.ems.dto.CreateDepartmentResponseDTO;
-import com.prince.ems.dto.DepartmentRequestDTO;
-import com.prince.ems.dto.DepartmentResponseDTO;
-import com.prince.ems.dto.PartialUpdateRequestDTO;
+import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
+import com.prince.ems.dto.department.DepartmentRequestDTO;
+import com.prince.ems.dto.department.DepartmentResponseDTO;
+import com.prince.ems.dto.department.PartialUpdateRequestDTO;
 import com.prince.ems.entity.Status;
 import com.prince.ems.service.DepartmentService;
 
@@ -48,7 +47,7 @@ public class DepartmentController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<DepartmentResponseDTO>> getALlDepartment() {
+	public ResponseEntity<List<DepartmentResponseDTO>> getAllDepartment() {
 			List<DepartmentResponseDTO> response = serv.getAllDepartment();
 			return ResponseEntity.ok(response);
 	}

@@ -6,10 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.prince.ems.dto.CreateDepartmentResponseDTO;
-import com.prince.ems.dto.DepartmentRequestDTO;
-import com.prince.ems.dto.DepartmentResponseDTO;
-import com.prince.ems.dto.PartialUpdateRequestDTO;
+import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
+import com.prince.ems.dto.department.DepartmentRequestDTO;
+import com.prince.ems.dto.department.DepartmentResponseDTO;
+import com.prince.ems.dto.department.PartialUpdateRequestDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.entity.Status;
 import com.prince.ems.exception.DuplicateResponseException;
@@ -56,7 +56,7 @@ public class DepartmentService {
 	}
 	
 	@Transactional
-	public DepartmentResponseDTO getDepartmentById(Long id) {                       //Get Department using ID
+	public DepartmentResponseDTO getDepartmentById(Long id) {                     		  //Get Department using ID
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 			
@@ -77,7 +77,7 @@ public class DepartmentService {
 	}
 	
 	@Transactional
-	public DepartmentResponseDTO statusActivation(Long id, Status status) {      //Soft delete status and activate status
+	public DepartmentResponseDTO statusActivation(Long id, Status status) {     				 //Soft delete status and activate status
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 		

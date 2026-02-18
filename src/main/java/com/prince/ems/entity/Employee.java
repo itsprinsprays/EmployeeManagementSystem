@@ -35,10 +35,10 @@ public class Employee {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private Status status;
+	private Status status = Status.ACTIVE;
 	
 	@Column(nullable = false)
-	private LocalDate hireDate;
+	private LocalDate hireDate = LocalDate.now();
 	
 	@ManyToOne
 	@JoinColumn(name = "departmentId", nullable = false)
@@ -60,7 +60,7 @@ public class Employee {
 	public BigDecimal getSalary() { return salary; }
 	public Status getStatus() { return status; }
 	public LocalDate getHireDate() { return hireDate; }
-	public Department department() { return department; } 
+	public Department getDepartment() { return department; } 
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	public LocalDateTime getUpdatedAt() { return updatedAt; }
 	

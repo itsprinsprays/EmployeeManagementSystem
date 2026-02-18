@@ -6,6 +6,8 @@ import com.prince.ems.entity.Employee;
 
 
 
-public interface EmployeeRepository extends JpaRepository<Employee, Long>{
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+	
+	boolean existsByEmail(String name );
 
 }

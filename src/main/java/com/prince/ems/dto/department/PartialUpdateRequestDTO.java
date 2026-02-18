@@ -1,4 +1,4 @@
-package com.prince.ems.dto;
+package com.prince.ems.dto.department;
 
 import com.prince.ems.entity.Status;
 

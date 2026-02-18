@@ -1,9 +1,7 @@
-package com.prince.ems.dto;
+package com.prince.ems.dto.department;
 
-import com.prince.ems.entity.Status;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public class DepartmentRequestDTO {
 	
