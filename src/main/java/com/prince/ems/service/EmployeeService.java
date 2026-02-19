@@ -2,13 +2,17 @@ package com.prince.ems.service;
 
 import java.math.BigDecimal;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
+import com.prince.ems.dto.employee.GetAllEmployeeResponseDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.entity.Employee;
+import com.prince.ems.entity.Status;
 import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
@@ -50,5 +54,10 @@ public class EmployeeService {
 		
 	}
 	
+	public Page<GetAllEmployeeResponseDTO> getActive(Pageable page) {
+		Page<Employee> employee = erepo.findByStatus(Status.ACTIVE, page);
+		return EmployeeMapper.getActiveResponse(employee);		
+	}
+	 
 
 }

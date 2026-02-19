@@ -54,7 +54,7 @@ public class Employee {
 	
 	public Employee() { }
 	
-	public Long getID() { return id; }
+	public Long getId() { return id; }
 	public String getName() { return name; }
 	public String getEmail() { return email; }
 	public BigDecimal getSalary() { return salary; }
@@ -64,7 +64,7 @@ public class Employee {
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	public LocalDateTime getUpdatedAt() { return updatedAt; }
 	
-	public void setID(Long id) { this.id = id; }
+	public void setId(Long id) { this.id = id; }
 	public void setName(String name) { this.name = name; }
 	public void setEmail(String email) { this.email = email; } 
 	public void setSalary(BigDecimal salary) { this.salary = salary; }
