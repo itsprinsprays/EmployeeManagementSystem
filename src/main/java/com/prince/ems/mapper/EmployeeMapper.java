@@ -41,5 +41,20 @@ public class EmployeeMapper {
 		
 		return dto;
 	}
+	
+	public static GetAllEmployeeResponseDTO getAllEmployeeById(Employee employee) {
+		GetAllEmployeeResponseDTO dto = new GetAllEmployeeResponseDTO(
+				employee.getId(),
+				employee.getName(),
+				employee.getEmail(),
+				employee.getSalary(),
+				employee.getStatus(),
+				employee.getDepartment().getDepartmentId(),
+				employee.getHireDate(),
+				employee.getUpdatedAt(),
+				employee.getCreatedAt()
+				);
+		return dto;
+	}
 
 }

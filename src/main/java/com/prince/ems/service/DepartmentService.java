@@ -56,9 +56,9 @@ public class DepartmentService {
 	}
 	
 	@Transactional
-	public DepartmentResponseDTO getDepartmentById(Long id) {                     		  //Get Department using ID
-		Department department = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
+	public DepartmentResponseDTO getDepartmentById(Long Id) {                     		  //Get Department using ID
+		Department department = repo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException(Id + " Department not found"));
 			
 		return DepartmentMapper.toResponse(department, "COMPANY DEPARTMENT");
 			

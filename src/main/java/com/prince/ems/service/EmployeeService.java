@@ -54,9 +54,16 @@ public class EmployeeService {
 		
 	}
 	
-	public Page<GetAllEmployeeResponseDTO> getActive(Pageable page) {
+	public Page<GetAllEmployeeResponseDTO> getAllActiveEmployee(Pageable page) {
 		Page<Employee> employee = erepo.findByStatus(Status.ACTIVE, page);
 		return EmployeeMapper.getActiveResponse(employee);		
+	}
+	
+	public GetAllEmployeeResponseDTO getEmployeeById(Long Id) {
+		Employee employee = erepo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
+		
+		return EmployeeMapper.getAllEmployeeById(employee);
 	}
 	 
 

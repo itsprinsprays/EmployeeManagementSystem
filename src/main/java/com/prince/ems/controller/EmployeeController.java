@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,11 +39,16 @@ public class EmployeeController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<GetAllEmployeeResponseDTO>> getActive(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<Page<GetAllEmployeeResponseDTO>> getAllActiveEmployee(@RequestParam(defaultValue = "0") int page,
 															@RequestParam(defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return ResponseEntity.ok().body(serv.getActive(pageable));
+		return ResponseEntity.ok().body(serv.getAllActiveEmployee(pageable));
 		
+	}
+	
+	@GetMapping("/{Id}")
+	public ResponseEntity<GetAllEmployeeResponseDTO> getAllEmployeeById(@PathVariable Long Id) {
+		return ResponseEntity.ok().body(serv.getEmployeeById(Id));
 	}
 
 }
