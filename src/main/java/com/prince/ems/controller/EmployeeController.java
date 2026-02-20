@@ -1,5 +1,7 @@
 package com.prince.ems.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,7 @@ import com.prince.ems.service.EmployeeService;
 import jakarta.validation.Valid;
 
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
-import com.prince.ems.dto.employee.GetAllEmployeeResponseDTO;
+import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
 
 @RequestMapping("/employee")
 @RestController
@@ -39,7 +41,12 @@ public class EmployeeController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<GetAllEmployeeResponseDTO>> getAllActiveEmployee(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<List<GetEmployeeResponseDTO>> getAllEmployee() {
+		return ResponseEntity.ok().body(serv.getAllEmployee());
+	}
+	
+	@GetMapping("/status")
+	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllActiveEmployee(@RequestParam(defaultValue = "0") int page,
 															@RequestParam(defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return ResponseEntity.ok().body(serv.getAllActiveEmployee(pageable));
@@ -47,8 +54,10 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/{Id}")
-	public ResponseEntity<GetAllEmployeeResponseDTO> getAllEmployeeById(@PathVariable Long Id) {
+	public ResponseEntity<GetEmployeeResponseDTO> getEmployeeById(@PathVariable Long Id) {
 		return ResponseEntity.ok().body(serv.getEmployeeById(Id));
 	}
+	
+	
 
 }

@@ -1,11 +1,13 @@
 package com.prince.ems.mapper;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
-import com.prince.ems.dto.employee.GetAllEmployeeResponseDTO;
+import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
 import com.prince.ems.entity.Employee;
 
 @Component
@@ -26,8 +28,8 @@ public class EmployeeMapper {
 		return dto;
 	}
 	
-	public static Page<GetAllEmployeeResponseDTO> getActiveResponse(Page<Employee> employee) {
-		Page<GetAllEmployeeResponseDTO> dto = employee.map(e -> new GetAllEmployeeResponseDTO(
+	public static Page<GetEmployeeResponseDTO> getActiveResponse(Page<Employee> employee) {
+		Page<GetEmployeeResponseDTO> dto = employee.map(e -> new GetEmployeeResponseDTO(
 				e.getId(),
 				e.getName(),
 				e.getEmail(),
@@ -42,8 +44,8 @@ public class EmployeeMapper {
 		return dto;
 	}
 	
-	public static GetAllEmployeeResponseDTO getAllEmployeeById(Employee employee) {
-		GetAllEmployeeResponseDTO dto = new GetAllEmployeeResponseDTO(
+	public static GetEmployeeResponseDTO getEmployeeById(Employee employee) {
+		GetEmployeeResponseDTO dto = new GetEmployeeResponseDTO(
 				employee.getId(),
 				employee.getName(),
 				employee.getEmail(),
@@ -55,6 +57,12 @@ public class EmployeeMapper {
 				employee.getCreatedAt()
 				);
 		return dto;
+	}
+	
+	public static List<GetEmployeeResponseDTO> getAllResponse(List<Employee> employee) {
+		return employee.stream()
+				.map(e -> EmployeeMapper.getEmployeeById(e))
+				.toList();
 	}
 
 }

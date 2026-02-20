@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 import com.prince.ems.entity.Status;
 
-public class GetAllEmployeeResponseDTO {
+public class GetEmployeeResponseDTO {
 	
 private Long id;
 	
@@ -27,7 +27,7 @@ private Long id;
 	private LocalDateTime createdAt;
 	
 
-	public GetAllEmployeeResponseDTO(Long id, String name, String email, BigDecimal salary, Status status,
+	public GetEmployeeResponseDTO(Long id, String name, String email, BigDecimal salary, Status status,
 			Long departmentId, LocalDate hireDate, LocalDateTime updatedAt, LocalDateTime createdAt) {
 		this.id = id;
 		this.name = name;

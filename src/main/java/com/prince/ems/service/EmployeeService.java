@@ -1,6 +1,7 @@
 package com.prince.ems.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
-import com.prince.ems.dto.employee.GetAllEmployeeResponseDTO;
+import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.entity.Employee;
 import com.prince.ems.entity.Status;
@@ -54,17 +55,24 @@ public class EmployeeService {
 		
 	}
 	
-	public Page<GetAllEmployeeResponseDTO> getAllActiveEmployee(Pageable page) {
+	public Page<GetEmployeeResponseDTO> getAllActiveEmployee(Pageable page) {
 		Page<Employee> employee = erepo.findByStatus(Status.ACTIVE, page);
 		return EmployeeMapper.getActiveResponse(employee);		
 	}
 	
-	public GetAllEmployeeResponseDTO getEmployeeById(Long Id) {
+	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
 		
-		return EmployeeMapper.getAllEmployeeById(employee);
+		return EmployeeMapper.getEmployeeById(employee);
 	}
+	
+	public List<GetEmployeeResponseDTO> getAllEmployee() {
+			List<Employee> dto = erepo.findAll();
+			return EmployeeMapper.getAllResponse(dto);
+	}
+	
+	
 	 
 
 }
