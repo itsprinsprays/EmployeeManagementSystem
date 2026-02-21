@@ -45,9 +45,9 @@ public class DepartmentService {
 
 	}
 	 
-	public List<DepartmentResponseDTO> getAllDepartment() {                        //Get All Department active or inactive
-			List<Department> dto = repo.findAll();  
-			return DepartmentMapper.getAllResponse(dto);
+	public Page<DepartmentResponseDTO> getAllDepartment(Pageable pageable) {
+		Page<Department> page = repo.findAll(pageable);
+		return DepartmentMapper.getAllResponse(page);
 	}
 	
 	public Page<DepartmentResponseDTO> getActiveDepartment(Pageable pageable) {       //Get All Active Departments

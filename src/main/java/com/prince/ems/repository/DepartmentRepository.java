@@ -13,6 +13,5 @@ public interface DepartmentRepository extends JpaRepository<Department,Long>{
 	
 	boolean existsByName(String name);
 	
-	Page<Department> findByStatus(Status status, Pageable pageable);
-		
+	Page<Department> findByStatus(Status status, Pageable pageable);		
 }

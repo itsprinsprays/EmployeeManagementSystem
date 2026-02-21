@@ -47,9 +47,10 @@ public class DepartmentController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<DepartmentResponseDTO>> getAllDepartment() {
-			List<DepartmentResponseDTO> response = serv.getAllDepartment();
-			return ResponseEntity.ok(response);
+	public ResponseEntity<Page<DepartmentResponseDTO>> getAllDepartment(@RequestParam(defaultValue = "0") int page,
+																		@RequestParam(defaultValue = "5") int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return ResponseEntity.ok().body(serv.getAllDepartment(pageable));
 	}
 	
 	@GetMapping("/{id}")

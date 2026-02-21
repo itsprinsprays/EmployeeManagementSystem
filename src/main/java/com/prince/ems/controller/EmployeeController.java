@@ -50,7 +50,6 @@ public class EmployeeController {
 															@RequestParam(defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return ResponseEntity.ok().body(serv.getAllActiveEmployee(pageable));
-		
 	}
 	
 	@GetMapping("/{Id}")

@@ -40,16 +40,14 @@ public class DepartmentMapper {
 		return dto;
 	}
 	
-	public static List<DepartmentResponseDTO> getAllResponse(List<Department> department) {
-		return department.stream()
-						.map(e -> DepartmentMapper.toResponse(e, "COMPANY DEPARTMENT"))
-						.toList();
+	public static Page<DepartmentResponseDTO> getAllResponse(Page<Department> department) {
+		return department.map(dept -> DepartmentMapper.toResponse(dept, "All Department"));
 	}
 	
 	public static Page<DepartmentResponseDTO> activeDepartmentResponse(Page<Department> department, String statusMessage) {
 			return department.map(dept -> DepartmentMapper.toResponse(dept, statusMessage));
 	}
-	
+		
 	
 	
 
