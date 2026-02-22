@@ -59,10 +59,8 @@ public class EmployeeMapper {
 		return dto;
 	}
 	
-	public static List<GetEmployeeResponseDTO> getAllResponse(List<Employee> employee) {
-		return employee.stream()
-				.map(e -> EmployeeMapper.getEmployeeById(e))
-				.toList();
+	public static Page<GetEmployeeResponseDTO> getAllEmployeeResponse(Page<Employee> employee) {
+		return employee.map(e -> EmployeeMapper.getEmployeeById(e));
 	}
 
 }

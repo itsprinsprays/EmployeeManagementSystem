@@ -1,7 +1,5 @@
 package com.prince.ems.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -41,13 +39,19 @@ public class EmployeeController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<GetEmployeeResponseDTO>> getAllEmployee() {
-		return ResponseEntity.ok().body(serv.getAllEmployee());
+	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllEmployee(
+			@RequestParam(defaultValue = "0") int page,
+		    @RequestParam(defaultValue = "5") int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		return ResponseEntity.ok().body(serv.getAllEmployee(pageable));
 	}
 	
 	@GetMapping("/status")
-	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllActiveEmployee(@RequestParam(defaultValue = "0") int page,
-															@RequestParam(defaultValue = "5") int size) {
+	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllActiveEmployee(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size) {
+		
 		Pageable pageable = PageRequest.of(page, size);
 		return ResponseEntity.ok().body(serv.getAllActiveEmployee(pageable));
 	}

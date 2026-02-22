@@ -67,9 +67,9 @@ public class EmployeeService {
 		return EmployeeMapper.getEmployeeById(employee);
 	}
 	
-	public List<GetEmployeeResponseDTO> getAllEmployee() {
-			List<Employee> dto = erepo.findAll();
-			return EmployeeMapper.getAllResponse(dto);
+	public Page<GetEmployeeResponseDTO> getAllEmployee(Pageable pageable) {
+		Page<Employee> employee = erepo.findAll(pageable);
+		return EmployeeMapper.getAllEmployeeResponse(employee);
 	}
 	
 	
