@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,8 @@ import jakarta.validation.Valid;
 
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
+import com.prince.ems.dto.employee.UpdateEmployeeRequestDTO;
+import com.prince.ems.dto.employee.UpdateEmployeeResponseDTO;
 
 @RequestMapping("/employee")
 @RestController
@@ -59,6 +62,15 @@ public class EmployeeController {
 	@GetMapping("/{Id}")
 	public ResponseEntity<GetEmployeeResponseDTO> getEmployeeById(@PathVariable Long Id) {
 		return ResponseEntity.ok().body(serv.getEmployeeById(Id));
+	}
+	
+	@PatchMapping("/{Id}")
+	public ResponseEntity<UpdateEmployeeResponseDTO> updateEmployee(
+				@Valid @PathVariable Long Id,
+				@RequestBody UpdateEmployeeRequestDTO dto) {
+		
+		return ResponseEntity.ok().body(serv.partialUpdate(dto, Id));
+		
 	}
 	
 	

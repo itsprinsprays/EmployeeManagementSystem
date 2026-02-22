@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
+import com.prince.ems.dto.employee.UpdateEmployeeResponseDTO;
 import com.prince.ems.entity.Employee;
 
 @Component
@@ -61,6 +62,23 @@ public class EmployeeMapper {
 	
 	public static Page<GetEmployeeResponseDTO> getAllEmployeeResponse(Page<Employee> employee) {
 		return employee.map(e -> EmployeeMapper.getEmployeeById(e));
+	}
+	
+	public static UpdateEmployeeResponseDTO updateResponse(Employee employee) {
+		UpdateEmployeeResponseDTO dto = new UpdateEmployeeResponseDTO();
+		
+		dto.setID(employee.getId());
+		dto.setName(employee.getName());
+		dto.setEmail(employee.getEmail());
+		dto.setSalary(employee.getSalary());
+		dto.setStatus(employee.getStatus());
+		dto.setDepartment(employee.getDepartment().getDepartmentId());
+		dto.setHireDate(employee.getHireDate());
+		dto.setUpdatedAt(employee.getUpdatedAt());
+		dto.setCreatedAt(employee.getCreatedAt());
+		
+		return dto;
+		
 	}
 
 }

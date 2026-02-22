@@ -14,5 +14,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	boolean existsByEmail(String name );
 	
 	Page<Employee> findByStatus(Status status, Pageable pageable);
+	
+	boolean existsByEmailAndIdNot(String email, Long Id);
 
 }

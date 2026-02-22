@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
+import com.prince.ems.dto.employee.UpdateEmployeeRequestDTO;
+import com.prince.ems.dto.employee.UpdateEmployeeResponseDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.entity.Employee;
 import com.prince.ems.entity.Status;
@@ -32,6 +34,7 @@ public class EmployeeService {
 		this.drepo = drepo;
 	}
 	
+	//Create
 	@Transactional
 	public CreateEmployeeResponseDTO createEmployee(CreateEmployeeRequestDTO dto) {
 		if(erepo.existsByEmail(dto.getEmail()))
@@ -55,11 +58,13 @@ public class EmployeeService {
 		
 	}
 	
+	//Get Active Employee
 	public Page<GetEmployeeResponseDTO> getAllActiveEmployee(Pageable page) {
 		Page<Employee> employee = erepo.findByStatus(Status.ACTIVE, page);
 		return EmployeeMapper.getActiveResponse(employee);		
 	}
 	
+	//Get Employee by ID
 	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
@@ -67,10 +72,34 @@ public class EmployeeService {
 		return EmployeeMapper.getEmployeeById(employee);
 	}
 	
+	//Get All employee
 	public Page<GetEmployeeResponseDTO> getAllEmployee(Pageable pageable) {
 		Page<Employee> employee = erepo.findAll(pageable);
 		return EmployeeMapper.getAllEmployeeResponse(employee);
 	}
+	
+	@Transactional
+	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
+			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
+			new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
+			
+			if(dto.getEmail() != null && erepo.existsByEmailAndIdNot(dto.getEmail(), Id))
+			throw new ResourceNotFoundException("Email '" + dto.getEmail() + "' is existing");
+			
+			if(dto.getSalary() != null && dto.getSalary().compareTo(BigDecimal.ZERO) <= 0) 
+			throw new BadRequestException("Salary must be greater than zero");
+	
+		
+		if(dto.getName() != null) employee.setName(dto.getName());
+		if(dto.getEmail() != null) employee.setEmail(dto.getEmail());
+		if(dto.getSalary() != null) employee.setSalary(dto.getSalary());
+		
+		erepo.save(employee);
+		
+		return EmployeeMapper.updateResponse(employee);
+		
+	}
+
 	
 	
 	 
