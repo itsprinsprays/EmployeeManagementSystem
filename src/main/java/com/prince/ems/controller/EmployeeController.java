@@ -22,8 +22,10 @@ import jakarta.validation.Valid;
 
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
+import com.prince.ems.dto.employee.SoftDeleteEmployeeResponseDTO;
 import com.prince.ems.dto.employee.UpdateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.UpdateEmployeeResponseDTO;
+import com.prince.ems.entity.Status;
 
 @RequestMapping("/employee")
 @RestController
@@ -66,11 +68,16 @@ public class EmployeeController {
 	
 	@PatchMapping("/{Id}")
 	public ResponseEntity<UpdateEmployeeResponseDTO> updateEmployee(
-				@Valid @PathVariable Long Id,
+				@PathVariable Long Id,
 				@RequestBody UpdateEmployeeRequestDTO dto) {
 		
 		return ResponseEntity.ok().body(serv.partialUpdate(dto, Id));
 		
+	}
+	
+	@PatchMapping("/{Id}/status/{status}")
+	public ResponseEntity<SoftDeleteEmployeeResponseDTO> updateStatus(@PathVariable Long Id, @PathVariable Status status) {
+		return ResponseEntity.ok().body(serv.updateStatus(Id, status));
 	}
 	
 	
