@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentRequestDTO;
@@ -48,8 +49,8 @@ public class DepartmentController {
 	
 	@GetMapping
 	public ResponseEntity<Page<DepartmentResponseDTO>> getAllDepartment(@RequestParam(defaultValue = "0") int page,
-																		@RequestParam(defaultValue = "5") int size) {
-		Pageable pageable = PageRequest.of(page, size);
+																@RequestParam(defaultValue = "5") int size) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
 		return ResponseEntity.ok().body(serv.getAllDepartment(pageable));
 	}
 	
@@ -62,7 +63,7 @@ public class DepartmentController {
 	@GetMapping("/active")
 	public ResponseEntity<Page<DepartmentResponseDTO>> getActiveDepartment(@RequestParam(defaultValue = "0") int page,
 																	 @RequestParam(defaultValue = "5") int size) {
-		Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
 		Page<DepartmentResponseDTO> response = serv.getActiveDepartment(pageable);
 		return ResponseEntity.ok(response);
 		

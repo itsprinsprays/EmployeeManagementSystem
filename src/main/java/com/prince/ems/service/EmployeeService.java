@@ -79,6 +79,9 @@ public class EmployeeService {
 		return EmployeeMapper.getAllEmployeeResponse(employee);
 	}
 	
+	
+	
+	//Partial Update
 	@Transactional
 	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
@@ -101,6 +104,7 @@ public class EmployeeService {
 		
 	}
 
+	//Soft Delete
 	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, Status status) {
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
 				new ResourceNotFoundException("Employee with ID '" + Id + "' is not existing"));

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.service.EmployeeService;
@@ -48,7 +49,8 @@ public class EmployeeController {
 			@RequestParam(defaultValue = "0") int page,
 		    @RequestParam(defaultValue = "5") int size) {
 		
-		Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = PageRequest.of(page, size,Sort.by("name").ascending()
+				.and(Sort.by("id").ascending()));
 		return ResponseEntity.ok().body(serv.getAllEmployee(pageable));
 	}
 	
@@ -57,7 +59,8 @@ public class EmployeeController {
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size) {
 		
-		Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = PageRequest.of(page, size,Sort.by("name").ascending()
+				.and(Sort.by("id").ascending()));
 		return ResponseEntity.ok().body(serv.getAllActiveEmployee(pageable));
 	}
 	
