@@ -1,0 +1,22 @@
+[33m50e101f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: commit (amend): Employee and Department Feature : Added sorting in Get Method except to Get By ID
+[33m158af7a[m HEAD@{1}: commit (amend): Employee Feature : Add Sorting on the Get Active and Get All Employee
+[33mc249854[m HEAD@{2}: commit (amend): Employee Feature : Add Sorting on the Get Active and Get All Employee
+[33m97d017d[m HEAD@{3}: commit (initial): Employee Feature : Add Sorting on the Get Active and Get All Employee
+[33m6703244[m HEAD@{5}: commit: Employee Feature : Add Sorting on the Get Active and Get All Employee
+[33m9419f14[m HEAD@{6}: commit: Employee Feature : Soft Delete Added
+[33m366ce92[m HEAD@{7}: commit: Feature for Employee : Patch Update Added
+[33m2a1f310[m HEAD@{8}: commit: Convert the getAllEmployee into having pagination
+[33m61a68db[m HEAD@{9}: commit: Added Pagination in Get All Department Method
+[33mfc82faa[m HEAD@{10}: commit: Get All Employee Method Added
+[33m5a5c12a[m HEAD@{11}: commit: Get Employee By ID method added
+[33m5c64918[m HEAD@{12}: commit: Added Get Active Employee with Pagination
+[33m619558f[m HEAD@{13}: commit: Creating Employee Method Added
+[33m830b75f[m HEAD@{14}: commit: Added Pagination with Active Filter
+[33m410dc3c[m HEAD@{15}: commit: testing
+[33m2d31d29[m HEAD@{16}: commit: Activation Method Added
+[33m8268b1c[m HEAD@{17}: commit: Partial Update Added
+[33m00ebf8b[m HEAD@{18}: commit: Added Get Department By ID
+[33m68425ad[m HEAD@{19}: commit: GetAll Added
+[33mef89006[m HEAD@{20}: commit: Create
+[33m7cd8216[m HEAD@{21}: Branch: renamed refs/heads/master to refs/heads/main
+[33m7cd8216[m HEAD@{23}: commit (initial): Initial commit

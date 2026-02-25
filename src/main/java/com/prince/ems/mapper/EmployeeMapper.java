@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
@@ -98,5 +99,20 @@ public class EmployeeMapper {
 		return dto;
 	}
 	
+	public static Page<GetEmployeeResponseDTO> getEmployeeSpecifications(Page<Employee> employee) {
+		Page<GetEmployeeResponseDTO> dto = employee.map(e -> new GetEmployeeResponseDTO(
+				e.getId(),
+				e.getName(),
+				e.getEmail(),
+				e.getSalary(),
+				e.getStatus(),
+				e.getDepartment().getDepartmentId(),
+				e.getHireDate(),
+				e.getUpdatedAt(),
+				e.getCreatedAt()
+				));
+		
+		return dto;
+	}
 
 }

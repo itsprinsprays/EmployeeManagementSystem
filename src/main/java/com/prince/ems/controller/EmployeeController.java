@@ -44,16 +44,16 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(serv.createEmployee(dto));
 	}
 	
-	@GetMapping
-	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllEmployee(
-			@RequestParam(defaultValue = "0") int page,
-		    @RequestParam(defaultValue = "5") int size) {
-		
-		Pageable pageable = PageRequest.of(page, size,Sort.by("name").ascending()
-				.and(Sort.by("id").ascending()));
-		return ResponseEntity.ok().body(serv.getAllEmployee(pageable));
-	}
-	
+//	@GetMapping
+//	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllEmployee(
+//			@RequestParam(defaultValue = "0") int page,
+//		    @RequestParam(defaultValue = "5") int size) {
+//		
+//		Pageable pageable = PageRequest.of(page, size,Sort.by("name").ascending()
+//				.and(Sort.by("id").ascending()));
+//		return ResponseEntity.ok().body(serv.getAllEmployee(pageable));
+//	}
+//	
 	@GetMapping("/status")
 	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllActiveEmployee(
 			@RequestParam(defaultValue = "0") int page,
@@ -81,6 +81,21 @@ public class EmployeeController {
 	@PatchMapping("/{Id}/status/{status}")
 	public ResponseEntity<SoftDeleteEmployeeResponseDTO> updateStatus(@PathVariable Long Id, @PathVariable Status status) {
 		return ResponseEntity.ok().body(serv.updateStatus(Id, status));
+	}
+	
+	@GetMapping
+	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllEmployeeSpecification(
+				@RequestParam(required = false) String name,
+				@RequestParam(required = false) Status status,
+				@RequestParam(required = false) Long Id,
+				@RequestParam(required = false) Double minSalary,
+				@RequestParam(required = false) Double maxSalary,
+				@RequestParam(defaultValue = "0") int page,
+				@RequestParam(defaultValue = "5") int size) {
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending().and(Sort.by("id").ascending()));
+		return ResponseEntity.ok().body(serv.getAllEmployeeSpecification(name, status, Id, minSalary, maxSalary, pageable));
+		
 	}
 	
 	

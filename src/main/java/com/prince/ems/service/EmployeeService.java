@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.EmployeeMapper;
 import com.prince.ems.repository.DepartmentRepository;
 import com.prince.ems.repository.EmployeeRepository;
+import com.prince.ems.specification.EmployeeSpecification;
 
 @Service
 public class EmployeeService {
@@ -56,7 +58,6 @@ public class EmployeeService {
 		erepo.save(employee);
 		
 		return EmployeeMapper.createResponse(employee);
-		
 	}
 	
 	//Get Active Employee
@@ -101,7 +102,6 @@ public class EmployeeService {
 		erepo.save(employee);
 		
 		return EmployeeMapper.updateResponse(employee);
-		
 	}
 
 	//Soft Delete
@@ -113,9 +113,28 @@ public class EmployeeService {
 		
 		erepo.save(employee);
 		
-		return EmployeeMapper.statusUpdate(employee);
+		return EmployeeMapper.statusUpdate(employee);	
+	}
+	
+	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
+			String name, 
+			Status status, 
+			Long Id,
+			Double minSalary,
+			Double maxSalary,
+			Pageable pageable	) {
 		
-				
+		Specification<Employee> spec = Specification.where(null);
+		
+		if(name != null)  spec = spec.and(EmployeeSpecification.hasName(name));
+		if(status != null) spec = spec.and(EmployeeSpecification.hasStatus(status));
+		if(Id != null) spec = spec.and(EmployeeSpecification.hasDepartment(Id));
+		if(minSalary != null && maxSalary != null) spec = spec.and(EmployeeSpecification.betweenSalary(minSalary, maxSalary));
+		
+		Page<Employee> employee = erepo.findAll(spec, pageable);
+		
+		return EmployeeMapper.getEmployeeSpecifications(employee);
+		
 	}
 	
 	 
