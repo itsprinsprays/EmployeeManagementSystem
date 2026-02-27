@@ -16,10 +16,11 @@ public class DepartmentMapper {
 	public static DepartmentResponseDTO toResponse(Department department, String statusMessage) {
 		DepartmentResponseDTO dto = new DepartmentResponseDTO();
 		
-		dto.setID(department.getDepartmentId());
+		dto.setID(department.getId());
 		dto.setName(department.getName());
 		dto.setDescription(department.getDescription());
 		dto.setStatus(department.getStatus());
+		dto.setDepartmentID(department.getId());
 		dto.setCreatedAt(department.getCreatedAt());
 		dto.setUpdatedAt(department.getUpdatedAt());
 		dto.setStatusMessage(statusMessage);
@@ -31,11 +32,12 @@ public class DepartmentMapper {
 	public static CreateDepartmentResponseDTO createResponse(Department department) {
 		CreateDepartmentResponseDTO dto = new CreateDepartmentResponseDTO();
 		
-		dto.setID(department.getDepartmentId());
+		dto.setID(department.getId());
 		dto.setName(department.getName());
 		dto.setDescription(department.getDescription());
 		dto.setStatus(department.getStatus());
 		dto.setCreatedAt(department.getCreatedAt());
+		dto.setDepartmentID(department.getId());
 		dto.setStatusMessage("Department " + department.getName() + " is created");
 		return dto;
 	}

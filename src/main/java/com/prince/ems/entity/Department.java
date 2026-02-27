@@ -19,7 +19,7 @@ public class Department {
 	
 	@Id	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long departmentId;
+	private Long Id;
 	
 	@Column(nullable = false)
 	private String name;
@@ -38,14 +38,14 @@ public class Department {
 	
 	public Department() { }
 	
-	public Long getDepartmentId() { return departmentId; }
+	public Long getId() { return Id; }
 	public String getName() { return name; }
 	public String getDescription() { return description; }
 	public Status getStatus() { return status; }
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	public LocalDateTime getUpdatedAt() { return updatedAt; }
 	
-	public void setID(Long id) { this.departmentId = id; }
+	public void setID(Long id) { this.Id = id; }
 	public void setName(String name) { this.name = name; }
 	public void setDescription(String description) { this.description = description; }
 	public void setStatus(Status status) { this.status = status; }

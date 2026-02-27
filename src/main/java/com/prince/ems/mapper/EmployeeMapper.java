@@ -24,7 +24,7 @@ public class EmployeeMapper {
 		dto.setEmail(employee.getEmail());
 		dto.setSalary(employee.getSalary());
 		dto.setStatus(employee.getStatus());
-		dto.setDepartment(employee.getDepartment().getDepartmentId());
+		dto.setDepartmentId(employee.getDepartment().getId());
 		dto.setHireDate(employee.getHireDate());
 		dto.setCreatedAt(employee.getCreatedAt());
 		
@@ -38,7 +38,7 @@ public class EmployeeMapper {
 				e.getEmail(),
 				e.getSalary(),
 				e.getStatus(),
-				e.getDepartment().getDepartmentId(),
+				e.getDepartment().getId(),
 				e.getDepartment().getName(),
 				e.getHireDate(),
 				e.getUpdatedAt(),
@@ -55,7 +55,7 @@ public class EmployeeMapper {
 				employee.getEmail(),
 				employee.getSalary(),
 				employee.getStatus(),
-				employee.getDepartment().getDepartmentId(),
+				employee.getDepartment().getId(),
 				employee.getDepartment().getName(),
 				employee.getHireDate(),
 				employee.getUpdatedAt(),
@@ -76,7 +76,7 @@ public class EmployeeMapper {
 		dto.setEmail(employee.getEmail());
 		dto.setSalary(employee.getSalary());
 		dto.setStatus(employee.getStatus());
-		dto.setDepartment(employee.getDepartment().getDepartmentId());
+		dto.setDepartment(employee.getDepartment().getId());
 		dto.setHireDate(employee.getHireDate());
 		dto.setUpdatedAt(employee.getUpdatedAt());
 		dto.setCreatedAt(employee.getCreatedAt());
@@ -93,7 +93,7 @@ public class EmployeeMapper {
 		dto.setEmail(employee.getEmail());
 		dto.setSalary(employee.getSalary());
 		dto.setStatus(employee.getStatus());
-		dto.setDepartment(employee.getDepartment().getDepartmentId());
+		dto.setDepartment(employee.getDepartment().getId());
 		dto.setHireDate(employee.getHireDate());
 		dto.setUpdatedAt(employee.getUpdatedAt());
 		dto.setCreatedAt(employee.getCreatedAt());
@@ -108,7 +108,7 @@ public class EmployeeMapper {
 				e.getEmail(),
 				e.getSalary(),
 				e.getStatus(),
-				e.getDepartment().getDepartmentId(),
+				e.getDepartment().getId(),
 				e.getDepartment().getName(),
 				e.getHireDate(),
 				e.getUpdatedAt(),

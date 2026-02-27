@@ -21,6 +21,8 @@ public class CreateDepartmentResponseDTO {
 		
 	private String statusMessage;
 	
+	private Long departmentID;
+	
 	public CreateDepartmentResponseDTO() { }
 	
 	public Long getID() { return Id; }
@@ -29,12 +31,15 @@ public class CreateDepartmentResponseDTO {
 	public Status getStatus() { return status; }
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	public String getStatusMessage() { return statusMessage; }
-	
+	public Long getDepartmentID() { return departmentID; }
+
 	public void setID(Long Id) { this.Id = Id; }
 	public void setName(String name) { this.name = name; }
 	public void setDescription(String description) { this.description = description; }
 	public void setStatus(Status status) { this.status = status; }
 	public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 	public void setStatusMessage(String statusMessage) { this.statusMessage = statusMessage; } 
+	public void setDepartmentID(Long departmentID) { this.departmentID = departmentID; }
+
 
 }

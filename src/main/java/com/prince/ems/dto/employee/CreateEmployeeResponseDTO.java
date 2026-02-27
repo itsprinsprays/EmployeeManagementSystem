@@ -35,7 +35,7 @@ public class CreateEmployeeResponseDTO {
 	public BigDecimal getSalary() { return salary; }
 	public Status getStatus() { return status; }
 	public LocalDate getHireDate() { return hireDate; }
-	public Long department() { return departmentId; } 
+	public Long getDepartmentId() { return departmentId; } 
 	public LocalDateTime getCreatedAt() { return createdAt; }
 	
 	public void setID(Long id) { this.id = id; }
@@ -44,7 +44,7 @@ public class CreateEmployeeResponseDTO {
 	public void setSalary(BigDecimal salary) { this.salary = salary; }
 	public void setStatus(Status status) { this.status = status; }
 	public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
-	public void setDepartment(Long departmentId) { this.departmentId = departmentId; }
+	public void setDepartmentId(Long departmentId) { this.departmentId = departmentId; }
 	public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 	
 
