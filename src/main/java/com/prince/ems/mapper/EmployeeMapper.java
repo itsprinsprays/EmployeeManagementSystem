@@ -39,6 +39,7 @@ public class EmployeeMapper {
 				e.getSalary(),
 				e.getStatus(),
 				e.getDepartment().getDepartmentId(),
+				e.getDepartment().getName(),
 				e.getHireDate(),
 				e.getUpdatedAt(),
 				e.getCreatedAt()
@@ -55,6 +56,7 @@ public class EmployeeMapper {
 				employee.getSalary(),
 				employee.getStatus(),
 				employee.getDepartment().getDepartmentId(),
+				employee.getDepartment().getName(),
 				employee.getHireDate(),
 				employee.getUpdatedAt(),
 				employee.getCreatedAt()
@@ -107,6 +109,7 @@ public class EmployeeMapper {
 				e.getSalary(),
 				e.getStatus(),
 				e.getDepartment().getDepartmentId(),
+				e.getDepartment().getName(),
 				e.getHireDate(),
 				e.getUpdatedAt(),
 				e.getCreatedAt()

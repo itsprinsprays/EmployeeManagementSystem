@@ -119,7 +119,7 @@ public class EmployeeService {
 	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
 			String name, 
 			Status status, 
-			Long Id,
+			Long departmentId,
 			Double minSalary,
 			Double maxSalary,
 			Pageable pageable	) {
@@ -128,7 +128,7 @@ public class EmployeeService {
 		
 		if(name != null)  spec = spec.and(EmployeeSpecification.hasName(name));
 		if(status != null) spec = spec.and(EmployeeSpecification.hasStatus(status));
-		if(Id != null) spec = spec.and(EmployeeSpecification.hasDepartment(Id));
+		if(departmentId != null) spec = spec.and(EmployeeSpecification.hasDepartment(departmentId));
 		if(minSalary != null && maxSalary != null) spec = spec.and(EmployeeSpecification.betweenSalary(minSalary, maxSalary));
 		
 		Page<Employee> employee = erepo.findAll(spec, pageable);

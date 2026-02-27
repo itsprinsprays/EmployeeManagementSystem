@@ -15,7 +15,7 @@ public class EmployeeSpecification {
 	}
 	
 	public static Specification<Employee> hasDepartment(Long Id) {
-		return (root, query, cb) -> cb.equal(root.get("department").get("department_id"), Id);
+		return (root, query, cb) -> cb.equal(root.get("department").get("id"), Id);
 	}
 	
 	public static Specification<Employee> betweenSalary(Double min, Double max) {
