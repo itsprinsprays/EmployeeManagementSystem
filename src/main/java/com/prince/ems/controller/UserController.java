@@ -14,7 +14,7 @@ import com.prince.ems.dto.user.RegistrationUserResponseDTO;
 
 import jakarta.validation.Valid;
 
-@RequestMapping("/user")
+@RequestMapping("/api/auth")
 @Validated
 @RestController
 public class UserController {
@@ -25,7 +25,7 @@ public class UserController {
 		this.serv = serv;
 	}
 	
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<RegistrationUserResponseDTO> registerUser(@Valid @RequestBody RegistrationUserRequestDTO dto) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(serv.registerUser(dto));
 	}

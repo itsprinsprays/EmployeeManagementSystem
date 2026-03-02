@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/api/department")
 @Validated
 public class DepartmentController {
 

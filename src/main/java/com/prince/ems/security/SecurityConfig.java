@@ -1,11 +1,46 @@
 package com.prince.ems.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
+	private final CustomUserDetailsService user;
+	
+	public SecurityConfig(CustomUserDetailsService user) {
+		this.user = user;
+	}
+	
+	@Bean
+	public SecurityFilterChain filterchain(HttpSecurity http) throws Exception {
+		
+		return http
+				.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth 
+						
+						//Public Endpoints
+						.requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+						
+						.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+						
+						.requestMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
+						
+						.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "HR")
+						
+						.anyRequest().authenticated()
+						)
+				.userDetailsService(user)
+				.httpBasic(Customizer.withDefaults())
+				.build();
+		
+	}
 	
 	
 

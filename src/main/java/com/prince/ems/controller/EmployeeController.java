@@ -28,7 +28,7 @@ import com.prince.ems.dto.employee.UpdateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.UpdateEmployeeResponseDTO;
 import com.prince.ems.entity.Status;
 
-@RequestMapping("/employee")
+@RequestMapping("/api/employee")
 @RestController
 @Validated
 public class EmployeeController {
