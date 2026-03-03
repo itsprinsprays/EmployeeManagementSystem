@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class EmployeeService {
 	}
 	
 	//Create
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public CreateEmployeeResponseDTO createEmployee(CreateEmployeeRequestDTO dto) {
 		if(erepo.existsByEmail(dto.getEmail()))
@@ -61,12 +63,14 @@ public class EmployeeService {
 	}
 	
 	//Get Active Employee
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	public Page<GetEmployeeResponseDTO> getAllActiveEmployee(Pageable page) {
 		Page<Employee> employee = erepo.findByStatus(Status.ACTIVE, page);
 		return EmployeeMapper.getActiveResponse(employee);		
 	}
 	
 	//Get Employee by ID
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
@@ -75,6 +79,7 @@ public class EmployeeService {
 	}
 	
 	//Get All employee
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	public Page<GetEmployeeResponseDTO> getAllEmployee(Pageable pageable) {
 		Page<Employee> employee = erepo.findAll(pageable);
 		return EmployeeMapper.getAllEmployeeResponse(employee);
@@ -83,6 +88,7 @@ public class EmployeeService {
 	
 	
 	//Partial Update
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
@@ -105,6 +111,7 @@ public class EmployeeService {
 	}
 
 	//Soft Delete
+	@PreAuthorize("hasRole('ADMIN')")
 	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, Status status) {
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
 				new ResourceNotFoundException("Employee with ID '" + Id + "' is not existing"));
@@ -116,6 +123,7 @@ public class EmployeeService {
 		return EmployeeMapper.statusUpdate(employee);	
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
 			String name, 
 			Status status, 

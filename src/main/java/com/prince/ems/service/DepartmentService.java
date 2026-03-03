@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
@@ -29,6 +30,7 @@ public class DepartmentService {
 		this.repo = repo;
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public CreateDepartmentResponseDTO createDepartment(DepartmentRequestDTO dto) {    //Create Department
 		if(repo.existsByName(dto.getName()))
@@ -45,16 +47,19 @@ public class DepartmentService {
 
 	}
 	 
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	public Page<DepartmentResponseDTO> getAllDepartment(Pageable pageable) {
 		Page<Department> page = repo.findAll(pageable);
 		return DepartmentMapper.getAllResponse(page);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	public Page<DepartmentResponseDTO> getActiveDepartment(Pageable pageable) {       //Get All Active Departments
 			Page<Department> page = repo.findByStatus(Status.ACTIVE, pageable);
 			return DepartmentMapper.activeDepartmentResponse(page, "ACTIVE DEPARTMENTS");
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional
 	public DepartmentResponseDTO getDepartmentById(Long Id) {                     		  //Get Department using ID
 		Department department = repo.findById(Id)
@@ -64,6 +69,7 @@ public class DepartmentService {
 			
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {       //Partial Update
 		Department department = repo.findById(id)
@@ -76,6 +82,7 @@ public class DepartmentService {
 		return DepartmentMapper.toResponse(department, "UPDATED");
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public DepartmentResponseDTO statusActivation(Long id, Status status) {     				 //Soft delete status and activate status
 		Department department = repo.findById(id)
