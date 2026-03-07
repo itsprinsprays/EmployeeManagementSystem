@@ -7,6 +7,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -14,8 +16,11 @@ public class SecurityConfig {
 	
 	private final CustomUserDetailsService user;
 	
-	public SecurityConfig(CustomUserDetailsService user) {
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	
+	public SecurityConfig(CustomUserDetailsService user, JwtAuthenticationFilter jwtAuthenticationFilter) {
 		this.user = user;
+		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 	}
 	
 	@Bean
@@ -36,8 +41,7 @@ public class SecurityConfig {
 						
 						.anyRequest().authenticated()
 						)
-				.userDetailsService(user)
-				.httpBasic(Customizer.withDefaults())
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 		
 	}

@@ -7,7 +7,6 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -51,10 +50,12 @@ public class JwtUtil {
 		}
 	}
 	
+	//Extract Claims/Username
 	public String extractUsername(String token) {
 		return extractAllClaims(token).getSubject();
 	}
 	
+	//Utility Helper 
 	private Claims extractAllClaims(String token) {
 		
 		return Jwts.parserBuilder()
