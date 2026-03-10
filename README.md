@@ -24,16 +24,16 @@ This project is an Employee Management System API built using Spring Boot. It ma
 ---
 
 ## System Architecture
-├── config # Configuration classes (e.g., BCrypt, AuthenticationManager)
-├── controller # REST controllers
-├── dto # Data Transfer Objects
-├── entity # JPA entities / database models
-├── exception # Custom exceptions
-├── mapper # Object mappers (DTO ↔ Entity)
-├── repository # Spring Data JPA repositories
-├── security # JWT filters, Security config
-├── service # Business logic
-└── specification # JPA Specifications for filtering/searching
+config # Configuration classes (e.g., BCrypt, AuthenticationManager)
+controller # REST controllers
+dto # Data Transfer Objects
+entity # JPA entities / database models
+exception # Custom exceptions
+mapper # Object mappers (DTO ↔ Entity)
+repository # Spring Data JPA repositories
+security # JWT filters, Security config
+service # Business logic
+specification # JPA Specifications for filtering/searching
 
 ## JWT Authentication Workflow
 1. Get the Authorization header from the request using .getHeader().
