@@ -1,9 +1,9 @@
 # EMS - Event Management System API
 
-**Project Description**
+**PROJECT DESCRIPTION**
 This project is an Employee Management System API built using Spring Boot. It manages Departments, Employees, Roles, and User Accounts with pagination, filtering, validation, soft delete, and JWT-based authentication and authorization.
 
-**Technologies Used:**
+**TECHNOLOGIES USED:**
 - Java & Spring Boot
 - Spring Security & JWT
 - Maven
@@ -13,7 +13,7 @@ This project is an Employee Management System API built using Spring Boot. It ma
 
 ---
 
-## Features
+## FEATURES
 - User registration and login with JWT authentication
 - Secure API endpoints using Spring Security
 - Employee and Department creation, updating, and deletion
@@ -23,7 +23,7 @@ This project is an Employee Management System API built using Spring Boot. It ma
 
 ---
 
-## System Architecture
+## SYSTEM ARCHITECTURE
 config # Configuration classes (e.g., BCrypt, AuthenticationManager)
 controller # REST controllers
 dto # Data Transfer Objects
@@ -35,7 +35,7 @@ security # JWT filters, Security config
 service # Business logic
 specification # JPA Specifications for filtering/searching
 
-## JWT Authentication Workflow
+## JWT AUTHENTICATION WORKFLOW
 1. Get the Authorization header from the request using .getHeader().
 2. Check if the header is not null and starts with "Bearer ".
 3. If true, remove "Bearer " using substring() to get only the token.
@@ -53,6 +53,20 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
-## API Endpoints
+## API ENDPOINTS
+
+## Employee Endpoints
+
+POST   /employee  - Create employee	
+<img width="418" height="606" alt="image" src="https://github.com/user-attachments/assets/45cb3446-d41c-4d8a-bcdd-dcafdcd5e848" />
+
+   ##Error Handling
+<img width="450" height="160" alt="image" src="https://github.com/user-attachments/assets/9b72f438-3c43-40cf-aa6c-e1689a8089cf" />
+<img width="430" height="160" alt="image" src="https://github.com/user-attachments/assets/d6a8f280-725a-4a38-8f19-8b5b058df946" />
+<img width="430" height="160" alt="image" src="https://github.com/user-attachments/assets/06007fdd-83c6-4ca1-8653-5c34549ae60e" />
+
+
+
+
 
 
