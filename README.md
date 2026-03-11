@@ -58,12 +58,12 @@ Second Part – Authentication
 ## Employee Endpoints
 
 POST   /employee  - Create employee	
-<img width="418" height="606" alt="image" src="https://github.com/user-attachments/assets/45cb3446-d41c-4d8a-bcdd-dcafdcd5e848" />
+<img width="661" height="778" alt="image" src="https://github.com/user-attachments/assets/1b7538b7-1910-44e8-907e-24b46fd22ef9" />
+
 
    ##Error Handling
-<img width="450" height="160" alt="image" src="https://github.com/user-attachments/assets/9b72f438-3c43-40cf-aa6c-e1689a8089cf" />
-<img width="430" height="160" alt="image" src="https://github.com/user-attachments/assets/d6a8f280-725a-4a38-8f19-8b5b058df946" />
-<img width="430" height="160" alt="image" src="https://github.com/user-attachments/assets/06007fdd-83c6-4ca1-8653-5c34549ae60e" />
+<img width="783" height="760" alt="image" src="https://github.com/user-attachments/assets/ff738c92-04ae-4696-b594-ae020996f800" />
+
 
 
 
