@@ -53,12 +53,47 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
+⚙️ Configuration
+Security Configuration
+The SecurityConfig class handles:
+
+Password encoding using BCrypt
+JWT filter integration
+CORS configuration
+Endpoint security rules
+Authentication manager setup
+JWT Configuration
+Token Expiration: Configurable via jwt.expiration property
+Secret Key: Set via jwt.secret property
+Algorithm: HS256 (HMAC with SHA-256)
+Database Configuration
+DDL Auto: Set to update for automatic schema updates
+Connection Pooling: Uses HikariCP by default
+Transaction Management: Enabled with @Transactional annotatio
+
 ## API ENDPOINTS
 
 ## Employee Endpoints
 
 POST   /employee  - Create employee	
-<img width="661" height="778" alt="image" src="https://github.com/user-attachments/assets/1b7538b7-1910-44e8-907e-24b46fd22ef9" />
+
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "SecurePassword123!",
+  "role": "EMPLOYEE"
+}
+
+{
+  "id": 1,
+  "username": "john_doe",
+  "email": "john@example.com",
+  "role": "EMPLOYEE",
+  "createdAt": "2026-03-11T13:00:00Z"
+}
 
 
    ##Error Handling
