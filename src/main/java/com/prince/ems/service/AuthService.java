@@ -6,6 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import com.prince.ems.dto.login.LoginRequestDTO;
+import com.prince.ems.dto.login.LoginResponseDTO;
+import com.prince.ems.mapper.LoginMapper;
 import com.prince.ems.security.JwtUtil;
 
 @Service
@@ -17,7 +19,7 @@ public class AuthService {
 	@Autowired
 	private JwtUtil util;
 	
-	public String login(LoginRequestDTO request) {
+	public LoginResponseDTO login(LoginRequestDTO request) {
 		
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
@@ -25,7 +27,10 @@ public class AuthService {
 						request.getPassword()
 						)
 				);
-		return util.generateToken(request.getUsername());
+		
+		String token = util.generateToken(request.getUsername());
+		
+		return LoginMapper.tokenResponse(token);
 		
 	}
 
