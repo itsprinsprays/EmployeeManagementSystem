@@ -80,19 +80,19 @@ POST   /employee  - Create employee
 POST /api/auth/register
 Content-Type: application/json
 
-{
-  "username": "john_doe",
-  "email": "john@example.com",
-  "password": "SecurePassword123!",
-  "role": "EMPLOYEE"
+{<br>
+  "username": "john_doe",<br>
+  "email": "john@example.com",<br>
+  "password": "SecurePassword123!",<br>
+  "role": "EMPLOYEE"<br>
 }
 
-{
-  "id": 1,
-  "username": "john_doe",
-  "email": "john@example.com",
-  "role": "EMPLOYEE",
-  "createdAt": "2026-03-11T13:00:00Z"
+{<br>
+  "id": 1,<br>
+  "username": "john_doe",<br>
+  "email": "john@example.com",<br>
+  "role": "EMPLOYEE",<br>
+  "createdAt": "2026-03-11T13:00:00Z"<br>
 }
 
 
