@@ -24,15 +24,15 @@ This project is an Employee Management System API built using Spring Boot. It ma
 ---
 
 ## SYSTEM ARCHITECTURE
-config # Configuration classes (e.g., BCrypt, AuthenticationManager)
-controller # REST controllers
-dto # Data Transfer Objects
-entity # JPA entities / database models
-exception # Custom exceptions
-mapper # Object mappers (DTO ↔ Entity)
-repository # Spring Data JPA repositories
-security # JWT filters, Security config
-service # Business logic
+config # Configuration classes (e.g., BCrypt, AuthenticationManager)<br>
+controller # REST controllers<br>
+dto # Data Transfer Objects<br>
+entity # JPA entities / database models<br>
+exception # Custom exceptions<br>
+mapper # Object mappers (DTO ↔ Entity)<br>
+repository # Spring Data JPA repositories<br>
+security # JWT filters, Security config<br>
+service # Business logic<br>
 specification # JPA Specifications for filtering/searching
 
 ## JWT AUTHENTICATION WORKFLOW
@@ -53,25 +53,25 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
-⚙️ Configuration
-Security Configuration
-The SecurityConfig class handles:
+⚙️ Configuration<br>
+Security Configuration<br>
+The SecurityConfig class handles:<br>
 
-Password encoding using BCrypt
-JWT filter integration
-CORS configuration
-Endpoint security rules
-Authentication manager setup
-JWT Configuration
-Token Expiration: Configurable via jwt.expiration property
-Secret Key: Set via jwt.secret property
-Algorithm: HS256 (HMAC with SHA-256)
-Database Configuration
-DDL Auto: Set to update for automatic schema updates
-Connection Pooling: Uses HikariCP by default
-Transaction Management: Enabled with @Transactional annotatio
+Password encoding using BCrypt<br>
+JWT filter integration<br>
+CORS configuration<br>
+Endpoint security rules<br>
+Authentication manager setup<br>
+JWT Configuration<br>
+Token Expiration: Configurable via jwt.expiration property<br>
+Secret Key: Set via jwt.secret property<br>
+Algorithm: HS256 (HMAC with SHA-256)<br>
+Database Configuration<br>
+DDL Auto: Set to update for automatic schema updates<br>
+Connection Pooling: Uses HikariCP by default<br>
+Transaction Management: Enabled with @Transactional annotation<br>
 
-## API ENDPOINTS
+### API ENDPOINTS
 
 ## Employee Endpoints
 
@@ -87,17 +87,23 @@ Content-Type: application/json
   "role": "EMPLOYEE"<br>
 }
 
-{<br>
-  "id": 1,<br>
-  "username": "john_doe",<br>
-  "email": "john@example.com",<br>
-  "role": "EMPLOYEE",<br>
-  "createdAt": "2026-03-11T13:00:00Z"<br>
+{  
+
+  "id": 1,  
+  
+  "username": "john_doe",  
+  
+  "email": "john@example.com",  
+  
+  "role": "EMPLOYEE",  
+  
+  "createdAt": "2026-03-11T13:00:00Z"  
+  
 }
 
 
-   ##Error Handling
-<img width="783" height="760" alt="image" src="https://github.com/user-attachments/assets/ff738c92-04ae-4696-b594-ae020996f800" />
+##Error Handling
+
 
 
 
