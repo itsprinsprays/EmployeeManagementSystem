@@ -87,6 +87,7 @@ Content-Type: application/json
   "role": "EMPLOYEE"<br>
 }
 
+```json
 {  
   "id": 1,  
   "username": "john_doe",  
