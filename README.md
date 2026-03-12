@@ -88,18 +88,21 @@ Content-Type: application/json
 }
 
 {  
-
   "id": 1,  
-  
   "username": "john_doe",  
-  
   "email": "john@example.com",  
-  
   "role": "EMPLOYEE",  
-  
   "createdAt": "2026-03-11T13:00:00Z"  
-  
 }
+
+{
+  "id": 1,
+  "username": "john_doe",
+  "email": "john@example.com",
+  "role": "EMPLOYEE",
+  "created": "2026-03-11t13:00:002"
+  }
+
 
 
 ##Error Handling
