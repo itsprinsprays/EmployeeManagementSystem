@@ -24,15 +24,15 @@ This project is an Employee Management System API built using Spring Boot. It ma
 ---
 
 ## SYSTEM ARCHITECTURE
-config # Configuration classes (e.g., BCrypt, AuthenticationManager)
-controller # REST controllers
-dto # Data Transfer Objects
-entity # JPA entities / database models
-exception # Custom exceptions
-mapper # Object mappers (DTO ↔ Entity)
-repository # Spring Data JPA repositories
-security # JWT filters, Security config
-service # Business logic
+config # Configuration classes (e.g., BCrypt, AuthenticationManager)<br>
+controller # REST controllers<br>
+dto # Data Transfer Objects<br>
+entity # JPA entities / database models<br>
+exception # Custom exceptions<br>
+mapper # Object mappers (DTO ↔ Entity)<br>
+repository # Spring Data JPA repositories<br>
+security # JWT filters, Security config<br>
+service # Business logic<br>
 specification # JPA Specifications for filtering/searching
 
 ## JWT AUTHENTICATION WORKFLOW
@@ -53,51 +53,133 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
-⚙️ Configuration
-Security Configuration
-The SecurityConfig class handles:
+##⚙️Configuration<br>
+Security Configuration<br>
+The SecurityConfig class handles:<br>
 
-Password encoding using BCrypt
-JWT filter integration
-CORS configuration
-Endpoint security rules
-Authentication manager setup
-JWT Configuration
-Token Expiration: Configurable via jwt.expiration property
-Secret Key: Set via jwt.secret property
-Algorithm: HS256 (HMAC with SHA-256)
-Database Configuration
-DDL Auto: Set to update for automatic schema updates
-Connection Pooling: Uses HikariCP by default
-Transaction Management: Enabled with @Transactional annotatio
+Password encoding using BCrypt<br>
+JWT filter integration<br>
+CORS configuration<br>
+Endpoint security rules<br>
+Authentication manager setup<br>
+JWT Configuration<br>
+Token Expiration: Configurable via jwt.expiration property<br>
+Secret Key: Set via jwt.secret property<br>
+Algorithm: HS256 (HMAC with SHA-256)<br>
+Database Configuration<br>
+DDL Auto: Set to update for automatic schema updates<br>
+Connection Pooling: Uses HikariCP by default<br>
+Transaction Management: Enabled with @Transactional annotation<br>
 
-## API ENDPOINTS
+### API ENDPOINTS
 
 ## Employee Endpoints
 
 POST   /employee  - Create employee	
-
-POST /api/auth/register
-Content-Type: application/json
-
+```json
 {
-  "username": "john_doe",
-  "email": "john@example.com",
-  "password": "SecurePassword123!",
-  "role": "EMPLOYEE"
+    "name": "Robert Arpia",
+    "departmentID": 2,
+    "email": "bobyes@gmail.com",
+    "salary": 50000
 }
 
 {
-  "id": 1,
-  "username": "john_doe",
-  "email": "john@example.com",
-  "role": "EMPLOYEE",
-  "createdAt": "2026-03-11T13:00:00Z"
+    "id": 12,
+    "name": "Robert Arpia",
+    "email": "bobyes@gmail.com",
+    "salary": 50000,
+    "status": "ACTIVE",
+    "hireDate": "2026-03-13",
+    "departmentId": 2,
+    "createdAt": "2026-03-13T14:13:32.160534"
+}
+
+```
+##Error Handling
+
+```json
+
+##Required Field
+
+{
+    "message": "Name is required",
+    "status": 400,
+    "timestamp": "2026-03-13T14:35:58.7426021"
+}
+
+{
+    "message": "Department ID is required",
+    "status": 400,
+    "timestamp": "2026-03-13T14:38:44.3652061"
+}
+
+{
+    "message": "Email is required",
+    "status": 400,
+    "timestamp": "2026-03-13T14:37:27.5653942"
+}
+
+{
+    "message": "Salary is required",
+    "status": 400,
+    "timestamp": "2026-03-13T14:38:23.9224299"
+}
+
+##Field Formats
+
+{
+    "message": "Email format is invalid",
+    "status": 400,
+    "timestamp": "2026-03-13T14:42:55.7871133"
+}
+
+{
+    "message": "salary must be a number",
+    "status": 400,
+    "timestamp": "2026-03-13T14:53:07.6861623"
+}
+
+##Length Constraints
+
+{
+    "message": "Name must be at least 3 Characters long",
+    "status": 400,
+    "timestamp": "2026-03-13T14:55:02.6444005"
+}
+
+{
+    "message": "Name must not exceed 30 characters",
+    "status": 400,
+    "timestamp": "2026-03-13T14:57:11.1337857"
 }
 
 
-   ##Error Handling
-<img width="783" height="760" alt="image" src="https://github.com/user-attachments/assets/ff738c92-04ae-4696-b594-ae020996f800" />
+
+
+##Business Rules
+
+{
+    "message": "Email 'bobyes@gmail.com' is existing",
+    "status": 409,
+    "timestamp": "2026-03-13T14:16:06.9290679"
+}
+
+{
+    "message": "Department ID '15' not Found ",
+    "status": 404,
+    "timestamp": "2026-03-13T14:16:56.409019"
+}
+
+{
+    "message": "Salary must be greater than zero",
+    "status": 400,
+    "timestamp": "2026-03-13T14:17:14.698865"
+}
+
+```
+
+
 
 
 
