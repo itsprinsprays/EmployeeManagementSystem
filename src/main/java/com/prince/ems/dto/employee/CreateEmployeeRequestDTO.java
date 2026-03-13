@@ -10,19 +10,19 @@ import jakarta.validation.constraints.NotNull;
 
 public class CreateEmployeeRequestDTO {
 	
-	@NotBlank(message = "Name must not be Empty")
+	@NotBlank(message = "Name is required")
 	private String name;
 	
-	@NotBlank(message = "Email must not be Empty")
-	@Email
+	@NotBlank(message = "Email is required")
+	@Email(message = "Email format is invalid")
 	private String email;
 	
 
-    @NotNull(message = "Salary must not be blank")
+    @NotNull(message = "Salary is required")
     private BigDecimal salary;
 		
 
-    @NotNull(message = "Department ID must not be blank")
+    @NotNull(message = "Department ID is required")
     private Long departmentID;
 	
 	public CreateEmployeeRequestDTO() {}

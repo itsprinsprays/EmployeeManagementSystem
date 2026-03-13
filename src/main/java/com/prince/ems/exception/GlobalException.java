@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 @RestControllerAdvice
 public class GlobalException {
@@ -26,5 +28,31 @@ public class GlobalException {
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
+	
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult().getFieldErrors()
+                           .stream()
+                           .map(error -> error.getDefaultMessage())
+                           .findFirst()
+                           .orElse("Validation failed");
+        
+        ErrorResponse error = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
+    	String message = null;
+    	  if (e.getCause() instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException) {
+    	        com.fasterxml.jackson.databind.exc.InvalidFormatException cause = 
+    	            (com.fasterxml.jackson.databind.exc.InvalidFormatException) e.getCause();
+    	        String fieldName = cause.getPath().get(0).getFieldName(); // the JSON field name
+    	        message = fieldName + " must be a number"; // custom message
+    	    }
+        ErrorResponse error = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
