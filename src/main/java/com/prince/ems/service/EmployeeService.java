@@ -69,8 +69,8 @@ public class EmployeeService {
 	
 	//Get Active Employee
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
-	public Page<GetEmployeeResponseDTO> getAllActiveEmployee(Pageable page) {
-		Page<Employee> employee = erepo.findByStatus(Status.ACTIVE, page);
+	public Page<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable page) {
+		Page<Employee> employee = erepo.findByStatus(status, page);
 		return EmployeeMapper.getActiveResponse(employee);		
 	}
 	

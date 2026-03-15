@@ -54,14 +54,15 @@ public class EmployeeController {
 //		return ResponseEntity.ok().body(serv.getAllEmployee(pageable));
 //	}
 //	
-	@GetMapping("/status")
-	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllActiveEmployee(
+	@GetMapping("/status/{status}")
+	public ResponseEntity<Page<GetEmployeeResponseDTO>> getEmployeeStatus(
 			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size) {
+			@RequestParam(defaultValue = "5") int size,
+			@PathVariable Status status) {
 		
 		Pageable pageable = PageRequest.of(page, size,Sort.by("name").ascending()
 				.and(Sort.by("id").ascending()));
-		return ResponseEntity.ok().body(serv.getAllActiveEmployee(pageable));
+		return ResponseEntity.ok().body(serv.getEmployeeStatus(status,pageable));
 	}
 	
 	@GetMapping("/{Id}")
