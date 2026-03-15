@@ -1,4 +1,4 @@
-# EMS - Event Management System API
+# EMS - Employee Management System API
 
 **PROJECT DESCRIPTION**
 This project is an Employee Management System API built using Spring Boot. It manages Departments, Employees, Roles, and User Accounts with pagination, filtering, validation, soft delete, and JWT-based authentication and authorization.
@@ -19,8 +19,7 @@ This project is an Employee Management System API built using Spring Boot. It ma
 - Employee and Department creation, updating, and deletion
 - User Creation
 - Role-based access control (Admin/Hr/Employee)
-- Specification for dynamic filtering or searching
-
+- JPA Specifications for dynamic filtering and searching
 ---
 
 ## SYSTEM ARCHITECTURE
@@ -53,30 +52,14 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
-##⚙️Configuration<br>
-Security Configuration<br>
-The SecurityConfig class handles:<br>
-
-Password encoding using BCrypt<br>
-JWT filter integration<br>
-CORS configuration<br>
-Endpoint security rules<br>
-Authentication manager setup<br>
-JWT Configuration<br>
-Token Expiration: Configurable via jwt.expiration property<br>
-Secret Key: Set via jwt.secret property<br>
-Algorithm: HS256 (HMAC with SHA-256)<br>
-Database Configuration<br>
-DDL Auto: Set to update for automatic schema updates<br>
-Connection Pooling: Uses HikariCP by default<br>
-Transaction Management: Enabled with @Transactional annotation<br>
-
 ### API ENDPOINTS
 
 ## Employee Endpoints
 
 POST   /employee  - Create employee	
+`Post /api/employee`
 ```json
+`Request`
 {
     "name": "Robert Arpia",
     "departmentID": 2,
@@ -84,6 +67,7 @@ POST   /employee  - Create employee
     "salary": 50000
 }
 
+`Response`
 {
     "id": 12,
     "name": "Robert Arpia",
@@ -154,9 +138,6 @@ POST   /employee  - Create employee
     "timestamp": "2026-03-13T14:57:11.1337857"
 }
 
-
-
-
 ##Business Rules
 
 {
@@ -178,9 +159,142 @@ POST   /employee  - Create employee
 }
 
 ```
+## GET /employees
+Retrieve employees. Supports pagination, sorting, and filtering.
 
+### Get All Employees
+`Get /api/employee`
+```json
+[
+  {
+    "id": 4,
+    "name": "Andrei Villarasco",
+    "email": "andrei@gmail.com",
+    "salary": 10000.00,
+    "status": "ACTIVE",
+    "hireDate": "2026-02-27",
+    "departmentName": "Information Technology",
+    "updatedAt": "2026-02-27T19:51:34.196615",
+    "createdAt": "2026-02-27T19:51:34.196615",
+    "department": 2
+  },
+  {
+    "id": 1,
+    "name": "Anthony Villarasco",
+    "email": "anthony@gmail.com",
+    "salary": 70000.00,
+    "status": "ACTIVE",
+    "hireDate": "2026-02-27",
+    "departmentName": "Human Resources",
+    "updatedAt": "2026-02-27T19:50:00.408318",
+    "createdAt": "2026-02-27T19:50:00.408318",
+    "department": 1
+  }
+]
+```
 
+---
 
+### Get Employee by ID
+`GET /employee/{id}`
+
+```json
+{
+  "id": 12,
+  "name": "Robert Arpia",
+  "email": "bobyes@gmail.com",
+  "salary": 50000.00,
+  "status": "ACTIVE",
+  "hireDate": "2026-03-13",
+  "departmentName": "Information Technology",
+  "updatedAt": "2026-03-13T14:13:32.160534",
+  "createdAt": "2026-03-13T14:13:32.160534",
+  "department": 2
+}
+
+##Error Handling
+{
+    "message": "Employee ID '13' not Found ",
+    "status": 404,
+    "timestamp": "2026-03-15T19:55:09.7591187"
+}
+```
+
+---
+
+### Get Employees by Status
+`GET /api/employee/status/ACTIVE`
+
+```json
+[
+  {
+    "id": 4,
+    "name": "Andrei Villarasco",
+    "email": "andrei@gmail.com",
+    "salary": 10000.00,
+    "status": "ACTIVE",
+    "hireDate": "2026-02-27",
+    "departmentName": "Information Technology",
+    "updatedAt": "2026-02-27T19:51:34.196615",
+    "createdAt": "2026-02-27T19:51:34.196615",
+    "department": 2
+  }
+]
+
+##GET /api/employee/status/INACTIVE
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Anthony Villarasco",
+    "email": "anthony@gmail.com",
+    "salary": 70000.00,
+    "status": "INACTIVE",
+    "hireDate": "2026-02-27",
+    "departmentName": "Human Resources",
+    "updatedAt": "2026-03-15T19:40:07.859925",
+    "createdAt": "2026-02-27T19:50:00.408318",
+    "department": 1
+  }
+]
+
+##Exception Handling
+
+{
+    "message": "Invalid status value. Must be ACTIVE or INACTIVE",
+    "status": 400,
+    "timestamp": "2026-03-15T20:08:30.4861119"
+}
+
+```
+### Dynamic Filtering 
+`Get /api/employee?status=ACTIVE&minSalary=50000&maxSalary=100000`
+```json
+        {
+            "id": 8,
+            "name": "Vienne Benitez",
+            "email": "vienne@gmail.com",
+            "salary": 80000.00,
+            "status": "ACTIVE",
+            "hireDate": "2026-02-27",
+            "departmentName": "Customer Service",
+            "updatedAt": "2026-02-27T20:04:53.965278",
+            "createdAt": "2026-02-27T20:04:53.965278",
+            "department": 6
+        },
+        {
+            "id": 7,
+            "name": "Vince Benitez",
+            "email": "vins@gmail.com",
+            "salary": 50000.00,
+            "status": "ACTIVE",
+            "hireDate": "2026-02-27",
+            "departmentName": "Sales",
+            "updatedAt": "2026-02-27T19:55:22.652449",
+            "createdAt": "2026-02-27T19:55:22.652449",
+            "department": 5
+        }
 
 
 
