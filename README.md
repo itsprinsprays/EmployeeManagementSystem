@@ -80,11 +80,11 @@ POST   /employee  - Create employee
 }
 
 ```
-##Error Handling
+## Exception Handling
 
 ```json
 
-##Required Field
+## Required Field
 
 {
     "message": "Name is required",
@@ -110,7 +110,7 @@ POST   /employee  - Create employee
     "timestamp": "2026-03-13T14:38:23.9224299"
 }
 
-##Field Formats
+## Field Formats
 
 {
     "message": "Email format is invalid",
@@ -124,7 +124,7 @@ POST   /employee  - Create employee
     "timestamp": "2026-03-13T14:53:07.6861623"
 }
 
-##Length Constraints
+## Length Constraints
 
 {
     "message": "Name must be at least 3 Characters long",
@@ -138,7 +138,7 @@ POST   /employee  - Create employee
     "timestamp": "2026-03-13T14:57:11.1337857"
 }
 
-##Business Rules
+## Business Rules
 
 {
     "message": "Email 'bobyes@gmail.com' is existing",
@@ -212,7 +212,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
   "department": 2
 }
 
-##Error Handling
+##Exception Handling
 {
     "message": "Employee ID '13' not Found ",
     "status": 404,
@@ -295,7 +295,87 @@ Retrieve employees. Supports pagination, sorting, and filtering.
             "createdAt": "2026-02-27T19:55:22.652449",
             "department": 5
         }
+```
+## Patch /employee
 
+Partial Update for employee
+`Patch /api/employee/2`
+
+```json
+`Request`
+{
+    "name": "Prince Benitez"
+}
+
+`Response`
+{
+    "id": 2,
+    "name": "Prince Benitez",
+    "email": "prncbntz@gmail.com",
+    "salary": 10000.00,
+    "status": "ACTIVE",
+    "hireDate": "2026-02-27",
+    "updatedAt": "2026-02-27T19:50:28.886981",
+    "createdAt": "2026-02-27T19:50:28.886981"
+}
+```
+## Exception Handling
+```json
+##Field Formats
+
+{
+    "message": "Invalid Email Format use '@'",
+    "status": 400,
+    "timestamp": "2026-03-16T21:21:15.1095402"
+}
+
+{
+    "message": "salary must be a number",
+    "status": 400,
+    "timestamp": "2026-03-16T21:24:13.1459095"
+}
+
+## Lenght Constraints
+
+{
+    "message": "Name must be at least 3 Characters long",
+    "status": 400,
+    "timestamp": "2026-03-16T21:26:05.4042385"
+}
+
+{
+    "message": "Name must not exceed 30 characters",
+    "status": 400,
+    "timestamp": "2026-03-16T21:26:25.5497007"
+}
+
+## Business Rules
+
+{
+    "message": "Email 'lance@gmail.com' is existing",
+    "status": 404,
+    "timestamp": "2026-03-16T21:30:00.3706239"
+}
+
+{
+    "message": "Employee ID '15' not Found ",
+    "status": 404,
+    "timestamp": "2026-03-16T21:30:24.7324854"
+}
+
+{
+    "message": "Salary must be greater than zero",
+    "status": 400,
+    "timestamp": "2026-03-16T21:30:40.4281882"
+}
+
+## Partial Update Specifics
+
+{
+    "message": "At least one field must be provided for update",
+    "status": 400,
+    "timestamp": "2026-03-16T21:43:52.2594757"
+}
 
 
 
