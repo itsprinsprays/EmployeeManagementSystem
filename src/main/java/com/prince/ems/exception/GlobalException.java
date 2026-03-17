@@ -31,7 +31,7 @@ public class GlobalException {
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 	
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)  //For DTOs Validation
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
         String message = e.getBindingResult().getFieldErrors()
                            .stream()

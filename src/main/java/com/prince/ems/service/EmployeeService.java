@@ -84,11 +84,11 @@ public class EmployeeService {
 	}
 	
 	//Get All employee
-	@PreAuthorize("hasAnyRole('ADMIN','HR')")
-	public Page<GetEmployeeResponseDTO> getAllEmployee(Pageable pageable) {
-		Page<Employee> employee = erepo.findAll(pageable);
-		return EmployeeMapper.getAllEmployeeResponse(employee);
-	}
+//	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+//	public Page<GetEmployeeResponseDTO> getAllEmployee(Pageable pageable) {
+//		Page<Employee> employee = erepo.findAll(pageable);
+//		return EmployeeMapper.getAllEmployeeResponse(employee);
+//	}
 	
 	
 	
@@ -98,6 +98,15 @@ public class EmployeeService {
 	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
 			new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
+			
+			if(dto.getName() == null && dto.getEmail() == null && dto.getDepartmentId() == null && dto.getSalary() == null) 
+				throw new BadRequestException("At least one field must be provided for update");
+			
+			if(dto.getName() != null && dto.getName().length() <= 2) 
+			throw new BadRequestException("Name must be at least 3 Characters long");
+			
+			if(dto.getName() != null && dto.getName().length() >= 30) 
+			throw new BadRequestException("Name must not exceed 30 characters");
 			
 			if(dto.getEmail() != null && erepo.existsByEmailAndIdNot(dto.getEmail(), Id))
 			throw new ResourceNotFoundException("Email '" + dto.getEmail() + "' is existing");

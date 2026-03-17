@@ -2,12 +2,15 @@ package com.prince.ems.dto.employee;
 
 import java.math.BigDecimal;
 
+import jakarta.validation.constraints.Email;
+
 
 
 public class UpdateEmployeeRequestDTO {
 	
 	private String name;
 	
+	@Email(message = "Invalid Email Format use '@'")
 	private String email;
 	
 	private BigDecimal salary;
