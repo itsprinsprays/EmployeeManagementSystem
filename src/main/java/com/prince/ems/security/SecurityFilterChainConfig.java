@@ -15,9 +15,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityFilterChainConfig {
 		
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final JwtAuthenticationEntryPoint jwtEntryPoint;
 	
-	public SecurityFilterChainConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+	public SecurityFilterChainConfig(JwtAuthenticationFilter jwtAuthenticationFilter, JwtAuthenticationEntryPoint jwtEntryPoint) {
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+		this.jwtEntryPoint = jwtEntryPoint;
 	}
 	
 	@Bean
@@ -38,6 +40,7 @@ public class SecurityFilterChainConfig {
 						
 						.anyRequest().authenticated()
 						)
+	            .exceptionHandling(e -> e.authenticationEntryPoint(jwtEntryPoint))
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 		
