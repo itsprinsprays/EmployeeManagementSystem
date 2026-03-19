@@ -377,7 +377,61 @@ Partial Update for employee
     "timestamp": "2026-03-16T21:43:52.2594757"
 }
 
+```
+### Soft Delete
+`Patch /api/employee/{id}/status`
+```json
 
+## ACTIVE
+`Request`
+{
+    "status": "ACTIVE"
+}
+
+`Response`
+{
+    "id": 1,
+    "name": "Anthony Villarasco",
+    "email": "anthony@gmail.com",
+    "salary": 70000.00,
+    "status": "ACTIVE",
+    "hireDate": "2026-02-27",
+    "updatedAt": "2026-03-19T11:16:08.218432",
+    "createdAt": "2026-02-27T19:50:00.408318"
+}
+
+## INACTIVE
+`Request`
+{
+    "status": "INACTIVE"
+}
+
+`Response`
+{
+    "id": 1,
+    "name": "Anthony Villarasco",
+    "email": "anthony@gmail.com",
+    "salary": 70000.00,
+    "status": "INACTIVE",
+    "hireDate": "2026-02-27",
+    "updatedAt": "2026-03-15T19:40:07.859925",
+    "createdAt": "2026-02-27T19:50:00.408318"
+}
+```
+## Exception Handling
+```json
+
+{
+    "message": "Employee with ID '17' is not existing",
+    "status": 404,
+    "timestamp": "2026-03-19T11:16:48.0986431"
+}
+
+{
+    "message": "Invalid status format",
+    "status": 400,
+    "timestamp": "2026-03-19T11:38:40.0010659"
+}
 
 
 
