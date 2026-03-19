@@ -50,7 +50,8 @@ public class GlobalException {
     	        com.fasterxml.jackson.databind.exc.InvalidFormatException cause = 
     	            (com.fasterxml.jackson.databind.exc.InvalidFormatException) e.getCause();
     	        String fieldName = cause.getPath().get(0).getFieldName(); // the JSON field name
-    	        message = fieldName + " must be a number"; // custom message
+    	        message = fieldName + " invalid format"; // custom message
+  
     	    }
         ErrorResponse error = new ErrorResponse(message, HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

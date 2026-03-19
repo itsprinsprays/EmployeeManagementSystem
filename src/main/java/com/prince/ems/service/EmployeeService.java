@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
+import com.prince.ems.dto.employee.SoftDeleteEmployeeRequestDTO;
 import com.prince.ems.dto.employee.SoftDeleteEmployeeResponseDTO;
 import com.prince.ems.dto.employee.UpdateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.UpdateEmployeeResponseDTO;
@@ -126,11 +127,11 @@ public class EmployeeService {
 
 	//Soft Delete
 	@PreAuthorize("hasRole('ADMIN')")
-	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, Status status) {
+	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, SoftDeleteEmployeeRequestDTO dto) {
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
 				new ResourceNotFoundException("Employee with ID '" + Id + "' is not existing"));
 		
-		employee.setStatus(status);
+		employee.setStatus(dto.getStatus());
 		
 		erepo.save(employee);
 		
