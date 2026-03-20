@@ -13,6 +13,7 @@ import com.prince.ems.dto.department.DepartmentResponseDTO;
 import com.prince.ems.dto.department.PartialUpdateRequestDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.entity.Status;
+import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.DepartmentMapper;
@@ -35,6 +36,11 @@ public class DepartmentService {
 	public CreateDepartmentResponseDTO createDepartment(DepartmentRequestDTO dto) {    //Create Department
 		if(repo.existsByName(dto.getName()))
 			throw new DuplicateResponseException(dto.getName() + " Department is already existing");
+//		
+//		if(dto.getName() != null && dto.getName().length() < 5)
+//			throw new BadRequestException("Department name must be at least 5 characters");
+//		else if(dto.getName().length() > 30) 
+//			throw new BadRequestException("Department name must not exceed 30 characters");
 		
 		
 		Department department = new Department();

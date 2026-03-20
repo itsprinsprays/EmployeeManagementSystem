@@ -2,10 +2,12 @@ package com.prince.ems.dto.department;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class DepartmentRequestDTO {
 	
 	@NotBlank(message = "Name must not be Empty")
+	@Size(min = 5, max = 30, message = "Department Name must be between {min} and {max} characters")
 	private String name;
 	
 	@NotBlank(message = "Description must not be Empty")

@@ -32,7 +32,6 @@ public class DepartmentMapper {
 	public static CreateDepartmentResponseDTO createResponse(Department department) {
 		CreateDepartmentResponseDTO dto = new CreateDepartmentResponseDTO();
 		
-		dto.setID(department.getId());
 		dto.setName(department.getName());
 		dto.setDescription(department.getDescription());
 		dto.setStatus(department.getStatus());
