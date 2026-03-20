@@ -52,11 +52,11 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
-### API ENDPOINTS
+## API ENDPOINTS
 
-## Employee Endpoints
+### Employee Endpoints
 
-POST   /employee  - Create employee	
+#### POST   /employee  - Create employee	
 `Post /api/employee`
 ```json
 `Request`
@@ -80,7 +80,7 @@ POST   /employee  - Create employee
 }
 
 ```
-## Exception Handling
+##### Exception Handling
 
 ```json
 
@@ -159,10 +159,10 @@ POST   /employee  - Create employee
 }
 
 ```
-## GET /employees
+#### GET /employees
 Retrieve employees. Supports pagination, sorting, and filtering.
 
-### Get All Employees
+#### Get All Employees
 `Get /api/employee`
 ```json
 [
@@ -195,7 +195,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
 
 ---
 
-### Get Employee by ID
+#### Get Employee by ID
 `GET /employee/{id}`
 
 ```json
@@ -212,7 +212,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
   "department": 2
 }
 
-##Exception Handling
+`Exception Handling`
 {
     "message": "Employee ID '13' not Found ",
     "status": 404,
@@ -222,7 +222,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
 
 ---
 
-### Get Employees by Status
+#### Get Employees by Status
 `GET /api/employee/status/ACTIVE`
 
 ```json
@@ -240,8 +240,8 @@ Retrieve employees. Supports pagination, sorting, and filtering.
     "department": 2
   }
 ]
-
-##GET /api/employee/status/INACTIVE
+```
+`GET /api/employee/status/INACTIVE`
 
 ```json
 [
@@ -259,7 +259,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
   }
 ]
 
-##Exception Handling
+`Exception Handling`
 
 {
     "message": "Invalid status value. Must be ACTIVE or INACTIVE",
@@ -268,7 +268,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
 }
 
 ```
-### Dynamic Filtering 
+#### Dynamic Filtering 
 `Get /api/employee?status=ACTIVE&minSalary=50000&maxSalary=100000`
 ```json
         {
@@ -296,7 +296,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
             "department": 5
         }
 ```
-## Patch /employee
+#### Patch /employee
 
 Partial Update for employee
 `Patch /api/employee/2`
@@ -319,7 +319,7 @@ Partial Update for employee
     "createdAt": "2026-02-27T19:50:28.886981"
 }
 ```
-## Exception Handling
+#### Exception Handling
 ```json
 ##Field Formats
 
@@ -378,7 +378,7 @@ Partial Update for employee
 }
 
 ```
-### Soft Delete
+#### Soft Delete Employee
 `Patch /api/employee/{id}/status`
 ```json
 
@@ -418,7 +418,7 @@ Partial Update for employee
     "createdAt": "2026-02-27T19:50:00.408318"
 }
 ```
-## Exception Handling
+#### Exception Handling
 ```json
 
 {
@@ -432,6 +432,74 @@ Partial Update for employee
     "status": 400,
     "timestamp": "2026-03-19T11:38:40.0010659"
 }
+```
+### Department Endpoints
+
+#### POST - Create Department
+`Post /api/department/create`
+
+```json
+`Request`
+{
+	"name": "Procurement",
+    "description": "Sourcing, Negotiating, Purchasing"
+}
+
+`Response`
+{
+    "name": "Procurement",
+    "description": "Sourcing, Negotiating, Purchasing",
+    "status": "ACTIVE",
+    "createdAt": "2026-03-20T15:45:31.345456",
+    "statusMessage": "Department Procurement is created",
+    "departmentID": 9
+}
+```
+#### Exception Handling
+
+```json
+`Required Field`
+
+{
+    "message": "Name must not be Empty",
+    "status": 400,
+    "timestamp": "2026-03-20T15:46:46.1585478"
+}
+
+{
+    "message": "Description must not be Empty",
+    "status": 400,
+    "timestamp": "2026-03-20T15:47:32.3589626"
+}
+
+`Length Constraints`
+
+{
+    "message": "Department Name must be between 5 and 30 characters",
+    "status": 400,
+    "timestamp": "2026-03-20T15:56:59.4986306"
+}
+
+`Business Rules`
+
+{
+    "message": "Legal Department is already existing",
+    "status": 409,
+    "timestamp": "2026-03-20T15:58:52.5125043"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
