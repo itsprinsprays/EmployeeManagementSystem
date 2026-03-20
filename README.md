@@ -212,7 +212,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
   "department": 2
 }
 
-##Exception Handling
+`Exception Handling`
 {
     "message": "Employee ID '13' not Found ",
     "status": 404,
@@ -240,8 +240,8 @@ Retrieve employees. Supports pagination, sorting, and filtering.
     "department": 2
   }
 ]
-
-##GET /api/employee/status/INACTIVE
+```
+`GET /api/employee/status/INACTIVE`
 
 ```json
 [
@@ -259,7 +259,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
   }
 ]
 
-##Exception Handling
+`Exception Handling`
 
 {
     "message": "Invalid status value. Must be ACTIVE or INACTIVE",
@@ -432,6 +432,74 @@ Partial Update for employee
     "status": 400,
     "timestamp": "2026-03-19T11:38:40.0010659"
 }
+```
+### Department Endpoints
+
+#### POST - Create Department
+`Post /api/department/create`
+
+```json
+`Request`
+{
+	"name": "Procurement",
+    "description": "Sourcing, Negotiating, Purchasing"
+}
+
+`Response`
+{
+    "name": "Procurement",
+    "description": "Sourcing, Negotiating, Purchasing",
+    "status": "ACTIVE",
+    "createdAt": "2026-03-20T15:45:31.345456",
+    "statusMessage": "Department Procurement is created",
+    "departmentID": 9
+}
+```
+#### Exception Handling
+
+```json
+`Required Field`
+
+{
+    "message": "Name must not be Empty",
+    "status": 400,
+    "timestamp": "2026-03-20T15:46:46.1585478"
+}
+
+{
+    "message": "Description must not be Empty",
+    "status": 400,
+    "timestamp": "2026-03-20T15:47:32.3589626"
+}
+
+`Length Constraints`
+
+{
+    "message": "Department Name must be between 5 and 30 characters",
+    "status": 400,
+    "timestamp": "2026-03-20T15:56:59.4986306"
+}
+
+`Business Rules`
+
+{
+    "message": "Legal Department is already existing",
+    "status": 409,
+    "timestamp": "2026-03-20T15:58:52.5125043"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
