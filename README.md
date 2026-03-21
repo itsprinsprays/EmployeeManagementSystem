@@ -268,6 +268,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
 }
 
 ```
+---
 #### Dynamic Filtering 
 `Get /api/employee?status=ACTIVE&minSalary=50000&maxSalary=100000`
 ```json
@@ -296,6 +297,7 @@ Retrieve employees. Supports pagination, sorting, and filtering.
             "department": 5
         }
 ```
+---
 #### Patch /employee
 
 Partial Update for employee
@@ -378,6 +380,7 @@ Partial Update for employee
 }
 
 ```
+---
 #### Soft Delete Employee
 `Patch /api/employee/{id}/status`
 ```json
@@ -433,6 +436,7 @@ Partial Update for employee
     "timestamp": "2026-03-19T11:38:40.0010659"
 }
 ```
+---
 ### Department Endpoints
 
 #### POST - Create Department
@@ -487,12 +491,113 @@ Partial Update for employee
     "status": 409,
     "timestamp": "2026-03-20T15:58:52.5125043"
 }
+```
+---
+#### GET /department
 
+#### Get All Department
+`Get /api/department?page=1`
+```json
+        {
+            "id": 4,
+            "name": "Operation",
+            "description": "Oversees day-to-day processes",
+            "status": "ACTIVE",
+            "createdAt": "2026-02-27T19:48:48.15075",
+            "updatedAt": null,
+            "statusMessage": "All Department",
+            "departmentID": 4
+        },
+        {
+            "id": 9,
+            "name": "Procurement",
+            "description": "Sourcing, Negotiating, Purchasing",
+            "status": "ACTIVE",
+            "createdAt": "2026-03-20T15:45:31.345456",
+            "updatedAt": null,
+            "statusMessage": "All Department",
+            "departmentID": 9
+        },
+        {
+            "id": 7,
+            "name": "Research & Development (R&D)",
+            "description": "Innovate, Invent , Explore",
+            "status": "ACTIVE",
+            "createdAt": "2026-03-20T15:37:10.45279",
+            "updatedAt": null,
+            "statusMessage": "All Department",
+            "departmentID": 7
+        },
+        {
+            "id": 5,
+            "name": "Sales",
+            "description": "Generates revenue",
+            "status": "ACTIVE",
+            "createdAt": "2026-02-27T19:49:00.760589",
+            "updatedAt": null,
+            "statusMessage": "All Department",
+            "departmentID": 5
+        }
 
+```
+---
+#### Get Department by ID
+`Get api/department/{id}`
+```json
+{
+    "id": 1,
+    "name": "Human Resources",
+    "description": "Manages people and workplace culture",
+    "status": "ACTIVE",
+    "createdAt": "2026-02-27T19:47:11.94352",
+    "updatedAt": null,
+    "statusMessage": "COMPANY DEPARTMENT",
+    "departmentID": 1
+}
 
+`Exception Handling`
+{
+    "message": "19 Department not found",
+    "status": 404,
+    "timestamp": "2026-03-21T21:53:40.0811557"
+}
+```
+---
+#### Get Department By Status
+`Get /api/department/status/ACTIVE`
+```json
+ {
+            "id": 6,
+            "name": "Customer Service",
+            "description": "Supports clients and customers",
+            "status": "ACTIVE",
+            "createdAt": "2026-02-27T19:49:26.797825",
+            "updatedAt": null,
+            "statusMessage": "ACTIVE DEPARTMENTS",
+            "departmentID": 6
+        }
+```
+`Get /api/department/status/INACTIVE`
 
+```json
+     {
+            "id": 9,
+            "name": "Procurement",
+            "description": "Sourcing, Negotiating, Purchasing",
+            "status": "INACTIVE",
+            "createdAt": "2026-03-20T15:45:31.345456",
+            "updatedAt": null,
+            "statusMessage": "ACTIVE DEPARTMENTS",
+            "departmentID": 9
+        }
 
-
+`Exception Handling`
+{
+    "message": "Invalid status value. Must be ACTIVE or INACTIVE",
+    "status": 400,
+    "timestamp": "2026-03-21T22:11:24.5970718"
+}
+```
 
 
 
