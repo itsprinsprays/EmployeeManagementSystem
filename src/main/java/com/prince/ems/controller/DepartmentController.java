@@ -65,7 +65,7 @@ public class DepartmentController {
 																	 @RequestParam(defaultValue = "5") int size,
 																	 @PathVariable Status status) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
-		Page<DepartmentResponseDTO> response = serv.getActiveDepartment(status,pageable);
+		Page<DepartmentResponseDTO> response = serv.getDepartmentStatus(status,pageable);
 		return ResponseEntity.ok(response);
 		
 	}

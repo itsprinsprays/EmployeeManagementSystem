@@ -75,6 +75,12 @@ public class DepartmentService {
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 		
+		if(repo.existsByName(dto.getName()))
+			throw new DuplicateResponseException(dto.getName() + " Department is already existing");
+		
+		if((dto.getName() == null || dto.getName().isBlank()) && (dto.getDescription() == null || dto.getDescription().isBlank()))
+			throw new BadRequestException("At least one field must be provided for update");
+		
 		if(dto.getName() != null) department.setName(dto.getName());
 		if(dto.getDescription() != null) department.setDescription(dto.getDescription());
 		
