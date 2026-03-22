@@ -598,10 +598,64 @@ Partial Update for employee
     "timestamp": "2026-03-21T22:11:24.5970718"
 }
 ```
+---
+#### Patch / Department
+`PATCH /api/department/{id}`
+```json
+`Request`
+{
+    "name": "Human Resource",
+    "description": "Manages people and workplace culture"
+}
 
+`Response`
+{
+    "id": 1,
+    "name": "Human Resource",
+    "description": "Manages people and workplace culture",
+    "status": "ACTIVE",
+    "createdAt": "2026-02-27T19:47:11.94352",
+    "updatedAt": null,
+    "statusMessage": "UPDATED",
+    "departmentID": 1
+}
+```
+#### Exception Handling
+```json
+Length Constraints
+{
+    "message": "Name should be at least 5 and maximum of 30 characters",
+    "status": 400,
+    "timestamp": "2026-03-22T22:08:14.9607737"
+}
 
+{
+    "message": "Description should be at least 10 and maximum of 50 characters",
+    "status": 400,
+    "timestamp": "2026-03-22T22:08:28.926077"
+}
 
+Business Rules
 
+{
+    "message": "15 Department not found",
+    "status": 404,
+    "timestamp": "2026-03-22T22:09:21.4811625"
+}
+
+{
+    "message": "Human Resource Department is already existing",
+    "status": 409,
+    "timestamp": "2026-03-22T22:09:45.5138411"
+}
+
+Partial Update Specific
+
+{
+    "message": "At least one field must be provided for update",
+    "status": 400,
+    "timestamp": "2026-03-22T22:10:37.9449601"
+}
 
 
 
