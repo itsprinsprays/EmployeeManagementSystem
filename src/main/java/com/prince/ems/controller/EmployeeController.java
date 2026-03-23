@@ -80,7 +80,7 @@ public class EmployeeController {
 		
 	}
 	
-	@PatchMapping("/{Id}/status")
+	@PatchMapping("/status/{Id}")
 	public ResponseEntity<SoftDeleteEmployeeResponseDTO> updateStatus(@PathVariable Long Id, @RequestBody SoftDeleteEmployeeRequestDTO dto) {
 		return ResponseEntity.ok().body(serv.updateStatus(Id, dto));
 	}

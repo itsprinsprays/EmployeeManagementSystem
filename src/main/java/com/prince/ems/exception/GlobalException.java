@@ -58,9 +58,10 @@ public class GlobalException {
     }
     
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidEnum(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(new ErrorResponse("Invalid status value. Must be ACTIVE or INACTIVE", 400));
+    public ResponseEntity<ErrorResponse> handleInvalidEnum(IllegalArgumentException e) {
+    	ErrorResponse error = new ErrorResponse("Invalid status value. Must be ACTIVE or INACTIVE", HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+           
     }
 
 

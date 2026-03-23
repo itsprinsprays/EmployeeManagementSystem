@@ -11,6 +11,7 @@ import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentRequestDTO;
 import com.prince.ems.dto.department.DepartmentResponseDTO;
 import com.prince.ems.dto.department.PartialUpdateRequestDTO;
+import com.prince.ems.dto.department.SoftDeleteDepartmentDTO;
 import com.prince.ems.entity.Department;
 import com.prince.ems.entity.Status;
 import com.prince.ems.exception.BadRequestException;
@@ -90,11 +91,14 @@ public class DepartmentService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
-	public DepartmentResponseDTO statusActivation(Long id, Status status) {     				 //Soft delete status and activate status
+	public DepartmentResponseDTO statusActivation(Long id, SoftDeleteDepartmentDTO dto) {     				 //Soft delete status and activate status
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
 		
-		department.setStatus(status);
+		if(dto.getStatus() == null || dto.getStatus().toString().isBlank()) 
+			throw new BadRequestException("At least one field must be provided for update");
+		
+		department.setStatus(dto.getStatus());
 		
 		repo.save(department);
 		

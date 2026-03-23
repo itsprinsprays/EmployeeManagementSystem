@@ -131,6 +131,10 @@ public class EmployeeService {
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
 				new ResourceNotFoundException("Employee with ID '" + Id + "' is not existing"));
 		
+		
+		if(dto.getStatus() == null || dto.getStatus().toString().isBlank()) 
+			throw new BadRequestException("At least one field must be provided for update");
+		
 		employee.setStatus(dto.getStatus());
 		
 		erepo.save(employee);
