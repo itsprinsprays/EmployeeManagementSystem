@@ -382,7 +382,7 @@ Partial Update for employee
 ```
 ---
 #### Soft Delete Employee
-`Patch /api/employee/{id}/status`
+`Patch /api/employee/status/{id}`
 ```json
 
 ## ACTIVE
@@ -434,6 +434,12 @@ Partial Update for employee
     "message": "Invalid status format",
     "status": 400,
     "timestamp": "2026-03-19T11:38:40.0010659"
+}
+
+{
+    "message": "At least one field must be provided for update",
+    "status": 400,
+    "timestamp": "2026-03-23T16:28:23.1099342"
 }
 ```
 ---
@@ -656,9 +662,65 @@ Partial Update Specific
     "status": 400,
     "timestamp": "2026-03-22T22:10:37.9449601"
 }
+```
+#### Soft Delete Department
+`Patch /api/department/status/{id}`
+```json
 
+ACTIVE
+Request
+{
+    "status": "ACTIVE"
+}
 
+Response
+{
+    "id": 1,
+    "name": "Human Resource",
+    "description": "Manages people and workplace culture",
+    "status": "ACTIVE",
+    "createdAt": "2026-02-27T19:47:11.94352",
+    "updatedAt": null,
+    "statusMessage": "UPDATED",
+    "departmentID": 1
+}
 
+INACTIVE
+Request
+{
+    "status": "INACTIVE"
+}
 
+Response
+{
+    "id": 1,
+    "name": "Human Resource",
+    "description": "Manages people and workplace culture",
+    "status": "INACTIVE",
+    "createdAt": "2026-02-27T19:47:11.94352",
+    "updatedAt": null,
+    "statusMessage": "UPDATED",
+    "departmentID": 1
+}
+```
+#### Exception Handling
+```json
+{
+    "message": "15 Department not found",
+    "status": 404,
+    "timestamp": "2026-03-23T16:10:58.6608956"
+}
+
+{
+    "message": "Invalid status format",
+    "status": 400,
+    "timestamp": "2026-03-23T16:11:31.7750778"
+}
+
+{
+    "message": "At least one field must be provided for update",
+    "status": 400,
+    "timestamp": "2026-03-23T16:24:43.9208337"
+}
 
 
