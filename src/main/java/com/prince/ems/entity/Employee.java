@@ -71,7 +71,7 @@ public class Employee {
 	public void setStatus(Status status) { this.status = status; }
 	public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
 	public void setDepartment(Department department) { this.department = department; }
-	public void setGetCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+	public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 	public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 	
 

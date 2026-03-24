@@ -44,6 +44,8 @@ public class UserService {
 		Employee employee = erepo.findById(dto.getEmployeeID())
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + dto.getEmployeeID() + " is not existing"));
 		
+		if(!employee.getEmail().equalsIgnoreCase(dto.getUsername()))
+			throw new BadRequestException("Email does not match the selected employee");
 		
 		User user = new User();
 		user.setUsername(dto.getUsername());
@@ -52,6 +54,8 @@ public class UserService {
 		user.setEmployee(employee);
 		
 		urepo.save(user);
+				
+	
 		
 		return UserMapper.registrationResponse(user);
 		

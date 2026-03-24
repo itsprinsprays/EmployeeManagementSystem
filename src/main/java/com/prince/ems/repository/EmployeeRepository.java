@@ -12,10 +12,13 @@ import com.prince.ems.entity.Status;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
 	
-	boolean existsByEmail(String name );
+	boolean existsByEmail(String name);
+	
+	boolean existsByEmailAndId(String email, Long Id);
 	
 	Page<Employee> findByStatus(Status status, Pageable pageable);
 	
 	boolean existsByEmailAndIdNot(String email, Long Id);
+
 
 }

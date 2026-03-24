@@ -17,7 +17,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String username;
 	
 	@Column(nullable = false)
@@ -28,7 +28,7 @@ public class User {
 	private Role role;
 	
 	@OneToOne
-	@JoinColumn(name = "employeeId", nullable = false)
+	@JoinColumn(name = "employeeId", nullable = false, unique = true)
 	private Employee employee;
 	
     // Constructors
