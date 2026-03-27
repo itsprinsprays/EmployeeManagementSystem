@@ -4,6 +4,7 @@ package com.prince.ems.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.dto.user.RegistrationUserRequestDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
@@ -33,6 +34,7 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	@Transactional
 	public RegistrationUserResponseDTO registerUser(RegistrationUserRequestDTO dto) {
 		
 		if(urepo.existsByUsername(dto.getUsername()))
@@ -45,7 +47,7 @@ public class UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + dto.getEmployeeID() + " is not existing"));
 		
 		if(!employee.getEmail().equalsIgnoreCase(dto.getUsername()))
-			throw new BadRequestException("Email does not match the selected employee");
+			throw new BadRequestException("Email does not match the selected employee ID");
 		
 		User user = new User();
 		user.setUsername(dto.getUsername());
