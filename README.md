@@ -84,7 +84,7 @@ Second Part – Authentication
 
 ```json
 
-## Required Field
+Required Field
 
 {
     "message": "Name is required",
@@ -110,7 +110,7 @@ Second Part – Authentication
     "timestamp": "2026-03-13T14:38:23.9224299"
 }
 
-## Field Formats
+Field Formats
 
 {
     "message": "Email format is invalid",
@@ -124,7 +124,7 @@ Second Part – Authentication
     "timestamp": "2026-03-13T14:53:07.6861623"
 }
 
-## Length Constraints
+Length Constraints
 
 {
     "message": "Name must be at least 3 Characters long",
@@ -138,7 +138,7 @@ Second Part – Authentication
     "timestamp": "2026-03-13T14:57:11.1337857"
 }
 
-## Business Rules
+Business Rules
 
 {
     "message": "Email 'bobyes@gmail.com' is existing",
@@ -721,6 +721,94 @@ Response
     "message": "At least one field must be provided for update",
     "status": 400,
     "timestamp": "2026-03-23T16:24:43.9208337"
+}
+```
+---
+### User Endpoints
+
+#### Post /user 
+`Post /api/auth/register`
+
+```json
+Request
+{
+    "username": "vins@gmail.com",
+    "password": "vinsvins",
+    "role": "ADMIN",
+    "employeeID": 7
+}
+
+Response
+{
+    "username": "vins@gmail.com",
+    "role": "ADMIN",
+    "employeeID": 7,
+    "message": "Registration Succesfully"
+}
+```
+####Exception Handling
+
+```json
+Required Fields
+{
+	 "message": "Username must not be blank",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:38:12.3971225"
+}
+
+{
+	 "message": "Password must not be blank",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:38:37.8284207"
+ }
+
+{
+ 	 "message": "Role must not be null",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:39:33.6843583"
+}
+
+{
+	 "message": "Employee ID must not be null",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:40:21.8313778"
+}
+
+Field Format Validations
+{
+ 	 "message": "Username invalid format",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:30:53.2290288"
+}
+    
+Length / Strength Constraints
+{
+	 "message": "Password must be at least 8 characters",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:27:58.3702176"
+}
+
+{
+	 "message": "Password must contain at least 1 uppercase letter and 1 number",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:32:24.4873466"
+}
+    
+ Business Rules
+{
+	 "message": "Username Already Existing",
+	 "status": 409,
+	 "timestamp": "2026-03-27T21:27:03.5319078"
+}
+{
+	 "message": "Employee with ID 18 is not existing",
+	 "status": 404,
+	 "timestamp": "2026-03-27T21:28:33.9092195"
+}
+{
+	 "message": "Email does not match the selected employee ID",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:29:06.825281"
 }
 
 
