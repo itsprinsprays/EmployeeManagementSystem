@@ -1,7 +1,9 @@
 package com.prince.ems.mapper;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
 import com.prince.ems.entity.User;
 
@@ -20,5 +22,18 @@ public class UserMapper {
 		return dto;
 		
 	}
+	
+	public static Page<GetUserResponseDTO> getResponse(Page<User> user) {
+		Page<GetUserResponseDTO> dto = user.map(e -> new GetUserResponseDTO(
+				e.getUsername(),
+				e.getRole(),
+				e.getId()
+			));
+		
+		return dto;
+		
+	}
+	
+
 
 }

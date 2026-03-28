@@ -20,10 +20,10 @@ public class RegistrationUserRequestDTO {
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
-	@NotNull(message = "Role must not be null")
+	@NotNull(message = "Role must not be blank")
 	private Role role;
 	
-	@NotNull(message = "Employee ID must not be null")
+	@NotNull(message = "Employee ID must not be blank")
 	private Long employeeID;
 	
 	public RegistrationUserRequestDTO() { }
