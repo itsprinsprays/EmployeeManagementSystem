@@ -4,6 +4,7 @@ package com.prince.ems.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.UserMapper;
+import com.prince.ems.dto.user.ChangePasswordRequestDTO;
+import com.prince.ems.dto.user.ChangePasswordResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 
 
@@ -37,6 +40,7 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public RegistrationUserResponseDTO registerUser(RegistrationUserRequestDTO dto) {
 		
@@ -64,10 +68,35 @@ public class UserService {
 		
 	}
 	
-	@Transactional
+	@PreAuthorize("HasRole('ADMIN')")
 	public Page<GetUserResponseDTO> getAll(Pageable page){
 		Page<User> user = urepo.findAll(page);
 		return UserMapper.getResponse(user);		
 	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional
+	public ChangePasswordResponseDTO changePassword(Long Id, ChangePasswordRequestDTO dto) {
+		
+		User user = urepo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
+		
+		if(!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) 
+				throw new BadRequestException("Current Password is incorrect");
+		
+		if(passwordEncoder.matches(dto.getNewPassword(), user.getPassword()))
+				throw new DuplicateResponseException("New password cannot be the same as the old password.");
+		
+		if(!dto.getNewPassword().equals(dto.getConfirmNewPassword()))
+				throw new BadRequestException("Passwords do not match.");
+		
+		user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+		urepo.save(user);
+		
+		return UserMapper.changePasswordResponse();
+		
+	}
+	
+	
 	
 }

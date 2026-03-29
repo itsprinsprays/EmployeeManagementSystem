@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class RegistrationUserRequestDTO {
 	
@@ -17,6 +18,8 @@ public class RegistrationUserRequestDTO {
 	
 	@NotNull(message = "Password must not be null")
 	@Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{8,}$",message = "Password must contain at least 1 uppercase letter and 1 number")
+	@Size(min = 8, message = "Password must be at least 8 characters")
+	@Size(max = 30, message = "Password cant exceed to 30 characters")
 	private String password;
 	
 	@Enumerated(EnumType.STRING)

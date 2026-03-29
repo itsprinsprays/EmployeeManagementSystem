@@ -7,7 +7,6 @@ public class GetUserResponseDTO {
     private String username;
     private Role role;
     private Long employeeID;
-    private String message;
 
     public GetUserResponseDTO(String username, Role role, Long employeeID) {
     	this.username = username;
@@ -28,9 +27,7 @@ public class GetUserResponseDTO {
         return employeeID;
     }
 
-    public String getMessage() {
-        return message;
-    }
+
 
     // Setters
     public void setUsername(String username) {
@@ -45,9 +42,6 @@ public class GetUserResponseDTO {
         this.employeeID = employeeID;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
 
 }
