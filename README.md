@@ -789,6 +789,12 @@ Length / Strength Constraints
 }
 
 {
+	 "message": "Password cant exceed to 30 characters",
+	 "status": 400,
+	 "timestamp": "2026-03-27T21:27:58.3702176"
+}
+
+{
 	 "message": "Password must contain at least 1 uppercase letter and 1 number",
 	 "status": 400,
 	 "timestamp": "2026-03-27T21:32:24.4873466"
