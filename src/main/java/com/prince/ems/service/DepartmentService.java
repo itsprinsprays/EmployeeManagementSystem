@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentRequestDTO;
@@ -20,7 +21,6 @@ import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.DepartmentMapper;
 import com.prince.ems.repository.DepartmentRepository;
 
-import jakarta.transaction.Transactional;
 
 
 @Service
@@ -55,13 +55,14 @@ public class DepartmentService {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
 	public Page<DepartmentResponseDTO> getDepartmentStatus(Status status, Pageable pageable) {       //Get All Active Departments
 			Page<Department> page = repo.findByStatus(status, pageable);
 			return DepartmentMapper.activeDepartmentResponse(page, "ACTIVE DEPARTMENTS");
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public DepartmentResponseDTO getDepartmentById(Long Id) {                     		  //Get Department using ID
 		Department department = repo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException(Id + " Department not found"));

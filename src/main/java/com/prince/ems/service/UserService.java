@@ -47,8 +47,6 @@ public class UserService {
 		if(urepo.existsByUsername(dto.getUsername()))
 			throw new DuplicateResponseException("Username Already Existing");
 				
-		if(dto.getPassword().length() < 8)
-			throw new BadRequestException("Password must be at least 8 characters");
 		
 		Employee employee = erepo.findById(dto.getEmployeeID())
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + dto.getEmployeeID() + " is not existing"));
@@ -68,7 +66,8 @@ public class UserService {
 		
 	}
 	
-	@PreAuthorize("HasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional(readOnly = true)
 	public Page<GetUserResponseDTO> getAll(Pageable page){
 		Page<User> user = urepo.findAll(page);
 		return UserMapper.getResponse(user);		
