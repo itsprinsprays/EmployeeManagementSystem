@@ -23,6 +23,10 @@ public class User {
 	@Column(nullable = false)
 	private String password; 
 	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Status status;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Role role;
@@ -31,6 +35,7 @@ public class User {
 	@JoinColumn(name = "employeeId", nullable = false, unique = true)
 	private Employee employee;
 	
+	
     // Constructors
     public User() {}
 
@@ -38,11 +43,13 @@ public class User {
     public Long getId() { return id; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
+    public Status getStatus() { return status; }
     public Role getRole() { return role; }
     public Employee getEmployee() { return employee; }
 
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
+    public void setStatus(Status status) { this.status = status; }
     public void setRole(Role role) { this.role = role; }
     public void setEmployee(Employee employee) { this.employee = employee; }
 

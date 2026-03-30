@@ -34,9 +34,9 @@ public class AuthService {
 		User user = urepo.findByUsername(request.getUsername())
 			.orElseThrow(() -> new BadRequestException("User not found")
 					  );
-		
-		if(request.getPassword() != user.getPassword())
-			throw new BadRequestException("Wrong Password");
+//		
+//		if(request.getPassword() != user.getPassword())
+//			throw new BadRequestException("Wrong Password");
 
 		
 		authenticationManager.authenticate(

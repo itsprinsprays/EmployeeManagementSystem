@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.prince.ems.dto.user.ChangePasswordResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
+import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
 import com.prince.ems.entity.User;
 
 @Component
@@ -39,6 +40,13 @@ public class UserMapper {
 		ChangePasswordResponseDTO dto = new ChangePasswordResponseDTO();
 		
 		dto.setMessage("Changed Password Succesfully");
+		return dto;
+	}
+	
+	public static SoftDeleteUserResponseDTO statusResponse() {
+		SoftDeleteUserResponseDTO dto = new SoftDeleteUserResponseDTO();
+		
+		dto.setMessage("Updating Succesfully");
 		return dto;
 	}
 	

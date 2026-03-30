@@ -22,6 +22,8 @@ import com.prince.ems.dto.user.ChangePasswordResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.RegistrationUserRequestDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
+import com.prince.ems.dto.user.SoftDeleteUserRequestDTO;
+import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
 
 import jakarta.validation.Valid;
 
@@ -56,6 +58,11 @@ public class UserController {
 	@PatchMapping("/changepassword/{Id}")
 	public ResponseEntity<ChangePasswordResponseDTO> userChangePassword(@PathVariable Long Id, @RequestBody ChangePasswordRequestDTO dto) {
 		return ResponseEntity.ok().body(serv.changePassword(Id, dto));
+	}
+	
+	@PatchMapping("/status/{Id}")
+	public ResponseEntity<SoftDeleteUserResponseDTO> setStatus(@PathVariable Long Id, @RequestBody SoftDeleteUserRequestDTO dto) {
+		return ResponseEntity.ok().body(serv.setStatus(Id, dto));
 	}
 
 }

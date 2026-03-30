@@ -16,7 +16,7 @@ import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentRequestDTO;
 import com.prince.ems.dto.department.DepartmentResponseDTO;
 import com.prince.ems.dto.department.PartialUpdateRequestDTO;
-import com.prince.ems.dto.department.SoftDeleteDepartmentDTO;
+import com.prince.ems.dto.department.SoftDeleteDepartmentRequestDTO;
 import com.prince.ems.entity.Status;
 import com.prince.ems.service.DepartmentService;
 
@@ -78,7 +78,7 @@ public class DepartmentController {
 	}
 	
 	@PatchMapping("/status/{id}")
-	public ResponseEntity<DepartmentResponseDTO> softDelete(@PathVariable Long id, @RequestBody SoftDeleteDepartmentDTO dto) {
+	public ResponseEntity<DepartmentResponseDTO> softDelete(@PathVariable Long id, @RequestBody SoftDeleteDepartmentRequestDTO dto) {
 		DepartmentResponseDTO response = serv.statusActivation(id, dto);
 		return ResponseEntity.ok(response);
 	}

@@ -1,18 +1,17 @@
-package com.prince.ems.dto.department;
+package com.prince.ems.dto.user;
 
 import com.prince.ems.entity.Status;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class SoftDeleteDepartmentDTO {
+public class SoftDeleteUserRequestDTO {
 	
 	@NotBlank()
-	Status status;
-	
-	public SoftDeleteDepartmentDTO() {}
+	private Status status;
+
+	public SoftDeleteUserRequestDTO() { }
 	
 	public Status getStatus() { return status; }
 	
 	public void setStatus(Status status) { this.status = status; }
-
 }

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.dto.user.RegistrationUserRequestDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
+import com.prince.ems.dto.user.SoftDeleteUserRequestDTO;
+import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
 import com.prince.ems.entity.Employee;
 import com.prince.ems.entity.User;
 import com.prince.ems.repository.EmployeeRepository;
@@ -93,6 +95,21 @@ public class UserService {
 		urepo.save(user);
 		
 		return UserMapper.changePasswordResponse();
+		
+	}
+	
+	@PreAuthorize("hasRole('ADMNIN')")
+	public SoftDeleteUserResponseDTO setStatus(Long Id, SoftDeleteUserRequestDTO dto) {
+		
+		User user = urepo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("ID Not Found"));
+		
+		user.setStatus(dto.getStatus());
+		
+		urepo.save(user);
+		
+		return UserMapper.statusResponse();
+		
 		
 	}
 	

@@ -70,6 +70,7 @@ public class EmployeeService {
 	
 	//Get Active Employee
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
 	public Page<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable page) {
 		Page<Employee> employee = erepo.findByStatus(status, page);
 		return EmployeeMapper.getActiveResponse(employee);		
@@ -77,6 +78,7 @@ public class EmployeeService {
 	
 	//Get Employee by ID
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
 	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
@@ -143,6 +145,7 @@ public class EmployeeService {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
 	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
 			String name, 
 			Status status, 
