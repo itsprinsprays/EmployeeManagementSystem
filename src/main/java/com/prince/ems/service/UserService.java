@@ -1,6 +1,5 @@
 package com.prince.ems.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,7 @@ import com.prince.ems.dto.user.RegistrationUserResponseDTO;
 import com.prince.ems.dto.user.SoftDeleteUserRequestDTO;
 import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
 import com.prince.ems.entity.Employee;
+import com.prince.ems.entity.Status;
 import com.prince.ems.entity.User;
 import com.prince.ems.repository.EmployeeRepository;
 import com.prince.ems.repository.UserRepository;
@@ -24,6 +24,7 @@ import com.prince.ems.mapper.UserMapper;
 import com.prince.ems.dto.user.ChangePasswordRequestDTO;
 import com.prince.ems.dto.user.ChangePasswordResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
+
 
 
 @Service
@@ -61,6 +62,7 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		user.setRole(dto.getRole());
 		user.setEmployee(employee);
+		user.setStatus(Status.ACTIVE);
 		
 		urepo.save(user);
 			
@@ -82,6 +84,7 @@ public class UserService {
 		User user = urepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
 		
+		
 		if(!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) 
 				throw new BadRequestException("Current Password is incorrect");
 		
@@ -98,10 +101,11 @@ public class UserService {
 		
 	}
 	
-	@PreAuthorize("hasRole('ADMNIN')")
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional
 	public SoftDeleteUserResponseDTO setStatus(Long Id, SoftDeleteUserRequestDTO dto) {
 		
-		User user = urepo.findById(Id)
+		User user = urepo.findByEmployeeId(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("ID Not Found"));
 		
 		user.setStatus(dto.getStatus());

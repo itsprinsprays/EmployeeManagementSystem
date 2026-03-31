@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class SoftDeleteUserRequestDTO {
 	
-	@NotBlank()
+	@NotBlank(message = "Status Field is Required")
 	private Status status;
 
 	public SoftDeleteUserRequestDTO() { }
