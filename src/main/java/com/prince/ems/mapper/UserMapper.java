@@ -36,6 +36,18 @@ public class UserMapper {
 		
 	}
 	
+	public static GetUserResponseDTO getResponse(User user) {
+		GetUserResponseDTO dto = new GetUserResponseDTO();
+		
+		dto.setUsername(user.getUsername());
+		dto.setRole(user.getRole());
+		dto.setEmployeeID(user.getEmployee().getId());
+		
+		return dto;
+		
+	}
+	
+	
 	public static ChangePasswordResponseDTO changePasswordResponse() {
 		ChangePasswordResponseDTO dto = new ChangePasswordResponseDTO();
 		

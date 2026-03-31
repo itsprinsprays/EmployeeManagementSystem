@@ -13,6 +13,8 @@ public class GetUserResponseDTO {
     	this.role = role;
     	this.employeeID = employeeID;
     }
+    
+    public GetUserResponseDTO() { }
 
     // Getters
     public String getUsername() {

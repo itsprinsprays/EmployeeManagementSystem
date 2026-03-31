@@ -55,6 +55,11 @@ public class UserController {
 		
 	}
 	
+	@GetMapping("/{Id}")
+	public ResponseEntity<GetUserResponseDTO> getAccountByID(@PathVariable Long Id) {
+		return ResponseEntity.ok().body(serv.getUserByID(Id));
+	}
+	
 	@PatchMapping("/changepassword/{Id}")
 	public ResponseEntity<ChangePasswordResponseDTO> userChangePassword(@PathVariable Long Id, @RequestBody ChangePasswordRequestDTO dto) {
 		return ResponseEntity.ok().body(serv.changePassword(Id, dto));

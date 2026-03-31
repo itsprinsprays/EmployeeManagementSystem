@@ -70,11 +70,22 @@ public class UserService {
 		
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
 	public Page<GetUserResponseDTO> getAll(Pageable page){
 		Page<User> user = urepo.findAll(page);
 		return UserMapper.getResponse(user);		
+	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
+	public GetUserResponseDTO getUserByID(Long Id) {
+		
+		User user = urepo.findByEmployeeId(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + " is not existing"));
+		
+		return UserMapper.getResponse(user);
+		
 	}
 	
 	@PreAuthorize("hasRole('ADMIN')")
@@ -106,7 +117,7 @@ public class UserService {
 	public SoftDeleteUserResponseDTO setStatus(Long Id, SoftDeleteUserRequestDTO dto) {
 		
 		User user = urepo.findByEmployeeId(Id)
-				.orElseThrow(() -> new ResourceNotFoundException("ID Not Found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
 		
 		user.setStatus(dto.getStatus());
 		
