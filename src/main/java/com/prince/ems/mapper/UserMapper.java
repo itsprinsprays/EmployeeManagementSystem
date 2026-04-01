@@ -3,7 +3,7 @@ package com.prince.ems.mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import com.prince.ems.dto.user.ChangePasswordResponseDTO;
+import com.prince.ems.dto.user.MessageResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
 import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
@@ -47,18 +47,12 @@ public class UserMapper {
 		
 	}
 	
+
 	
-	public static ChangePasswordResponseDTO changePasswordResponse() {
-		ChangePasswordResponseDTO dto = new ChangePasswordResponseDTO();
+	public static MessageResponseDTO messageResponse(String message) {
+		MessageResponseDTO dto = new MessageResponseDTO();
 		
-		dto.setMessage("Changed Password Succesfully");
-		return dto;
-	}
-	
-	public static SoftDeleteUserResponseDTO statusResponse() {
-		SoftDeleteUserResponseDTO dto = new SoftDeleteUserResponseDTO();
-		
-		dto.setMessage("Updating Succesfully");
+		dto.setMessage(message);
 		return dto;
 	}
 	

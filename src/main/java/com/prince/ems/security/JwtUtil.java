@@ -34,6 +34,18 @@ public class JwtUtil {
 				.compact();
 	}
 	
+	//Generate Fresh Token for 7 days
+	public String generateRefreshToken(String username) {
+		return Jwts.builder()
+				.setSubject(username)
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(
+						System.currentTimeMillis() + 604800000)
+				)
+				.signWith(SECRET)
+				.compact();
+	}
+	
 	//Token Validation
 	public boolean validateToken(String token) {
 		try {

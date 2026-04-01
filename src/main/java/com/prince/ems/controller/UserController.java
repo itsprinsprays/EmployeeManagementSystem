@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.prince.ems.service.UserService;
 import com.prince.ems.dto.user.ChangePasswordRequestDTO;
-import com.prince.ems.dto.user.ChangePasswordResponseDTO;
+import com.prince.ems.dto.user.MessageResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.RegistrationUserRequestDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
+import com.prince.ems.dto.user.RoleUpdateRequestDTO;
 import com.prince.ems.dto.user.SoftDeleteUserRequestDTO;
 import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
 
@@ -61,13 +62,18 @@ public class UserController {
 	}
 	
 	@PatchMapping("/changepassword/{Id}")
-	public ResponseEntity<ChangePasswordResponseDTO> userChangePassword(@PathVariable Long Id, @RequestBody ChangePasswordRequestDTO dto) {
+	public ResponseEntity<MessageResponseDTO> userChangePassword(@PathVariable Long Id, @RequestBody ChangePasswordRequestDTO dto) {
 		return ResponseEntity.ok().body(serv.changePassword(Id, dto));
 	}
 	
 	@PatchMapping("/status/{Id}")
-	public ResponseEntity<SoftDeleteUserResponseDTO> setStatus(@PathVariable Long Id, @RequestBody SoftDeleteUserRequestDTO dto) {
+	public ResponseEntity<MessageResponseDTO> setStatus(@PathVariable Long Id, @RequestBody SoftDeleteUserRequestDTO dto) {
 		return ResponseEntity.ok().body(serv.setStatus(Id, dto));
+	}
+	
+	@PatchMapping("/role/{Id}")
+	public ResponseEntity<MessageResponseDTO> updateRole(@PathVariable Long Id, @RequestBody RoleUpdateRequestDTO dto) {
+		return ResponseEntity.ok().body(serv.updateRole(Id, dto));
 	}
 
 }

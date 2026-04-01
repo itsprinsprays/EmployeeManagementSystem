@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.dto.user.RegistrationUserRequestDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
+import com.prince.ems.dto.user.RoleUpdateRequestDTO;
 import com.prince.ems.dto.user.SoftDeleteUserRequestDTO;
 import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
 import com.prince.ems.entity.Employee;
@@ -22,8 +23,8 @@ import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.UserMapper;
 import com.prince.ems.dto.user.ChangePasswordRequestDTO;
-import com.prince.ems.dto.user.ChangePasswordResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
+import com.prince.ems.dto.user.MessageResponseDTO;
 
 
 
@@ -90,7 +91,7 @@ public class UserService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
-	public ChangePasswordResponseDTO changePassword(Long Id, ChangePasswordRequestDTO dto) {
+	public MessageResponseDTO changePassword(Long Id, ChangePasswordRequestDTO dto) {
 		
 		User user = urepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
@@ -108,13 +109,13 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
 		urepo.save(user);
 		
-		return UserMapper.changePasswordResponse();
+		return UserMapper.messageResponse("Password Updated Succesfully");
 		
 	}
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
-	public SoftDeleteUserResponseDTO setStatus(Long Id, SoftDeleteUserRequestDTO dto) {
+	public MessageResponseDTO setStatus(Long Id, SoftDeleteUserRequestDTO dto) {
 		
 		User user = urepo.findByEmployeeId(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
@@ -123,11 +124,24 @@ public class UserService {
 		
 		urepo.save(user);
 		
-		return UserMapper.statusResponse();
-		
+		return UserMapper.messageResponse("Status Updated Succesfully");
 		
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional
+	public MessageResponseDTO updateRole(Long Id, RoleUpdateRequestDTO dto) {
+		
+		User user = urepo.findByEmployeeId(Id)
+				.orElseThrow(() -> new  ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
+		
+		user.setRole(dto.getRole());
+		
+		urepo.save(user);
+		
+		return UserMapper.messageResponse("Role Updated Succesfully");
+		
+	}
 	
 	
 }

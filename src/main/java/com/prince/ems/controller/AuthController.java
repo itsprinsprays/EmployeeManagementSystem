@@ -23,6 +23,11 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request){
         return ResponseEntity.ok().body(authService.login(request));
     }
+    
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshTokenResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO dto) {
+    	return ResponseEntity.ok().body(authService.refreshToken(dto));
+    }
 }
 
  

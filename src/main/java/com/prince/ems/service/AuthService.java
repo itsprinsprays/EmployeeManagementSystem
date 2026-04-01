@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.prince.ems.dto.login.LoginRequestDTO;
 import com.prince.ems.dto.login.LoginResponseDTO;
+import com.prince.ems.dto.login.RefreshTokenRequestDTO;
+import com.prince.ems.dto.login.RefreshTokenResponseDTO;
 import com.prince.ems.entity.Status;
 import com.prince.ems.entity.User;
 import com.prince.ems.exception.BadRequestException;
@@ -24,39 +26,57 @@ public class AuthService {
 	
 	private JwtUtil util;
 	
-	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public AuthService(AuthenticationManager authenticationManager, JwtUtil util, UserRepository urepo, PasswordEncoder passwordEncoder) {
+	public AuthService(AuthenticationManager authenticationManager, JwtUtil util, UserRepository urepo) {
 		this.authenticationManager = authenticationManager;
 		this.util = util;
 		this.urepo = urepo;
-		this.passwordEncoder = passwordEncoder; 
 	}
 	
 	public LoginResponseDTO login(LoginRequestDTO request) {
 		
 		User user = urepo.findByUsername(request.getUsername())
-			.orElseThrow(() -> new BadRequestException("User not found")
+			.orElseThrow(() -> new BadRequestException("Invalid username or password")
 					  );
-		
-		if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
-			throw new BadRequestException("Wrong Password");
-		
+		  
 		if(user.getStatus() == Status.INACTIVE)
 			throw new BadRequestException("Account is inactive");
 
 		
+		try {
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
 						request.getUsername(),
 						request.getPassword()
 					 ));
-			
+		} catch(Exception e) {
+			throw new BadRequestException("Invalid username or password");
+		}
+		
 		String token = util.generateToken(request.getUsername());
+		String refreshToken = util.generateRefreshToken(request.getUsername());
 		
-		return LoginMapper.tokenResponse(token);
+		return LoginMapper.loginTokenResponse(token, refreshToken);
 		
+	}
+	
+	public RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO dto) {
+		
+		if(!util.validateToken(dto.getRefreshToken()))
+			throw new BadRequestException("Invalid Token");
+		
+		String username = util.extractUsername(dto.getRefreshToken());
+		
+		User user = urepo.findByUsername(username)
+				.orElseThrow(() -> new BadRequestException("No Username Found"));
+		
+		if(user.getStatus() == Status.INACTIVE)
+			throw new BadRequestException("Account is Inactive");
+		
+		String newToken = util.generateToken(username);
+		
+		return LoginMapper.refreshTokenResponse(newToken);
 	}
 
 }
