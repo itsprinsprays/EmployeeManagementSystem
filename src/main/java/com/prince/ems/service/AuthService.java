@@ -17,6 +17,8 @@ import com.prince.ems.mapper.LoginMapper;
 import com.prince.ems.repository.UserRepository;
 import com.prince.ems.security.JwtUtil;
 
+import io.jsonwebtoken.Claims;
+
 @Service
 public class AuthService {
 	
@@ -63,8 +65,13 @@ public class AuthService {
 	
 	public RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO dto) {
 		
+		Claims claim = util.extractAllClaims(dto.getRefreshToken());
+		
 		if(!util.validateToken(dto.getRefreshToken()))
 			throw new BadRequestException("Invalid Token");
+		
+		if(!"refresh".equals(claim.get("type")))
+			throw new BadRequestException("Invalid token for refresh");
 		
 		String username = util.extractUsername(dto.getRefreshToken());
 		
@@ -75,7 +82,7 @@ public class AuthService {
 			throw new BadRequestException("Account is Inactive");
 		
 		String newToken = util.generateToken(username);
-		
+		     
 		return LoginMapper.refreshTokenResponse(newToken);
 	}
 

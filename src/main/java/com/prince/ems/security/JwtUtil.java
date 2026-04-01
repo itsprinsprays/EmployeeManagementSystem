@@ -26,6 +26,7 @@ public class JwtUtil {
 		
 		return Jwts.builder()
 				.setSubject(username)
+				.claim("type", "access")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + 86400000)
@@ -38,6 +39,7 @@ public class JwtUtil {
 	public String generateRefreshToken(String username) {
 		return Jwts.builder()
 				.setSubject(username)
+				.claim("type", "refresh")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(
 						System.currentTimeMillis() + 604800000)
@@ -68,7 +70,7 @@ public class JwtUtil {
 	}
 	
 	//Utility Helper 
-	private Claims extractAllClaims(String token) {
+	public Claims extractAllClaims(String token) {
 		
 		return Jwts.parserBuilder()
 				.setSigningKey(SECRET)
