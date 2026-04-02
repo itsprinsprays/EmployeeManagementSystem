@@ -3,6 +3,7 @@ package com.prince.ems.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -67,6 +68,7 @@ public class EmployeeService {
 	//Get Active Employee
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
+	@Cacheable(value = "employees", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
 	public Page<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable page) {
 		Page<Employee> employee = erepo.findByStatus(status, page);
 		return EmployeeMapper.getActiveResponse(employee);		
@@ -75,6 +77,7 @@ public class EmployeeService {
 	//Get Employee by ID
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
+	@Cacheable(value = "employees", key = "#Id")
 	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
@@ -126,6 +129,7 @@ public class EmployeeService {
 	//Soft Delete
 	@PreAuthorize("hasRole('ADMIN')")
 	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, SoftDeleteEmployeeRequestDTO dto) {
+	
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
 				new ResourceNotFoundException("Employee with ID '" + Id + "' is not existing"));
 		
@@ -142,6 +146,10 @@ public class EmployeeService {
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
+	@Cacheable(
+		    value = "employees",
+		    key = "#name + '-' + #status + '-' + #departmentId + '-' + #minSalary + '-' + #maxSalary + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()"
+		)
 	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
 			String name, 
 			Status status, 
@@ -150,6 +158,7 @@ public class EmployeeService {
 			Double maxSalary,
 			Pageable pageable	) {
 		
+		System.out.print("Fetching from db..");
 		Specification<Employee> spec = Specification.where(null);
 		
 		if(name != null)  spec = spec.and(EmployeeSpecification.hasName(name));

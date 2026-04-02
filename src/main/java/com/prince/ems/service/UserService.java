@@ -1,6 +1,7 @@
 package com.prince.ems.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,6 +74,7 @@ public class UserService {
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
+	@Cacheable(value = "users", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
 	public Page<GetUserResponseDTO> getAll(Pageable page){
 		Page<User> user = urepo.findAll(page);
 		return UserMapper.getResponse(user);		
@@ -80,6 +82,7 @@ public class UserService {
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
+	@Cacheable(value = "users", key = "#Id")
 	public GetUserResponseDTO getUserByID(Long Id) {
 		
 		User user = urepo.findByEmployeeId(Id)

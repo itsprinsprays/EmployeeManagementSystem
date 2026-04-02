@@ -2,6 +2,7 @@ package com.prince.ems.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,21 +50,28 @@ public class DepartmentService {
 	}
 	 
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
+	@Cacheable(value = "departments", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
 	public Page<DepartmentResponseDTO> getAllDepartment(Pageable pageable) {
+		System.out.println("Fetching from DB...");
 		Page<Department> page = repo.findAll(pageable);
 		return DepartmentMapper.getAllResponse(page);
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
-	public Page<DepartmentResponseDTO> getDepartmentStatus(Status status, Pageable pageable) {       //Get All Active Departments
+	@Cacheable(value = "departments", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
+	public Page<DepartmentResponseDTO> getDepartmentStatus(Status status, Pageable pageable) {     
+		System.out.println("Fetching from DB...");
 			Page<Department> page = repo.findByStatus(status, pageable);
 			return DepartmentMapper.activeDepartmentResponse(page, "ACTIVE DEPARTMENTS");
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
-	public DepartmentResponseDTO getDepartmentById(Long Id) {                     		  //Get Department using ID
+	@Cacheable(value = "departments", key = "#Id")
+	public DepartmentResponseDTO getDepartmentById(Long Id) {   
+		System.out.println("Fetching from DB...");
 		Department department = repo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException(Id + " Department not found"));
 			
