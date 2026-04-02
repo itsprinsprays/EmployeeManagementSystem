@@ -3,7 +3,10 @@ package com.prince.ems.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -79,10 +82,40 @@ public class EmployeeService {
 	@Transactional(readOnly = true)
 	@Cacheable(value = "employees", key = "#Id")
 	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
+		System.out.print("Fetching from db..");
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
 		
 		return EmployeeMapper.getEmployeeById(employee);
+	}
+	
+	
+	@PreAuthorize("hasAnyRole('ADMIN','HR')")
+	@Transactional(readOnly = true)
+	@Cacheable(
+		    value = "employeesSpec",
+		    key = "#name + '-' + #status + '-' + #departmentId + '-' + #minSalary + '-' + #maxSalary + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()"
+		)
+	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
+			String name, 
+			Status status, 
+			Long departmentId,
+			Double minSalary,
+			Double maxSalary,
+			Pageable pageable	) {
+		
+		System.out.print("Fetching from db..");
+		Specification<Employee> spec = Specification.where(null);
+		
+		if(name != null)  spec = spec.and(EmployeeSpecification.hasName(name));
+		if(status != null) spec = spec.and(EmployeeSpecification.hasStatus(status));
+		if(departmentId != null) spec = spec.and(EmployeeSpecification.hasDepartment(departmentId));
+		if(minSalary != null && maxSalary != null) spec = spec.and(EmployeeSpecification.betweenSalary(minSalary, maxSalary));
+		
+		Page<Employee> employee = erepo.findAll(spec, pageable);
+		
+		return EmployeeMapper.getEmployeeSpecifications(employee);
+		
 	}
 	
 	//Get All employee
@@ -97,6 +130,10 @@ public class EmployeeService {
 	//Partial Update
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(evict = {
+		@CacheEvict(value = "employees", key = "#Id"),
+		@CacheEvict(value = "employeesSpec", allEntries = true)
+	})
 	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
 			new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
@@ -127,7 +164,18 @@ public class EmployeeService {
 	}
 
 	//Soft Delete
+//	@Caching(evict = {
+//			@CacheEvict(value = "employeesSpec", allEntries = true)       //hybrid caching
+//			},
+//			put = {
+//			@CachePut(value = "employees", key = "#Id")	
+//			})
 	@PreAuthorize("hasRole('ADMIN')")
+	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "employees", key = "#Id"),
+			@CacheEvict(value = "employeesSpec", allEntries = true)
+		})
 	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, SoftDeleteEmployeeRequestDTO dto) {
 	
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
@@ -142,34 +190,6 @@ public class EmployeeService {
 		erepo.save(employee);
 		
 		return EmployeeMapper.statusUpdate(employee);	
-	}
-	
-	@PreAuthorize("hasAnyRole('ADMIN','HR')")
-	@Transactional(readOnly = true)
-	@Cacheable(
-		    value = "employees",
-		    key = "#name + '-' + #status + '-' + #departmentId + '-' + #minSalary + '-' + #maxSalary + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()"
-		)
-	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
-			String name, 
-			Status status, 
-			Long departmentId,
-			Double minSalary,
-			Double maxSalary,
-			Pageable pageable	) {
-		
-		System.out.print("Fetching from db..");
-		Specification<Employee> spec = Specification.where(null);
-		
-		if(name != null)  spec = spec.and(EmployeeSpecification.hasName(name));
-		if(status != null) spec = spec.and(EmployeeSpecification.hasStatus(status));
-		if(departmentId != null) spec = spec.and(EmployeeSpecification.hasDepartment(departmentId));
-		if(minSalary != null && maxSalary != null) spec = spec.and(EmployeeSpecification.betweenSalary(minSalary, maxSalary));
-		
-		Page<Employee> employee = erepo.findAll(spec, pageable);
-		
-		return EmployeeMapper.getEmployeeSpecifications(employee);
-		
 	}
 	
 	 

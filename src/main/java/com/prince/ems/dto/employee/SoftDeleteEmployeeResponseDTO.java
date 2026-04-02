@@ -8,7 +8,7 @@ import com.prince.ems.entity.Status;
 
 public class SoftDeleteEmployeeResponseDTO {
 	
-private Long id;
+    private Long id;
 	
 	private String name;
 	
