@@ -43,10 +43,6 @@ public class EmployeeService {
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public CreateEmployeeResponseDTO createEmployee(CreateEmployeeRequestDTO dto) {
-		
-		if(dto.getName().length() <= 2) throw new BadRequestException("Name must be at least 3 Characters long");
-		
-		if(dto.getName().length() >= 30) throw new BadRequestException("Name must not exceed 30 characters");
  			
 		if(erepo.existsByEmail(dto.getEmail()))
 			throw new DuplicateResponseException("Email '" + dto.getEmail() + "' is already in use");

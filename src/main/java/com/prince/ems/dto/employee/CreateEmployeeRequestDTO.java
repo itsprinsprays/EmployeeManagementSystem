@@ -7,10 +7,13 @@ import com.prince.ems.entity.Department;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class CreateEmployeeRequestDTO {
 	
 	@NotBlank(message = "Name is required")
+	@Size(min = 3, message = "Name must be at least 3 Characters long")
+	@Size(max = 30, message = "Name must not exceed 30 characters")
 	private String name;
 	
 	@NotBlank(message = "Email is required")

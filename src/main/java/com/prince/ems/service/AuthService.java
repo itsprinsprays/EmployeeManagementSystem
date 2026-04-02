@@ -72,7 +72,7 @@ public class AuthService {
 		
 		if(!"refresh".equals(claim.get("type")))
 			throw new BadRequestException("Invalid token for refresh");
-		
+		 
 		String username = util.extractUsername(dto.getRefreshToken());
 		
 		User user = urepo.findByUsername(username)
