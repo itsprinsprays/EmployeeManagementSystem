@@ -46,6 +46,10 @@ public class EmployeeService {
 	//Create
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(evict = {
+		@CacheEvict(value = "employeesSpec", allEntries = true),
+		@CacheEvict(value = "employeesStat", allEntries = true)
+	})
 	public CreateEmployeeResponseDTO createEmployee(CreateEmployeeRequestDTO dto) {
  			
 		if(erepo.existsByEmail(dto.getEmail()))
@@ -71,9 +75,10 @@ public class EmployeeService {
 	//Get Active Employee
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
-	@Cacheable(value = "employees", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
-	public Page<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable page) {
-		Page<Employee> employee = erepo.findByStatus(status, page);
+	@Cacheable(value = "employeesStat", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
+	public Page<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable pageable) {
+		System.out.print("Fetching from db..");
+		Page<Employee> employee = erepo.findByStatus(status, pageable);
 		return EmployeeMapper.getActiveResponse(employee);		
 	}
 	
@@ -132,7 +137,8 @@ public class EmployeeService {
 	@Transactional
 	@Caching(evict = {
 		@CacheEvict(value = "employees", key = "#Id"),
-		@CacheEvict(value = "employeesSpec", allEntries = true)
+		@CacheEvict(value = "employeesSpec", allEntries = true),
+		@CacheEvict(value = "employeesStat", allEntries = true)
 	})
 	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
