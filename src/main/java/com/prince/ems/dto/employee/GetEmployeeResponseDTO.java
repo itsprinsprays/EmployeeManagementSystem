@@ -41,8 +41,9 @@ public class GetEmployeeResponseDTO {
 		this.departmentName = departmentName;
 		this.updatedAt = updatedAt;
 		this.createdAt = createdAt;
-	
 	}
+	
+	public GetEmployeeResponseDTO() { }
 
 
 	public Long getId() { return id; }

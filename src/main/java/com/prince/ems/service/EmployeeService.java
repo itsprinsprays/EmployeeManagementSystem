@@ -159,16 +159,14 @@ public class EmployeeService {
 			if(dto.getSalary() != null && dto.getSalary().compareTo(BigDecimal.ZERO) <= 0) 
 			throw new BadRequestException("Salary must be greater than zero");
 			
+			if(dto.getName() != null) employee.setName(dto.getName());
+			if(dto.getEmail() != null) employee.setEmail(dto.getEmail());
+			if(dto.getSalary() != null) employee.setSalary(dto.getSalary());
 	
-		
-		if(dto.getName() != null) employee.setName(dto.getName());
-		if(dto.getEmail() != null) employee.setEmail(dto.getEmail());
-		if(dto.getSalary() != null) employee.setSalary(dto.getSalary());
-
-		
-		erepo.save(employee);
-		
-		return EmployeeMapper.updateResponse(employee);
+			
+			erepo.save(employee);
+			
+			return EmployeeMapper.updateResponse(employee);
 	}
 
 	//Soft Delete
