@@ -2,7 +2,10 @@ package com.prince.ems.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +38,10 @@ public class DepartmentService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "departmentsAll", allEntries = true),
+			@CacheEvict(value = "departmentsStat", allEntries = true),
+	})
 	public CreateDepartmentResponseDTO createDepartment(DepartmentRequestDTO dto) {    //Create Department
 		if(repo.existsByName(dto.getName()))
 			throw new DuplicateResponseException(dto.getName() + " Department is already existing");
@@ -51,7 +58,7 @@ public class DepartmentService {
 	 
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
-	@Cacheable(value = "departments", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
+	@Cacheable(value = "departmentsAll", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
 	public Page<DepartmentResponseDTO> getAllDepartment(Pageable pageable) {
 		System.out.println("Fetching from DB...");
 		Page<Department> page = repo.findAll(pageable);
@@ -60,7 +67,7 @@ public class DepartmentService {
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
-	@Cacheable(value = "departments", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
+	@Cacheable(value = "departmentsStat", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
 	public Page<DepartmentResponseDTO> getDepartmentStatus(Status status, Pageable pageable) {     
 		System.out.println("Fetching from DB...");
 			Page<Department> page = repo.findByStatus(status, pageable);
@@ -81,6 +88,14 @@ public class DepartmentService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(put = {
+			@CachePut(value = "departments", key = "#Id")
+	},
+			evict =  {
+			@CacheEvict(value = "departmentsStat", allEntries = true),
+			@CacheEvict(value = "departmentsAll", allEntries = true)
+			}
+	)
 	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {       //Partial Update
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
@@ -100,6 +115,14 @@ public class DepartmentService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(put = {
+			@CachePut(value = "departments", key = "#Id")
+	},
+			evict = {
+			@CacheEvict(value = "departmentsStat", allEntries = true),
+			@CacheEvict(value = "departmentsAll", allEntries = true)
+			}
+	)
 	public DepartmentResponseDTO statusActivation(Long id, SoftDeleteDepartmentRequestDTO dto) {     				 //Soft delete status and activate status
 		Department department = repo.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));

@@ -144,25 +144,27 @@ public class EmployeeService {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
 			new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
 			
+			if (dto.getDepartmentId() != null) {
+		    Department dept = drepo.findById(dto.getDepartmentId())
+			        .orElseThrow(() -> new ResourceNotFoundException("Department not found"));
+					employee.setDepartment(dept);
+			}
+			
 			if(dto.getName() == null && dto.getEmail() == null && dto.getDepartmentId() == null && dto.getSalary() == null) 
 				throw new BadRequestException("At least one field must be provided for update");
 			
-			if(dto.getName() != null && dto.getName().length() <= 2) 
-			throw new BadRequestException("Name must be at least 3 Characters long");
-			
-			if(dto.getName() != null && dto.getName().length() >= 30) 
-			throw new BadRequestException("Name must not exceed 30 characters");
-			
 			if(dto.getEmail() != null && erepo.existsByEmailAndIdNot(dto.getEmail(), Id))
-			throw new ResourceNotFoundException("Email '" + dto.getEmail() + "' is existing");
+			throw new DuplicateResponseException("Email '" + dto.getEmail() + "' is existing");
 			
 			if(dto.getSalary() != null && dto.getSalary().compareTo(BigDecimal.ZERO) <= 0) 
 			throw new BadRequestException("Salary must be greater than zero");
+			
 	
 		
 		if(dto.getName() != null) employee.setName(dto.getName());
 		if(dto.getEmail() != null) employee.setEmail(dto.getEmail());
 		if(dto.getSalary() != null) employee.setSalary(dto.getSalary());
+
 		
 		erepo.save(employee);
 		
@@ -180,6 +182,7 @@ public class EmployeeService {
 	@Transactional
 	@Caching(evict = {
 			@CacheEvict(value = "employees", key = "#Id"),
+			@CacheEvict(value = "employeesStat", allEntries = true),
 			@CacheEvict(value = "employeesSpec", allEntries = true)
 		})
 	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, SoftDeleteEmployeeRequestDTO dto) {

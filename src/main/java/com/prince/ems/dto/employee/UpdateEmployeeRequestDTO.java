@@ -3,11 +3,15 @@ package com.prince.ems.dto.employee;
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
 
 public class UpdateEmployeeRequestDTO {
 	
+	@Size(min = 3, message = "Name must be at least 3 Characters long")
+	@Size(max = 30, message = "Name must not exceed 30 characters")
 	private String name;
 	
 	@Email(message = "Invalid Email Format use '@'")
