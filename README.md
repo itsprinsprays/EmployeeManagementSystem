@@ -1,25 +1,35 @@
 # EMS - Employee Management System API
 
 **PROJECT DESCRIPTION**
-This project is an Employee Management System API built using Spring Boot. It manages Departments, Employees, Roles, and User Accounts with pagination, filtering, validation, soft delete, and JWT-based authentication and authorization.
+A production-ready backend system built with Spring Boot, featuring JWT authentication, Redis caching, and scalable API design.
 
 **TECHNOLOGIES USED:**
-- Java & Spring Boot
-- Spring Security & JWT
-- Maven
-- JPA Hibernate
-- MySQL
-- Postman
-
+Java
+Spring Boot
+Spring Security (JWT Authentication)
+Spring Data JPA
+Redis (Caching)
+MySQL
+Maven
 ---
 
 ## FEATURES
-- User registration and login with JWT authentication
-- Secure API endpoints using Spring Security
-- Employee and Department creation, updating, and deletion
-- User Creation
-- Role-based access control (Admin/Hr/Employee)
-- JPA Specifications for dynamic filtering and searching
+🔐 JWT-based Authentication & Authorization
+👥 Employee & Department Management (CRUD)
+⚡ Redis Caching for performance optimization
+📄 Pagination and Sorting support
+🧩 Layered Architecture (Controller, Service, Repository)
+🛡️ Exception Handling and Validation
+🚧 (In Progress) Rate Limiting
+---
+
+## 🔥 Key Highlights
+- JWT-based authentication & authorization
+- Redis caching for performance optimization
+- Dynamic filtering using JPA Specifications
+- Soft delete implementation
+- Global exception handling
+- Scalable layered architecture
 ---
 
 ## SYSTEM ARCHITECTURE
@@ -51,6 +61,12 @@ Second Part – Authentication
 8. Create an Authentication object using UsernamePasswordAuthenticationToken.
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
+
+## ⚙️ How to Run
+1. Clone the repository
+2. Setup MySQL database
+3. Run Redis locally
+4. Run Spring Boot application
 
 ## API ENDPOINTS
 
