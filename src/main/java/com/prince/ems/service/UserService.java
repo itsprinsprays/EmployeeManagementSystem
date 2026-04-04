@@ -2,6 +2,8 @@ package com.prince.ems.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.mapper.UserMapper;
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.user.ChangePasswordRequestDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.MessageResponseDTO;
@@ -47,6 +50,7 @@ public class UserService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@CacheEvict(value = "usersAll", allEntries = true)
 	public RegistrationUserResponseDTO registerUser(RegistrationUserRequestDTO dto) {
 		
 		if(urepo.existsByUsername(dto.getUsername()))
@@ -74,16 +78,18 @@ public class UserService {
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
-	@Cacheable(value = "users", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
-	public Page<GetUserResponseDTO> getAll(Pageable page){
-		Page<User> user = urepo.findAll(page);
-		return UserMapper.getResponse(user);		
+	@Cacheable(value = "usersAll", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
+	public PageResponseDTO<GetUserResponseDTO> getAll(Pageable pageable){
+		System.out.println("fetching fromDB");
+		Page<User> user = urepo.findAll(pageable);
+		return UserMapper.toPageResponse(user);		
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
 	@Cacheable(value = "users", key = "#Id")
 	public GetUserResponseDTO getUserByID(Long Id) {
+		System.out.println("fetching fromDB");
 		
 		User user = urepo.findByEmployeeId(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + " is not existing"));
@@ -94,9 +100,13 @@ public class UserService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "usersAll", allEntries = true),
+			@CacheEvict(value = "users", key = "#Id")
+	})
 	public MessageResponseDTO changePassword(Long Id, ChangePasswordRequestDTO dto) {
-		
-		User user = urepo.findById(Id)
+	
+		User user = urepo.findByEmployeeId(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employe with ID " + Id + "is not existing"));
 		
 		
@@ -118,6 +128,10 @@ public class UserService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "usersAll", allEntries = true),
+			@CacheEvict(value = "users", key = "#Id")
+	})
 	public MessageResponseDTO setStatus(Long Id, SoftDeleteUserRequestDTO dto) {
 		
 		User user = urepo.findByEmployeeId(Id)
@@ -133,6 +147,10 @@ public class UserService {
 	
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "usersAll", allEntries = true),
+			@CacheEvict(value = "users", key = "#Id")
+	})
 	public MessageResponseDTO updateRole(Long Id, RoleUpdateRequestDTO dto) {
 		
 		User user = urepo.findByEmployeeId(Id)

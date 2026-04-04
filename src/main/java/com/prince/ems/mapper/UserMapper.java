@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.prince.ems.dto.user.MessageResponseDTO;
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
 import com.prince.ems.dto.user.RegistrationUserResponseDTO;
 import com.prince.ems.dto.user.SoftDeleteUserResponseDTO;
@@ -25,11 +26,11 @@ public class UserMapper {
 		
 	}
 	
-	public static Page<GetUserResponseDTO> getResponse(Page<User> user) {
+	public static Page<GetUserResponseDTO> getResponses(Page<User> user) {
 		Page<GetUserResponseDTO> dto = user.map(e -> new GetUserResponseDTO(
 				e.getUsername(),
 				e.getRole(),
-				e.getId()
+				e.getEmployee().getId()
 			));
 		
 		return dto;
@@ -45,6 +46,19 @@ public class UserMapper {
 		
 		return dto;
 		
+	}
+	
+	public static PageResponseDTO<GetUserResponseDTO> toPageResponse(Page<User> userPage) {
+	    Page<GetUserResponseDTO> dtoPage = getResponses(userPage);
+
+	    return new PageResponseDTO<>(
+	        dtoPage.getContent(),
+	        dtoPage.getNumber(),
+	        dtoPage.getSize(),
+	        dtoPage.getTotalElements(),
+	        dtoPage.getTotalPages(),
+	        dtoPage.isLast()
+	    );
 	}
 	
 

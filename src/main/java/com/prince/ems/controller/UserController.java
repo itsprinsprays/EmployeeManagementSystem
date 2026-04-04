@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prince.ems.service.UserService;
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.user.ChangePasswordRequestDTO;
 import com.prince.ems.dto.user.MessageResponseDTO;
 import com.prince.ems.dto.user.GetUserResponseDTO;
@@ -47,7 +48,7 @@ public class UserController {
 	
 
 	@GetMapping
-	public ResponseEntity<Page<GetUserResponseDTO>> getAllAccounts(
+	public ResponseEntity<PageResponseDTO<GetUserResponseDTO>> getAllAccounts(
 									@RequestParam(defaultValue = "5") int size,
 									@RequestParam(defaultValue = "0") int page) {
 		
