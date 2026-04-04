@@ -4,23 +4,23 @@
 A production-ready backend system built with Spring Boot, featuring JWT authentication, Redis caching, and scalable API design.
 
 **TECHNOLOGIES USED:**
-Java
-Spring Boot
-Spring Security (JWT Authentication)
-Spring Data JPA
-Redis (Caching)
-MySQL
-Maven
+- Java
+- Spring Boot
+- Spring Security (JWT Authentication)
+- Spring Data JPA
+- Redis (Caching)
+- MySQL
+- Maven
 ---
 
 ## FEATURES
-🔐 JWT-based Authentication & Authorization
-👥 Employee & Department Management (CRUD)
-⚡ Redis Caching for performance optimization
-📄 Pagination and Sorting support
-🧩 Layered Architecture (Controller, Service, Repository)
-🛡️ Exception Handling and Validation
-🚧 (In Progress) Rate Limiting
+- 🔐 JWT-based Authentication & Authorization
+- 👥 Employee & Department Management (CRUD)
+- ⚡ Redis Caching for performance optimization
+- 📄 Pagination and Sorting support
+- 🧩 Layered Architecture (Controller, Service, Repository)
+- 🛡️ Exception Handling and Validation
+- 🚧 (In Progress) Rate Limiting
 ---
 
 ## 🔥 Key Highlights
@@ -33,16 +33,16 @@ Maven
 ---
 
 ## SYSTEM ARCHITECTURE
-config # Configuration classes (e.g., BCrypt, AuthenticationManager)<br>
-controller # REST controllers<br>
-dto # Data Transfer Objects<br>
-entity # JPA entities / database models<br>
-exception # Custom exceptions<br>
-mapper # Object mappers (DTO ↔ Entity)<br>
-repository # Spring Data JPA repositories<br>
-security # JWT filters, Security config<br>
-service # Business logic<br>
-specification # JPA Specifications for filtering/searching
+config - Configuration classes (e.g., BCrypt, AuthenticationManager)<br>
+controller -  REST controllers<br>
+dto - Data Transfer Objects<br>
+entity - JPA entities / database models<br>
+exception - Custom exceptions<br>
+mapper - Object mappers (DTO ↔ Entity)<br>
+repository - Spring Data JPA repositories<br>
+security - JWT filters, Security config<br>
+service - Business logic<br>
+specification - JPA Specifications for filtering/searching
 
 ## JWT AUTHENTICATION WORKFLOW
 1. Get the Authorization header from the request using .getHeader().
@@ -67,6 +67,7 @@ Second Part – Authentication
 2. Setup MySQL database
 3. Run Redis locally
 4. Run Spring Boot application
+---
 
 ## API ENDPOINTS
 
