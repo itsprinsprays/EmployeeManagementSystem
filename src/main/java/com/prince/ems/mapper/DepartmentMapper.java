@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentResponseDTO;
 import com.prince.ems.entity.Department;
@@ -45,9 +46,21 @@ public class DepartmentMapper {
 		return department.map(dept -> DepartmentMapper.toResponse(dept, "All Department"));
 	}
 	
-	public static Page<DepartmentResponseDTO> activeDepartmentResponse(Page<Department> department, String statusMessage) {
-			return department.map(dept -> DepartmentMapper.toResponse(dept, statusMessage));
+	public static PageResponseDTO<DepartmentResponseDTO> toPageResponse(Page<Department> pageDepartment) {
+		Page<DepartmentResponseDTO> dto = getAllResponse(pageDepartment);
+		
+		return new PageResponseDTO<> (
+				dto.getContent(),
+				dto.getNumber(),
+				dto.getSize(),
+				dto.getTotalElements(),
+				dto.getTotalPages(),
+				dto.isLast()
+				);
+		
 	}
+	
+//	public static PageResponseDTO<DepartmentResponseDTO> toPageResponseActive(Page<Department> page)
 		
 	
 	

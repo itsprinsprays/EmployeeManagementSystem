@@ -32,8 +32,8 @@ public class EmployeeMapper {
 		return dto;
 	}
 	
-	public static PageResponseDTO<GetEmployeeResponseDTO> toPageResponseActive(Page<Employee> pageUser) {
-		Page<GetEmployeeResponseDTO> dto = getActiveResponse(pageUser);
+	public static PageResponseDTO<GetEmployeeResponseDTO> toPageResponseActive(Page<Employee> pageEmployee) {
+		Page<GetEmployeeResponseDTO> dto = getActiveResponse(pageEmployee);
 		
 		return new PageResponseDTO<>(
 				dto.getContent(),
@@ -45,8 +45,8 @@ public class EmployeeMapper {
 				);
 	}
 	
-	public static PageResponseDTO<GetEmployeeResponseDTO> toPageResponseSpecifications(Page<Employee> pageUser) {
-			Page<GetEmployeeResponseDTO> dto = getEmployeeSpecifications(pageUser);
+	public static PageResponseDTO<GetEmployeeResponseDTO> toPageResponseSpecifications(Page<Employee> pageEmployee) {
+			Page<GetEmployeeResponseDTO> dto = getEmployeeSpecifications(pageEmployee);
 			
 			return new PageResponseDTO<> (
 				dto.getContent(),

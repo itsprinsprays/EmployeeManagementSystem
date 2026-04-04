@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentRequestDTO;
 import com.prince.ems.dto.department.DepartmentResponseDTO;
@@ -59,19 +60,19 @@ public class DepartmentService {
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
 	@Cacheable(value = "departmentsAll", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
-	public Page<DepartmentResponseDTO> getAllDepartment(Pageable pageable) {
+	public PageResponseDTO<DepartmentResponseDTO> getAllDepartment(Pageable pageable) {
 		System.out.println("Fetching from DB...");
 		Page<Department> page = repo.findAll(pageable);
-		return DepartmentMapper.getAllResponse(page);
+		return DepartmentMapper.toPageResponse(page);
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
 	@Cacheable(value = "departmentsStat", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
-	public Page<DepartmentResponseDTO> getDepartmentStatus(Status status, Pageable pageable) {     
+	public PageResponseDTO<DepartmentResponseDTO> getDepartmentStatus(Status status, Pageable pageable) {     
 		System.out.println("Fetching from DB...");
 			Page<Department> page = repo.findByStatus(status, pageable);
-			return DepartmentMapper.activeDepartmentResponse(page, "ACTIVE DEPARTMENTS");
+			return DepartmentMapper.toPageResponse(page);
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")

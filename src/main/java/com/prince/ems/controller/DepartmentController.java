@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.department.CreateDepartmentResponseDTO;
 import com.prince.ems.dto.department.DepartmentRequestDTO;
 import com.prince.ems.dto.department.DepartmentResponseDTO;
@@ -49,7 +50,7 @@ public class DepartmentController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<DepartmentResponseDTO>> getAllDepartment(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<PageResponseDTO<DepartmentResponseDTO>> getAllDepartment(@RequestParam(defaultValue = "0") int page,
 																@RequestParam(defaultValue = "5") int size) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
 		return ResponseEntity.ok().body(serv.getAllDepartment(pageable));
@@ -62,12 +63,11 @@ public class DepartmentController {
 	}
 	
 	@GetMapping("/status/{status}")
-	public ResponseEntity<Page<DepartmentResponseDTO>> getDepartmentStatus(@RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<PageResponseDTO<DepartmentResponseDTO>> getDepartmentStatus(@RequestParam(defaultValue = "0") int page,
 																	 @RequestParam(defaultValue = "5") int size,
 																	 @PathVariable Status status) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
-		Page<DepartmentResponseDTO> response = serv.getDepartmentStatus(status,pageable);
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok().body(serv.getDepartmentStatus(status, pageable));
 		
 	}
 	
