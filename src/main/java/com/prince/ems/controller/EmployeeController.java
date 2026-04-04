@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.service.EmployeeService;
 
@@ -56,7 +57,7 @@ public class EmployeeController {
 //	}
 //	
 	@GetMapping("/status/{status}")
-	public ResponseEntity<Page<GetEmployeeResponseDTO>> getEmployeeStatus(
+	public ResponseEntity<PageResponseDTO<GetEmployeeResponseDTO>> getEmployeeStatus(
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size,
 			@PathVariable Status status) {
@@ -86,7 +87,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<GetEmployeeResponseDTO>> getAllEmployeeSpecification(
+	public ResponseEntity<PageResponseDTO<GetEmployeeResponseDTO>> getAllEmployeeSpecification(
 				@RequestParam(required = false) String name,
 				@RequestParam(required = false) Status status,
 				@RequestParam(required = false) Long Id,
@@ -96,7 +97,7 @@ public class EmployeeController {
 				@RequestParam(defaultValue = "5") int size) {
 		
 		Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending().and(Sort.by("id").ascending()));
-		return ResponseEntity.ok().body(serv.getAllEmployeeSpecification(name, status, Id, minSalary, maxSalary, pageable));
+		return ResponseEntity.ok().body(serv.getAllEmployeeSpecifications(name, status, Id, minSalary, maxSalary, pageable));
 		
 	}
 	

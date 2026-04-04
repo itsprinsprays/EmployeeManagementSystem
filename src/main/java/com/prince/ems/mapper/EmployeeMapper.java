@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
 import com.prince.ems.dto.employee.SoftDeleteEmployeeResponseDTO;
@@ -29,6 +30,32 @@ public class EmployeeMapper {
 		dto.setCreatedAt(employee.getCreatedAt());
 		
 		return dto;
+	}
+	
+	public static PageResponseDTO<GetEmployeeResponseDTO> toPageResponseActive(Page<Employee> pageUser) {
+		Page<GetEmployeeResponseDTO> dto = getActiveResponse(pageUser);
+		
+		return new PageResponseDTO<>(
+				dto.getContent(),
+				dto.getNumber(),
+				dto.getSize(),
+				dto.getTotalElements(),
+				dto.getTotalPages(),
+				dto.isLast()
+				);
+	}
+	
+	public static PageResponseDTO<GetEmployeeResponseDTO> toPageResponseSpecifications(Page<Employee> pageUser) {
+			Page<GetEmployeeResponseDTO> dto = getEmployeeSpecifications(pageUser);
+			
+			return new PageResponseDTO<> (
+				dto.getContent(),
+				dto.getNumber(),
+				dto.getSize(),
+				dto.getTotalElements(),
+				dto.getTotalPages(),
+				dto.isLast()
+					);
 	}
 	
 	public static Page<GetEmployeeResponseDTO> getActiveResponse(Page<Employee> employee) {
@@ -64,9 +91,9 @@ public class EmployeeMapper {
 		return dto;
 	}
 	
-	public static Page<GetEmployeeResponseDTO> getAllEmployeeResponse(Page<Employee> employee) {
-		return employee.map(e -> EmployeeMapper.getEmployeeById(e));
-	}
+//	public static Page<GetEmployeeResponseDTO> getAllEmployeeResponse(Page<Employee> employee) {
+//		return employee.map(e -> EmployeeMapper.getEmployeeById(e));
+//	}
 	
 	public static UpdateEmployeeResponseDTO updateResponse(Employee employee) {
 		UpdateEmployeeResponseDTO dto = new UpdateEmployeeResponseDTO();

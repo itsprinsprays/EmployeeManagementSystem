@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.dto.employee.CreateEmployeeRequestDTO;
 import com.prince.ems.dto.employee.CreateEmployeeResponseDTO;
 import com.prince.ems.dto.employee.GetEmployeeResponseDTO;
@@ -76,10 +77,10 @@ public class EmployeeService {
 	@PreAuthorize("hasAnyRole('ADMIN','HR')")
 	@Transactional(readOnly = true)
 	@Cacheable(value = "employeesStat", key = "#status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
-	public Page<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable pageable) {
+	public PageResponseDTO<GetEmployeeResponseDTO> getEmployeeStatus(Status status, Pageable pageable) {
 		System.out.print("Fetching from db..");
 		Page<Employee> employee = erepo.findByStatus(status, pageable);
-		return EmployeeMapper.getActiveResponse(employee);		
+		return EmployeeMapper.toPageResponseActive(employee);		
 	}
 	
 	//Get Employee by ID
@@ -101,7 +102,7 @@ public class EmployeeService {
 		    value = "employeesSpec",
 		    key = "#name + '-' + #status + '-' + #departmentId + '-' + #minSalary + '-' + #maxSalary + '-' + #pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()"
 		)
-	public Page<GetEmployeeResponseDTO> getAllEmployeeSpecification(
+	public PageResponseDTO<GetEmployeeResponseDTO> getAllEmployeeSpecifications(
 			String name, 
 			Status status, 
 			Long departmentId,
@@ -119,7 +120,7 @@ public class EmployeeService {
 		
 		Page<Employee> employee = erepo.findAll(spec, pageable);
 		
-		return EmployeeMapper.getEmployeeSpecifications(employee);
+		return EmployeeMapper.toPageResponseSpecifications(employee);
 		
 	}
 	
