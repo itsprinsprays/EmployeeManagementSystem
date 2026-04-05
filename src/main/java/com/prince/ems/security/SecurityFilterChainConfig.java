@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.prince.ems.ratelimiter.RateLimitFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -16,10 +18,12 @@ public class SecurityFilterChainConfig {
 		
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final JwtAuthenticationEntryPoint jwtEntryPoint;
+	private final RateLimitFilter rateLimitFilter;
 	
-	public SecurityFilterChainConfig(JwtAuthenticationFilter jwtAuthenticationFilter, JwtAuthenticationEntryPoint jwtEntryPoint) {
+	public SecurityFilterChainConfig(JwtAuthenticationFilter jwtAuthenticationFilter, JwtAuthenticationEntryPoint jwtEntryPoint, RateLimitFilter rateLimitFilter) {
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 		this.jwtEntryPoint = jwtEntryPoint;
+		this.rateLimitFilter = rateLimitFilter;
 	}
 	
 	@Bean
@@ -45,6 +49,7 @@ public class SecurityFilterChainConfig {
 						.anyRequest().authenticated()
 						)
 	            .exceptionHandling(e -> e.authenticationEntryPoint(jwtEntryPoint))
+				.addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 		
