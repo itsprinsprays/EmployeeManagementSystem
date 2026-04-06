@@ -16,7 +16,7 @@ public class TokenBucketService {
 		this.redisTemplate = redisTemplate;
 	}
 	
-	public boolean allowRequest(String key, int maxToken, int refillRate) {
+	public boolean allowRequest(String key, int maxToken, int refillRate, int refillIntervalSeconds) {
 	
 		 
 		//throttle key stored in the redis-cli
@@ -35,13 +35,19 @@ public class TokenBucketService {
 		
 		//Refill Token
 		long secondsPassed = (now - bucket.getLastRefillTime()) / 1000;
-//		long intervalPassed = secondsPassed / 15; //If you want to make the refill token takes 15 seconds per 1 token
-		int tokensToAdd = (int) (secondsPassed * refillRate);
-		
+		//	// how many intervals have passed
+		long intervals = secondsPassed / refillIntervalSeconds;
+
+		// tokens to add based on intervals
+		int tokensToAdd = (int) (intervals * refillRate);
+
 		if(tokensToAdd > 0) {
-			int newTokens = Math.min(maxToken, bucket.getToken() + tokensToAdd);
-			bucket.setToken(newTokens);
-			bucket.setLastRefillTime(now);
+		    int newTokens = Math.min(maxToken, bucket.getToken() + tokensToAdd);
+		    bucket.setToken(newTokens);
+
+		    // IMPORTANT: move time forward only by used intervals
+		    long newRefillTime = bucket.getLastRefillTime() + (intervals * refillIntervalSeconds * 1000);
+		    bucket.setLastRefillTime(newRefillTime);
 		}
 		
 		//Consume Token
