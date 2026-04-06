@@ -32,19 +32,26 @@ public class RateLimitFilter extends OncePerRequestFilter{
 		String token = null;
 		String username = null;
 		
-		if(header != null && header.startsWith("Bearer")) {
+		if(header != null && header.startsWith("Bearer ")) {
 			token = header.substring(7);
 			
 			username = jwtUtil.extractUsername(token);
 		}
 		
-		String ip = username; //replace with userID
+		String key = username; //replace with userID
 		
-		if(ip == null) {
-			ip = request.getRemoteAddr();
+		if(key == null) key = request.getRemoteAddr();
+		
+		boolean allowed;
+		
+		if(request.getRequestURI().contains("/login")) {
+			allowed =tokenBucketService.allowRequest("Login:" + key, 3, 1);
+		} else {
+			allowed = tokenBucketService.allowRequest("General:" + key, 10, 1);
 		}
-		
-		if(!tokenBucketService.allowRequest(ip)) {
+
+		 
+		if(!allowed) {
 			response.setStatus(429);
 			response.getWriter().write("Too many Requests");
 			return;
