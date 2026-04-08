@@ -29,7 +29,7 @@ public class TokenBucketService {
 		//First Request
 		if(bucket == null) {
 			bucket = new TokenBucket(maxToken - 1, now);
-			redisTemplate.opsForValue().set(redisKey, bucket, 1, TimeUnit.MINUTES);
+			redisTemplate.opsForValue().set(redisKey, bucket, 30, TimeUnit.MINUTES);
 			return true; 
 		}
 		

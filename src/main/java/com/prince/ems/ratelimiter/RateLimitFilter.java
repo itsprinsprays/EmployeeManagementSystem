@@ -45,7 +45,7 @@ public class RateLimitFilter extends OncePerRequestFilter{
 		boolean allowed;
 		
 		if(request.getRequestURI().contains("/login")) {
-			allowed =tokenBucketService.allowRequest("Login:" + key, 3, 1,5);
+			allowed =tokenBucketService.allowRequest("Login:" + key, 3, 1, 5);
 		} else {
 			allowed = tokenBucketService.allowRequest("General:" + key, 10, 1, 1);
 		}
@@ -53,7 +53,7 @@ public class RateLimitFilter extends OncePerRequestFilter{
 		 
 		if(!allowed) {
 			response.setStatus(429);
-			response.getWriter().write("Too many Requests");
+			response.getWriter().write("{\\\"error\\\":\\\"Too many requests\\\",\\\"retryAfter\\\":5}");
 			return;
 		}
 		

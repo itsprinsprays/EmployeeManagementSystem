@@ -37,7 +37,7 @@ public class SecurityFilterChainConfig {
 						.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
 						
 						.requestMatchers(HttpMethod.POST, "/api/auth/refresh").permitAll()
-						
+												
 						.requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMIN")
 						
 						.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
