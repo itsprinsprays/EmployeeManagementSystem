@@ -40,7 +40,7 @@ public class SecurityFilterChainConfig {
 												
 						.requestMatchers(HttpMethod.POST, "/api/auth/register").hasRole("ADMIN")
 						
-						.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/**").permitAll()
 						
 						.requestMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
 						

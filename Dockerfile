@@ -1,7 +1,9 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 
-COPY target/learning-springboot-0.0.1-SNAPSHOT.jar app.jar
+WORKDIR /app
+
+COPY target/learning-springboot-0.0.1-SNAPSHOT.jar EMSProject.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","EMSProject.jar"]
