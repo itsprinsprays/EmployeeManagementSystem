@@ -8,6 +8,8 @@ services:
       MYSQL_DATABASE: employeemanagementsystem
     ports:
       - "3307:3306"
+    volumes:
+    - mysql_data:/var/lib/mysql
   redis:
     image: redis:7
     container_name: redis
@@ -27,3 +29,5 @@ services:
     depends_on:
       - mysql
       - redis
+volumes:
+  mysql_data:
