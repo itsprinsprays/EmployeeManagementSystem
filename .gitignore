@@ -1,0 +1,7 @@
+# Maven build output
+target/
+
+# Maven wrapper (optional to ignore if you want)
+.mvn/
+mvnw
+mvnw.cmd
