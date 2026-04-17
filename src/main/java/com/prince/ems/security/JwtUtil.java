@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -18,8 +19,18 @@ import com.prince.ems.exception.TokenExpiredException;
 @Component
 public class JwtUtil {
 	
-	private final SecretKey SECRET =
-	        Keys.hmacShaKeyFor("SECRETPASSWORDSECRETPASSWORD123456".getBytes());
+//	private final SecretKey SECRET =
+//	        Keys.hmacShaKeyFor("SECRETPASSWORDSECRETPASSWORD123456".getBytes());
+	
+	@Value("${jwt.secret}")
+	private String secret;
+	
+	private SecretKey SECRET;
+	
+    @jakarta.annotation.PostConstruct
+    public void init() {
+        this.SECRET = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 	
 	//Token Generation
 	public String generateToken(String username) {
