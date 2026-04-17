@@ -25,6 +25,12 @@ public class JwtUtil {
 	@Value("${jwt.secret}")
 	private String secret;
 	
+	@Value("${jwt.accessExpiration}")
+	private long accessExpiration;
+	
+	@Value("${jwt.refreshExpiration}")
+	private long refreshExpiration;
+	
 	private SecretKey SECRET;
 	
     @jakarta.annotation.PostConstruct
@@ -40,7 +46,7 @@ public class JwtUtil {
 				.claim("type", "access")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(
-						System.currentTimeMillis() + 86400000)
+						System.currentTimeMillis() + accessExpiration)
 				)
 				.signWith(SECRET)
 				.compact();
@@ -53,7 +59,7 @@ public class JwtUtil {
 				.claim("type", "refresh")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(
-						System.currentTimeMillis() + 604800000)
+						System.currentTimeMillis() + refreshExpiration)
 				)
 				.signWith(SECRET)
 				.compact();
