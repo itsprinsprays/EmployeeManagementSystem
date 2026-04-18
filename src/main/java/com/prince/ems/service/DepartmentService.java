@@ -81,7 +81,7 @@ public class DepartmentService {
 	public DepartmentResponseDTO getDepartmentById(Long Id) {   
 		System.out.println("Fetching from DB...");
 		Department department = repo.findById(Id)
-				.orElseThrow(() -> new ResourceNotFoundException(Id + " Department not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Department with ID '" + Id + "' does not exist"));
 			
 		return DepartmentMapper.toResponse(department, "COMPANY DEPARTMENT");
 			
@@ -97,9 +97,9 @@ public class DepartmentService {
 			@CacheEvict(value = "departmentsAll", allEntries = true)
 			}
 	)
-	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long id) {       //Partial Update
-		Department department = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
+	public DepartmentResponseDTO partialUpdateDepartmentById(PartialUpdateRequestDTO dto, Long Id) {       //Partial Update
+		Department department = repo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Department with ID '" + Id + "' does not exist"));
 		
 		if(repo.existsByName(dto.getName()))
 			throw new DuplicateResponseException(dto.getName() + " Department is already existing");
@@ -124,9 +124,9 @@ public class DepartmentService {
 			@CacheEvict(value = "departmentsAll", allEntries = true)
 			}
 	)
-	public DepartmentResponseDTO statusActivation(Long id, SoftDeleteDepartmentRequestDTO dto) {     				 //Soft delete status and activate status
-		Department department = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(id + " Department not found"));
+	public DepartmentResponseDTO statusActivation(Long Id, SoftDeleteDepartmentRequestDTO dto) {     				 //Soft delete status and activate status
+		Department department = repo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Department with ID '" + Id + "' does not exist"));
 		
 		if(dto.getStatus() == null || dto.getStatus().toString().isBlank()) 
 			throw new BadRequestException("At least one field must be provided for update");

@@ -57,7 +57,7 @@ public class EmployeeService {
 			throw new DuplicateResponseException("Email '" + dto.getEmail() + "' is already in use");
 		
 		Department department = drepo.findById(dto.getDepartmentID())
-				.orElseThrow(() -> new ResourceNotFoundException("Department ID '" + dto.getDepartmentID() + "' not Found "));
+				.orElseThrow(() -> new ResourceNotFoundException("Department with ID '" + dto.getDepartmentID() + "' does not exist"));
 		
 		if(dto.getSalary().compareTo(BigDecimal.ZERO) <= 0) 
 			throw new BadRequestException("Salary must be greater than zero");
@@ -90,7 +90,7 @@ public class EmployeeService {
 	public GetEmployeeResponseDTO getEmployeeById(Long Id) {
 		System.out.print("Fetching from db..");
 		Employee employee = erepo.findById(Id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
+				.orElseThrow(() -> new ResourceNotFoundException("Employee ID '" + Id + "' does not exist"));
 		
 		return EmployeeMapper.getEmployeeById(employee);
 	}
@@ -143,11 +143,12 @@ public class EmployeeService {
 	})
 	public UpdateEmployeeResponseDTO partialUpdate(UpdateEmployeeRequestDTO dto, Long Id) {
 			Employee employee = erepo.findById(Id).orElseThrow(() -> 	
-			new ResourceNotFoundException("Employee ID '" + Id + "' not Found "));
+			new ResourceNotFoundException("Employee with ID '" + Id + "' does not exist"));
 			
 			if (dto.getDepartmentId() != null) {
 		    Department dept = drepo.findById(dto.getDepartmentId())
-			        .orElseThrow(() -> new ResourceNotFoundException("Department not found"));
+			        .orElseThrow(() -> new ResourceNotFoundException("Department with ID '" + dto.getDepartmentId() + "' does not exist"));
+			        
 					employee.setDepartment(dept);
 			}
 			
@@ -187,7 +188,7 @@ public class EmployeeService {
 	public SoftDeleteEmployeeResponseDTO updateStatus(Long Id, SoftDeleteEmployeeRequestDTO dto) {
 	
 		Employee employee = erepo.findById(Id).orElseThrow(() ->
-				new ResourceNotFoundException("Employee with ID '" + Id + "' is not existing"));
+				new ResourceNotFoundException("Employee with ID '" + Id + "' does not exist"));
 		
 		
 		if(dto.getStatus() == null || dto.getStatus().toString().isBlank()) 

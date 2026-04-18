@@ -65,7 +65,7 @@ public class AuthService {
 	
 	public RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO dto) {
 		
-		Claims claim = util.extractAllClaims(dto.getRefreshToken());
+		Claims claim = util.extractAllClaims(dto.getRefreshToken());                                                                                                                      
 		
 		if(!util.validateToken(dto.getRefreshToken()))
 			throw new BadRequestException("Invalid Token");
