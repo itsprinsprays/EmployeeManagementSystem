@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-COPY target/learning-springboot-0.0.1-SNAPSHOT.jar EMSProject.jar
+COPY target/*.jar EMSProject.jar
 
 EXPOSE 8080
 
