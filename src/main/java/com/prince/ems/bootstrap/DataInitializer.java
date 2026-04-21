@@ -35,6 +35,8 @@ public class DataInitializer implements CommandLineRunner{
 	@Override
 	public void run(String... args) {
 		
+		Employee employee = null;
+		
 		if(dRepo.count() == 0) {
 			System.out.println("1. Creating department");
 
@@ -44,23 +46,22 @@ public class DataInitializer implements CommandLineRunner{
 			dRepo.save(dept);
 			
 			System.out.println("2. Creating employee");
-			Employee employee = new Employee();
+			employee = new Employee();
 			employee.setName("ADMIN");
 			employee.setEmail("admin@gmail.com");
 			employee.setSalary(BigDecimal.valueOf(100000));
 			employee.setDepartment(dept);
 			eRepo.save(employee);
-			
-			System.out.println("3. Creating user");
+		}
+		
+		if(uRepo.count() == 0) {
 			User admin = new User();
-			admin.setUsername("admin");
-			admin.setPassword(passwordEncoder.encode("admin123"));
+			admin.setUsername("admin@gmail.com");
+			admin.setPassword(passwordEncoder.encode("Admin123123"));
 			admin.setStatus(Status.ACTIVE);
 			admin.setRole(Role.ADMIN);
-			admin.setEmployee(employee);		
+			admin.setEmployee(employee);	
 			uRepo.save(admin);
-			
-			System.out.println("✅ Default ADMIN created");
 		}
 		
 	}

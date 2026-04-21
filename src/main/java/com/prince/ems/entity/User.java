@@ -32,7 +32,7 @@ public class User {
 	private Role role;
 	
 	@OneToOne
-	@JoinColumn(name = "employeeId", nullable = false, unique = true)
+	@JoinColumn(name = "employeeId", nullable = false)
 	private Employee employee;
 	
 	
