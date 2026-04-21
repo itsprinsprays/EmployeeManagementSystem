@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -18,9 +19,6 @@ import com.prince.ems.exception.TokenExpiredException;
 
 @Component
 public class JwtUtil {
-	
-//	private final SecretKey SECRET =
-//	        Keys.hmacShaKeyFor("SECRETPASSWORDSECRETPASSWORD123456".getBytes());
 	
 	@Value("${jwt.secret}")
 	private String secret;
@@ -33,7 +31,7 @@ public class JwtUtil {
 	
 	private SecretKey SECRET;
 	
-    @jakarta.annotation.PostConstruct
+    @PostConstruct
     public void init() {
         this.SECRET = Keys.hmacShaKeyFor(secret.getBytes());
     }
