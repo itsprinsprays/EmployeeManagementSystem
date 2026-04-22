@@ -49,7 +49,6 @@ public class Employee {
 	private LocalDateTime createdAt;
 	
 	@UpdateTimestamp
-	@Column(nullable = false)
 	private LocalDateTime updatedAt;
 	
 	public Employee() { }

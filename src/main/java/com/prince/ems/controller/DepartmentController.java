@@ -38,7 +38,7 @@ import jakarta.validation.Valid;
 public class DepartmentController {
 
 	private final DepartmentService serv;
-	
+	 
 	public DepartmentController(DepartmentService serv) {
 		this.serv = serv;
 	}
