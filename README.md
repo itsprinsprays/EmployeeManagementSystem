@@ -1,17 +1,41 @@
 # EMS - Employee Management System API
 
-**PROJECT DESCRIPTION**
-A production-ready backend system built with Spring Boot, featuring JWT authentication, Redis caching, and scalable API design.
+## 📖 Project Description
+A production-ready backend system built with **Spring Boot**, featuring **JWT authentication**, **Redis caching**, scalable API design, and fully containerized with **Docker**.
 
-**TECHNOLOGIES USED:**
-- Java
+---
+
+## 🛠 Technologies Used
+- Java 17
 - Spring Boot
 - Spring Security (JWT Authentication)
 - Spring Data JPA
+- Maven
 - Redis (Caching)
 - MySQL
-- Maven
+- Docker & Docker Compose
+
 ---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Install [Docker](https://docs.docker.com/get-docker/)
+- Install [Docker Compose](https://docs.docker.com/compose/install/)
+
+### 📦 Clone the Repository
+```bash
+git clone https://github.com/itsprinsprays/EmployeeManagementSystem.git
+cd EmployeeManagementSystem
+```
+### ⚙️ Run with Docker Compose
+docker-compose up --build
+
+This will:
+
+Build the Spring Boot app image from the Dockerfile <br>
+Start MySQL and Redis containers<br>
+Launch the EMS application on port 8080
 
 ## FEATURES
 - 🔐 JWT-based Authentication & Authorization
@@ -20,7 +44,7 @@ A production-ready backend system built with Spring Boot, featuring JWT authenti
 - 📄 Pagination and Sorting support
 - 🧩 Layered Architecture (Controller, Service, Repository)
 - 🛡️ Exception Handling and Validation
-- 🚧 (In Progress) Rate Limiting
+- 🚧 Rate Limiting
 ---
 
 ## 🔥 Key Highlights
@@ -62,11 +86,11 @@ Second Part – Authentication
 9. Store the Authentication object inside SecurityContextHolder (this is the security storage for the request).
 10. Continue the filter chain to allow Spring Security to proceed with authorization checks.
 
-## ⚙️ How to Run
+## ⚙️ How to Run(Alternative without Docker)
 1. Clone the repository
 2. Setup MySQL database
 3. Run Redis locally
-4. Run Spring Boot application
+4. Run Spring Boot application with Maven
 ---
 
 ## API ENDPOINTS
