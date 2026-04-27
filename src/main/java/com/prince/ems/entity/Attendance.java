@@ -29,7 +29,7 @@ public class Attendance {
 	@JoinColumn(name = "employeeId", nullable = false)
 	private Employee employee;
 	
-	private LocalDate date = LocalDate.now();
+	private LocalDate date;
 	
 	@Column(nullable = false)
 	private LocalTime timeIn;
