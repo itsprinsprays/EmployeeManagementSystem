@@ -4,16 +4,20 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.prince.ems.attendance.dto.TimeInOutResponseDTO;
 import com.prince.ems.attendance.dto.TimeInRequestDTO;
-import com.prince.ems.attendance.dto.TimeInResponseDTO;
+import com.prince.ems.attendance.dto.TimeOutRequestDTO;
 import com.prince.ems.attendance.mapper.AttendanceMapper;
 import com.prince.ems.attendance.repository.AttendanceRepository;
 import com.prince.ems.entity.Attendance;
 import com.prince.ems.entity.AttendanceStatus;
 import com.prince.ems.entity.Employee;
 import com.prince.ems.exception.ResourceNotFoundException;
+import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.repository.EmployeeRepository;
 
@@ -28,7 +32,9 @@ public class AttendanceService {
 		this.erepo = erepo;
 	}
 	
-	public TimeInResponseDTO timeIn(TimeInRequestDTO dto) {
+	@Transactional
+	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE;)")
+	public TimeInOutResponseDTO timeIn(TimeInRequestDTO dto) {
 		
 		Attendance attendance = new Attendance();
 		LocalTime scheduledStart = LocalTime.of(22, 0);
@@ -66,9 +72,20 @@ public class AttendanceService {
 		
 		return AttendanceMapper.timeInResponse(attendance);
 		
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE')")
+	public TimeInOutResponseDTO timeOut(TimeOutRequestDTO dto) {
 		
-		
+		Attendance attendance = arepo.findByEmployeeId(dto.getEmployeeId())
+				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + dto.getEmployeeId()  + "' does not exist"));
+
+		if(arepo.existsByTimein(attendance.getTimeIn()))
+			throw new BadRequestException("The Employee should at least Time In Earlier");
 		
 	}
+	
+	
 
 }

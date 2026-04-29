@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import com.prince.ems.entity.AttendanceStatus;
 import com.prince.ems.entity.Employee;
 
-public class TimeInResponseDTO {
+public class TimeInOutResponseDTO {
 	
 
 	private Long Id;
@@ -28,7 +28,7 @@ public class TimeInResponseDTO {
 	
 	private LocalDateTime updatedAt;
 	
-	public TimeInResponseDTO() { }
+	public TimeInOutResponseDTO() { }
 	
 	// --- Getters ---
     public Long getId() { return Id; }
