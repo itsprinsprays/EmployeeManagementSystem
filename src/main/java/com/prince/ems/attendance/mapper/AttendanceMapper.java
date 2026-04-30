@@ -8,7 +8,7 @@ import com.prince.ems.entity.Attendance;
 @Component
 public class AttendanceMapper {
 	
-	public static TimeInOutResponseDTO timeInResponse(Attendance attendance) { 
+	public static TimeInOutResponseDTO timeInOutResponse(Attendance attendance) { 
 		
 		TimeInOutResponseDTO dto = new TimeInOutResponseDTO();
 		dto.setId(attendance.getId());

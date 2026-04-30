@@ -31,11 +31,10 @@ public class Attendance {
 	
 	private LocalDate date;
 	
-	@Column(nullable = false)
-	private LocalTime timeIn;
+	@Column(name = "time_in", nullable = false)
+	private LocalTime time_in;
 	
-	private LocalTime timeOut;
-	
+	private LocalTime time_out;	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false) 	
 	private AttendanceStatus status;
@@ -51,8 +50,8 @@ public class Attendance {
     public long getId() { return Id; }
     public Employee getEmployee() { return employee; }
     public LocalDate getDate() { return date; }
-    public LocalTime getTimeIn() { return timeIn; }
-    public LocalTime getTimeOut() { return timeOut; }
+    public LocalTime getTimeIn() { return time_in; }
+    public LocalTime getTimeOut() { return time_out; }
     public AttendanceStatus getStatus() { return status; }
     public Long getTotalHours() { return totalHours; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
@@ -61,8 +60,8 @@ public class Attendance {
     public void setId(long Id) { this.Id = Id; }
     public void setEmployee(Employee employee) { this.employee = employee; }
     public void setDate(LocalDate date) { this.date = date; }
-    public void setTimeIn(LocalTime timeIn) { this.timeIn = timeIn; }
-    public void setTimeOut(LocalTime timeOut) { this.timeOut = timeOut; }
+    public void setTimeIn(LocalTime time_in) { this.time_in = time_in; }
+    public void setTimeOut(LocalTime time_out) { this.time_out = time_out; }
     public void setStatus(AttendanceStatus status) { this.status = status; }
     public void setTotalHours(Long totalHours) { this.totalHours = totalHours; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }

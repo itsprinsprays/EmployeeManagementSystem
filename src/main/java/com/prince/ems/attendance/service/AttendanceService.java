@@ -33,7 +33,7 @@ public class AttendanceService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE;)")
+	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE')")
 	public TimeInOutResponseDTO timeIn(TimeInRequestDTO dto) {
 		
 		Attendance attendance = new Attendance();
@@ -53,12 +53,6 @@ public class AttendanceService {
 		
 		attendance.setTimeIn(now);
 		attendance.setEmployee(employee);
-				
-		if(attendance.getTimeOut() != null) {
-		Duration duration = Duration.between(attendance.getTimeIn(), attendance.getTimeOut());
-		Long hours = duration.toHours();
-		attendance.setTotalHours(hours);
-		}
 		
 		if (now.isAfter(scheduledEnd)) {
 		    attendance.setStatus(AttendanceStatus.ABSENT);
@@ -70,7 +64,7 @@ public class AttendanceService {
 		
 		arepo.save(attendance);
 		
-		return AttendanceMapper.timeInResponse(attendance);
+		return AttendanceMapper.timeInOutResponse(attendance);
 		
 	}
 	
@@ -78,11 +72,28 @@ public class AttendanceService {
 	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE')")
 	public TimeInOutResponseDTO timeOut(TimeOutRequestDTO dto) {
 		
+		LocalTime now = LocalTime.now();
+		
 		Attendance attendance = arepo.findByEmployeeId(dto.getEmployeeId())
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + dto.getEmployeeId()  + "' does not exist"));
+		
+		if(attendance.getTimeOut() != null) 
+			throw new DuplicateResponseException("No Duplication of TimeOut");
 
-		if(arepo.existsByTimein(attendance.getTimeIn()))
-			throw new BadRequestException("The Employee should at least Time In Earlier");
+		if(attendance.getStatus() == AttendanceStatus.ABSENT)
+			throw new BadRequestException("Employee should at least Time In Earlier");
+		
+		attendance.setTimeOut(now);
+		
+		
+		Duration duration = Duration.between(attendance.getTimeIn(), attendance.getTimeOut());
+		Long hours = duration.toHours();
+		attendance.setTotalHours(hours);
+		
+		arepo.save(attendance);
+		
+		return AttendanceMapper.timeInOutResponse(attendance);
+
 		
 	}
 	
