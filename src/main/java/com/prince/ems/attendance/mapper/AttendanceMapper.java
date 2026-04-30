@@ -1,5 +1,7 @@
 package com.prince.ems.attendance.mapper;
 
+import java.time.LocalTime;
+
 import org.springframework.stereotype.Component;
 
 import com.prince.ems.attendance.dto.TimeInOutResponseDTO;
@@ -15,9 +17,15 @@ public class AttendanceMapper {
 		dto.setDate(attendance.getDate());
 		dto.setEmployeeName(attendance.getEmployee().getName());
 		dto.setTimeIn(attendance.getTimeIn());
-		dto.setTimeOut(attendance.getTimeOut());
+		dto.setTimeOut(
+				attendance.getTimeOut() != null ? attendance.getTimeOut() : LocalTime.of(0, 0)
+				);
 		dto.setStatus(attendance.getStatus());
-		dto.setTotalHours(attendance.getTotalHours());
+		dto.setTotalHours(
+				attendance.getTotalHours() != null ? attendance.getTotalHours() : 0
+				);
+		
+		
 		
 		return dto;
 

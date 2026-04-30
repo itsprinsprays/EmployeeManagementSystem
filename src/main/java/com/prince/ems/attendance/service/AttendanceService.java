@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prince.ems.attendance.dto.TimeInOutResponseDTO;
-import com.prince.ems.attendance.dto.TimeInRequestDTO;
-import com.prince.ems.attendance.dto.TimeOutRequestDTO;
 import com.prince.ems.attendance.mapper.AttendanceMapper;
 import com.prince.ems.attendance.repository.AttendanceRepository;
 import com.prince.ems.entity.Attendance;
@@ -34,7 +32,7 @@ public class AttendanceService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE')")
-	public TimeInOutResponseDTO timeIn(TimeInRequestDTO dto) {
+	public TimeInOutResponseDTO timeIn(Long Id) {
 		
 		Attendance attendance = new Attendance();
 		LocalTime scheduledStart = LocalTime.of(22, 0);
@@ -44,11 +42,11 @@ public class AttendanceService {
 		attendance.setDate(dateNow);
 
 		
-		if(arepo.existsByDateAndEmployeeId(dateNow, dto.getEmployeeId()))
+		if(arepo.existsByDateAndEmployeeId(dateNow, Id))
 			throw new DuplicateResponseException("Today is : " + dateNow + ", no Duplication of attendance");
 			
-		Employee employee = erepo.findById(dto.getEmployeeId())
-				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + dto.getEmployeeId()  + "' does not exist"));
+		Employee employee = erepo.findById(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + Id  + "' does not exist"));
 	
 		
 		attendance.setTimeIn(now);
@@ -70,12 +68,12 @@ public class AttendanceService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ADMIN','HR','EMPLOYEE')")
-	public TimeInOutResponseDTO timeOut(TimeOutRequestDTO dto) {
+	public TimeInOutResponseDTO timeOut(Long Id) {
 		
 		LocalTime now = LocalTime.now();
 		
-		Attendance attendance = arepo.findByEmployeeId(dto.getEmployeeId())
-				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + dto.getEmployeeId()  + "' does not exist"));
+		Attendance attendance = arepo.findByEmployeeId(Id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + Id  + "' does not exist"));
 		
 		if(attendance.getTimeOut() != null) 
 			throw new DuplicateResponseException("No Duplication of TimeOut");
