@@ -43,7 +43,7 @@ public class AttendanceService {
 
 		
 		if(arepo.existsByDateAndEmployeeId(dateNow, Id))
-			throw new DuplicateResponseException("Today is : " + dateNow + ", no Duplication of attendance");
+			throw new DuplicateResponseException(dateNow + ": no Duplication of attendance");
 			
 		Employee employee = erepo.findById(Id)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + Id  + "' does not exist"));
@@ -72,8 +72,8 @@ public class AttendanceService {
 		
 		LocalTime now = LocalTime.now();
 		
-		Attendance attendance = arepo.findByEmployeeId(Id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID '" + Id  + "' does not exist"));
+		Attendance attendance = arepo.findByDateAndEmployeeId(LocalDate.now(), Id)
+		        .orElseThrow(() -> new ResourceNotFoundException("No attendance record for employee ID '" + Id + "' today"));
 		
 		if(attendance.getTimeOut() != null) 
 			throw new DuplicateResponseException("No Duplication of TimeOut");
