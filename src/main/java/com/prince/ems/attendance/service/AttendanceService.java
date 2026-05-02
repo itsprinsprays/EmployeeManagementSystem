@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prince.ems.attendance.dto.MyRecordResponseDTO;
 import com.prince.ems.attendance.dto.TimeInOutResponseDTO;
 import com.prince.ems.attendance.mapper.AttendanceMapper;
 import com.prince.ems.attendance.repository.AttendanceRepository;
@@ -18,16 +19,22 @@ import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.repository.EmployeeRepository;
+import com.prince.ems.security.JwtUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class AttendanceService {
 	
 	private final AttendanceRepository arepo;
 	private final EmployeeRepository erepo;
+	private final JwtUtil util;
 	
-	public AttendanceService(AttendanceRepository arepo, EmployeeRepository erepo) {
+	public AttendanceService(AttendanceRepository arepo, EmployeeRepository erepo, JwtUtil util) {
 		this.arepo = arepo;
 		this.erepo = erepo;
+		this.util = util;
 	}
 	
 	@Transactional
@@ -83,7 +90,6 @@ public class AttendanceService {
 		
 		attendance.setTimeOut(now);
 		
-		
 		Duration duration = Duration.between(attendance.getTimeIn(), attendance.getTimeOut());
 		Long hours = duration.toHours();
 		attendance.setTotalHours(hours);
@@ -91,9 +97,32 @@ public class AttendanceService {
 		arepo.save(attendance);
 		
 		return AttendanceMapper.timeInOutResponse(attendance);
-
+	}
+	
+	public MyRecordResponseDTO myRecord(HttpServletRequest request) {
+		
+		String header = request.getHeader("Authorization");
+				
+		if(header != null && !header.startsWith("Bearer ")) 
+	        throw new BadRequestException("Missing or invalid Authorization header");
+		
+		String email = header.substring(7);
+		String username = util.extractUsername(email);
+		
+		
+		Employee employee = erepo.findByEmail(username)
+				.orElseThrow(() -> new BadRequestException("Error"));
+		
+		
+		Attendance attendance = arepo.findByEmployeeId(employee.getId()) 
+				.orElseThrow(() -> new BadRequestException("Error"));
+		
+		
+		return AttendanceMapper.myRecordResponse(attendance);
 		
 	}
+	
+	
 	
 	
 
