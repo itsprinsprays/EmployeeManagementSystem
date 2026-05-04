@@ -61,7 +61,7 @@ public class UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + dto.getEmployeeID() + " does not exist"));
 		
 		if(!employee.getEmail().equalsIgnoreCase(dto.getUsername()))
-			throw new BadRequestException("Email does not match the selected employee ID");
+			throw new BadRequestException("Email does n`ot match the selected employee ID");
 		
 		User user = new User();
 		user.setUsername(dto.getUsername());
