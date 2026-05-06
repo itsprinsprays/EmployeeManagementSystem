@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,7 +54,7 @@ public class AttendanceService {
 //		LocalDate date = LocalDate.of(2026, 5, 1);
 		attendance.setDate(dateNow);
 
-		
+		 
 		if(arepo.existsByDateAndEmployeeId(dateNow, Id))
 			throw new DuplicateResponseException(dateNow + ": no Duplication of attendance");
 			
@@ -105,6 +106,8 @@ public class AttendanceService {
 	}
 	
 	@Transactional
+	@PreAuthorize("hasAnyRole('Employee','HR','ADMIN')")
+	@Cacheable(value = "myRecord", key = "#request + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
 	public PageResponseDTO<MyRecordResponseDTO> myRecord(HttpServletRequest request, Pageable pageable) {
 
 	    String header = request.getHeader("Authorization");
@@ -120,7 +123,7 @@ public class AttendanceService {
 
 	    Page<Attendance> page = arepo.findByEmployeeId(employee.getId(), pageable);
 
-	    Page<MyRecordResponseDTO> dtoPage =
+	    Page<MyRecordResponseDTO> dtoPage = 
 	            page.map(AttendanceMapper::toMyRecordDTO);
 
 	    return PageResponseDTO.from(dtoPage);
