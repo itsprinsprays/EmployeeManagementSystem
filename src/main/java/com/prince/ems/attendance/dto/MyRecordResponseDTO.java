@@ -9,6 +9,8 @@ public class MyRecordResponseDTO {
 	private LocalDate date;
 	private AttendanceStatus status;
 	
+	public MyRecordResponseDTO() { }
+	
 	public MyRecordResponseDTO(LocalDate date, AttendanceStatus status) {
 		this.date = date;
 		this.status = status;

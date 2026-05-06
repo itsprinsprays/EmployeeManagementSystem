@@ -107,7 +107,7 @@ public class AttendanceService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('Employee','HR','ADMIN')")
-	@Cacheable(value = "myRecord", key = "#request + '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
+	@Cacheable(value = "myRecord", key = "@util.extractUsername(#request.getHeader('Authorization').substring(7))+ '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
 	public PageResponseDTO<MyRecordResponseDTO> myRecord(HttpServletRequest request, Pageable pageable) {
 
 	    String header = request.getHeader("Authorization");
