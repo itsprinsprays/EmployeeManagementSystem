@@ -2,8 +2,10 @@ package com.prince.ems.attendance.mapper;
 
 import java.time.LocalTime;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.prince.ems.attendance.dto.MyRecordResponseDTO;
 import com.prince.ems.attendance.dto.TimeInOutResponseDTO;
 import com.prince.ems.entity.Attendance;
 
@@ -25,11 +27,17 @@ public class AttendanceMapper {
 				attendance.getTotalHours() != null ? attendance.getTotalHours() : 0
 				);
 		
-		
-		
 		return dto;
-
-		
 	}
+	
+
+	public static MyRecordResponseDTO toMyRecordDTO(Attendance attend) {
+	    return new MyRecordResponseDTO(
+	        attend.getDate(),
+	        attend.getStatus()
+	    );
+	}
+	
+	
 
 }

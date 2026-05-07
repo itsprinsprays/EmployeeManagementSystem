@@ -3,14 +3,20 @@ package com.prince.ems.attendance.service;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.prince.ems.attendance.dto.MyRecordResponseDTO;
 import com.prince.ems.attendance.dto.TimeInOutResponseDTO;
 import com.prince.ems.attendance.mapper.AttendanceMapper;
 import com.prince.ems.attendance.repository.AttendanceRepository;
+import com.prince.ems.dto.PageResponseDTO;
 import com.prince.ems.entity.Attendance;
 import com.prince.ems.entity.AttendanceStatus;
 import com.prince.ems.entity.Employee;
@@ -18,16 +24,22 @@ import com.prince.ems.exception.ResourceNotFoundException;
 import com.prince.ems.exception.BadRequestException;
 import com.prince.ems.exception.DuplicateResponseException;
 import com.prince.ems.repository.EmployeeRepository;
+import com.prince.ems.security.JwtUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class AttendanceService {
 	
 	private final AttendanceRepository arepo;
 	private final EmployeeRepository erepo;
+	private final JwtUtil util;
 	
-	public AttendanceService(AttendanceRepository arepo, EmployeeRepository erepo) {
+	public AttendanceService(AttendanceRepository arepo, EmployeeRepository erepo, JwtUtil util) {
 		this.arepo = arepo;
 		this.erepo = erepo;
+		this.util = util;
 	}
 	
 	@Transactional
@@ -39,9 +51,10 @@ public class AttendanceService {
 		LocalTime scheduledEnd = LocalTime.of(23, 59);
 		LocalTime now = LocalTime.now();
 		LocalDate dateNow = LocalDate.now();
+//		LocalDate date = LocalDate.of(2026, 5, 1);
 		attendance.setDate(dateNow);
 
-		
+		 
 		if(arepo.existsByDateAndEmployeeId(dateNow, Id))
 			throw new DuplicateResponseException(dateNow + ": no Duplication of attendance");
 			
@@ -83,7 +96,6 @@ public class AttendanceService {
 		
 		attendance.setTimeOut(now);
 		
-		
 		Duration duration = Duration.between(attendance.getTimeIn(), attendance.getTimeOut());
 		Long hours = duration.toHours();
 		attendance.setTotalHours(hours);
@@ -91,9 +103,33 @@ public class AttendanceService {
 		arepo.save(attendance);
 		
 		return AttendanceMapper.timeInOutResponse(attendance);
-
-		
 	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('Employee','HR','ADMIN')")
+	@Cacheable(value = "myRecord", key = "@util.extractUsername(#request.getHeader('Authorization').substring(7))+ '-' + #pageable.pageNumber + '-' + #pageable.pageSize")
+	public PageResponseDTO<MyRecordResponseDTO> myRecord(HttpServletRequest request, Pageable pageable) {
+
+	    String header = request.getHeader("Authorization");
+
+	    if (header == null || !header.startsWith("Bearer "))
+	        throw new BadRequestException("Missing or invalid Authorization header");
+
+	    String token = header.substring(7);
+	    String username = util.extractUsername(token);
+
+	    Employee employee = erepo.findByEmail(username)
+	            .orElseThrow(() -> new BadRequestException("Error"));
+
+	    Page<Attendance> page = arepo.findByEmployeeId(employee.getId(), pageable);
+
+	    Page<MyRecordResponseDTO> dtoPage = 
+	            page.map(AttendanceMapper::toMyRecordDTO);
+
+	    return PageResponseDTO.from(dtoPage);
+	}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+	
+	
 	
 	
 

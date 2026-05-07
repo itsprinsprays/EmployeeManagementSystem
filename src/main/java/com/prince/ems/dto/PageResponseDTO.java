@@ -1,6 +1,11 @@
 package com.prince.ems.dto;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+
+import com.prince.ems.attendance.dto.MyRecordResponseDTO;
 
 public class PageResponseDTO<T> {
     private List<T> content;
@@ -40,4 +45,15 @@ public class PageResponseDTO<T> {
 
     public boolean isLast() { return last; }
     public void setLast(boolean last) { this.last = last; }
+
+    public static <T> PageResponseDTO<T> from(Page<T> page) {
+        PageResponseDTO<T> dto = new PageResponseDTO<>();
+        dto.setContent(page.getContent());
+        dto.setPageNumber(page.getNumber());
+        dto.setPageSize(page.getSize());
+        dto.setTotalElements(page.getTotalElements());
+        dto.setTotalPages(page.getTotalPages());
+        dto.setLast(page.isLast());
+        return dto;
+    }
 }

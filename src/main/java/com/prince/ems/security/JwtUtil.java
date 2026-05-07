@@ -17,7 +17,7 @@ import io.jsonwebtoken.JwtException;
 import com.prince.ems.exception.InvalidTokenException;
 import com.prince.ems.exception.TokenExpiredException;
 
-@Component
+@Component("util")
 public class JwtUtil {
 	
 	@Value("${jwt.secret}")
